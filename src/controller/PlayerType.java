@@ -4,8 +4,8 @@ public enum PlayerType {
   //Represents the different pieces in a game
   BLACK('O'), WHITE('X'), EMPTY('_');
 
+  private final char gamePiece;
 
-  final char gamePiece;
   PlayerType(char gamePiece) {
     this.gamePiece = gamePiece;
   }

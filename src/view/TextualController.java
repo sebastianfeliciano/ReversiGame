@@ -2,6 +2,7 @@ package view;
 import java.io.IOException;
 
 import model.Board;
+import model.HexShape;
 
 public class TextualController implements ReversiTextualView {
   private final Board board;
@@ -81,7 +82,16 @@ public class TextualController implements ReversiTextualView {
       // Append characters for the current line
       for (int currentChar = 0; currentChar < numberOfCharacters; currentChar++) {
         //This is one character (X) or (_ )
-        stringMaker.append(board.getCurrentCell(currentChar, currentRow)).append(' ');
+
+        HexShape first = new HexShape(currentChar, currentRow, null);
+        //GETS ONE HEX
+        HexShape oneHexShape = board.getCurrentHex(x, y);
+
+        //GETS THE PLAYERTYPE IN THE BOARD
+        String playerPiece = oneHexShape.getPlayerType().toString();
+
+        //APPENDS IT
+        stringMaker.append(playerPiece).append(' ');
       }
 
       stringMaker.append('\n');

@@ -2,6 +2,8 @@ package model;
 
 import java.util.Objects;
 
+import controller.PlayerType;
+
 public class HexShape {
 
   //The most common approach is to
@@ -11,15 +13,32 @@ public class HexShape {
   // so the horizontal and vertical hexagons each have two variants.
   private final int q;
   private final int r;
+  private final int s;
+  private PlayerType currentPlayerType;
 
-  public HexShape(int q, int r) {
+  public HexShape(int q, int r, PlayerType currentPlayerType) {
     this.q = q;
     this.r = r;
+    this.currentPlayerType = currentPlayerType;
+    s = -this.q - this.r;
+    if (q + r + s != 0) {
+      throw new IllegalArgumentException("The Coordinate does not Exist");
+    }
   }
 
-@Override
-public int hashCode(){
-  return Objects.hash(this.q, this.r);
-}
+
+  public PlayerType getPlayerType() {
+    if(this.currentPlayerType == null){
+      return PlayerType.EMPTY;
+    }
+    else {
+      return this.currentPlayerType;
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.q, this.r);
+  }
 
 }

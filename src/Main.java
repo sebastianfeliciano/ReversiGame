@@ -33,7 +33,7 @@ public final class Main {
     List<Player> players = new ArrayList<>();
 
     for (int i = 0; i < numberOfPlayers; i++) {
-      System.out.println("Enter controller.Player " + (i + 1) + " name:");
+      System.out.println("Enter Player " + (i + 1) + " name:");
       String playerName = scanner.next();
       PlayerType type;
       if (i == 0) {
@@ -75,6 +75,7 @@ public final class Main {
         //Check if there is an empty move or a vaild move
 
         //model.Board.setCell(firstCoordinate, secondCoordinate);
+
 
       } catch (NumberFormatException e) {
         System.out.println(e);

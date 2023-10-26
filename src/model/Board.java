@@ -17,6 +17,7 @@ public class Board {
         throw new IllegalStateException("The game must be a minimum of size 8x8 " +
                 "to start");
       }
+
       BOARD_SIZE = sizeOfBoard;
       cells = new PlayerType[BOARD_SIZE][BOARD_SIZE];
   }
@@ -29,6 +30,4 @@ public class Board {
         return cells[c][r];
       }
   }
-
-
 }

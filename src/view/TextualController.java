@@ -1,7 +1,9 @@
 package view;
 import java.io.IOException;
+import java.util.Arrays;
 
 import model.Board;
+import model.HexShape;
 
 public class TextualController implements ReversiTextualView {
   private final Board board;
@@ -44,44 +46,68 @@ public class TextualController implements ReversiTextualView {
    * Returns a to-Commandline view
    * representation of the Reversi model.Board Model.
    */
+//  @Override
+//  public String toString() {
+//    StringBuilder stringMaker = new StringBuilder();
+//    for (HexShape[] hex : Board.cellsThatMakeTheBoard) {
+//      stringMaker.append(Arrays.toString(hex)).append(" ");
+//    }
+//    return stringMaker.toString();
+//  }
   @Override
   public String toString() {
     StringBuilder stringMaker = new StringBuilder();
 
-    int sizeOfEntireBoard;
+    //Gets the size of the board
+    int sizeOfEntireBoard = Board.BOARD_SIZE;
 
-
-    if (Board.BOARD_SIZE % 2 != 0) {
-      sizeOfEntireBoard = Board.BOARD_SIZE;
-    } else {
-      sizeOfEntireBoard = Board.BOARD_SIZE - 1;
-    }
-
+    //For 7/2 = 3 is the middle line from 0 to max size
     int middleRowIndex = sizeOfEntireBoard / 2;
 
 
+    //Start at the top, then go to the max sizeOfThe Board
     for (int currentRow = 0; currentRow < sizeOfEntireBoard; currentRow++) {
-      int numberOfCharacters;
+      int allowedNumberOfHexagons;
 
       // Determine the number of characters for the current line.
+
+      //if 0 <= 3
+      //num characters = 7/2 = 3 +0 + 1
+
+      //1 <= 3 -> 7/2 = 3 + 1+ 1
+
+      //2 < = 3 -> 7/2 = 3 + 3 + 1 = 7
       if (currentRow <= middleRowIndex) {
-        numberOfCharacters = (Board.BOARD_SIZE / 2) + currentRow + 1;
+        allowedNumberOfHexagons = (Board.BOARD_SIZE / 2) + currentRow + 1 ;
       } else {
-        numberOfCharacters = Board.BOARD_SIZE - (currentRow - middleRowIndex);
+        //11 - (0 -3) = 14
+
+        //currentRow = 4 -> 6
+        //currentRow = 5 -> 5
+        //currentRow = 6 -> 4
+
+
+
+
+        //
+        allowedNumberOfHexagons = Board.BOARD_SIZE - (currentRow - middleRowIndex);
       }
 
       //Track the number of spaces avalible per line
-      int numOfSpaces = (sizeOfEntireBoard - numberOfCharacters);
+      int numOfSpaces = (sizeOfEntireBoard - allowedNumberOfHexagons);
 
       //Track the number of spaces for each row
-      for (int spaces = 0; spaces < numOfSpaces; spaces++) {
+      for (int spaces = 0; spaces < numOfSpaces + 1; spaces++) {
         stringMaker.append(' ');
       }
 
       // Append characters for the current line
-      for (int currentChar = 0; currentChar < numberOfCharacters; currentChar++) {
+      for (int currentNumOfHexagons = 0; currentNumOfHexagons < allowedNumberOfHexagons; currentNumOfHexagons++) {
         //This is one character (X) or (_ )
-        stringMaker.append(board.getCurrentCell(currentChar, currentRow)).append(' ');
+        HexShape currentHexagon = Board.getCurrentHex(currentNumOfHexagons, currentRow);
+
+        String currentPlayerInTheHexagon = currentHexagon.getPlayerType().toString();
+        stringMaker.append(currentPlayerInTheHexagon).append(' ');
       }
 
       stringMaker.append('\n');
@@ -89,3 +115,4 @@ public class TextualController implements ReversiTextualView {
     return stringMaker.toString();
   }
 }
+

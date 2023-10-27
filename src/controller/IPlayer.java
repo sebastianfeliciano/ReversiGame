@@ -6,11 +6,11 @@ import java.io.IOException;
  */
 public interface IPlayer {
 
+
+
     /**
-     * Renders a model in some manner (e.g. as text, or as graphics, etc.).
+     * Renders a model in a manner in which the Player can play a char..
      * @throws IOException if the rendering fails for some reason
      */
-    void move() throws IOException;
-
-    //Should think about what the player should be specifically allowed to do
+    //void moveToSpot(Player currentPlayer, int r, int c) throws IOException;
 }

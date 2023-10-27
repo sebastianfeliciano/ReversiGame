@@ -20,8 +20,9 @@ public class HexShape {
     this.q = q;
     this.r = r;
     this.currentPlayerType = currentPlayerType;
-    s = -this.q - this.r;
-    if (q + r + s != 0) {
+    //s = -q-r
+    s = - column - row;
+    if (column + row + s != 0) {
       throw new IllegalArgumentException("The Coordinate does not Exist");
     }
   }
@@ -39,6 +40,19 @@ public class HexShape {
   @Override
   public int hashCode() {
     return Objects.hash(this.q, this.r);
+  }
+
+  //Method that will help for testing
+  public String getColumn(){
+    return "Q: " +String.valueOf(this.column);
+  }
+
+  public String getRow(){
+    return "R: " +String.valueOf(this.row);
+  }
+
+  public String getSValue(){
+    return "s: " +String.valueOf(this.s);
   }
 
 }

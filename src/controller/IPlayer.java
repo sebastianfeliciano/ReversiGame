@@ -12,5 +12,5 @@ public interface IPlayer {
      * Renders a model in a manner in which the Player can play a char..
      * @throws IOException if the rendering fails for some reason
      */
-    void moveToSpot(Player currentPlayer, int r, int c) throws IOException;
+    //void moveToSpot(Player currentPlayer, int r, int c) throws IOException;
 }

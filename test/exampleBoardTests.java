@@ -3,6 +3,7 @@ import org.junit.Test;
 
 import controller.PlayerType;
 import model.Board;
+import model.HexShape;
 
 public class exampleBoardTests {
 
@@ -24,7 +25,8 @@ public class exampleBoardTests {
     Board madeBoard = new Board(); //This is default as 11
     for(int i = 0; i < Board.BOARD_SIZE; i++) {
       for(int j = 0; j < Board.BOARD_SIZE; j++) {
-        Assert.assertEquals(madeBoard.getCurrentHex(i, j), PlayerType.EMPTY);
+        HexShape hexShape = new HexShape(i, j, null); // 'null' assumes PlayerType isn't needed here, adjust as necessary.
+        Assert.assertEquals(madeBoard.getCurrentHex(i, j).getPlayerType(), PlayerType.EMPTY);
       }
     }
   }

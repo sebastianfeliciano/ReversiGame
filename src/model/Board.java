@@ -38,7 +38,8 @@ public class Board {
     }
   }
 
-  public HexShape getCurrentHex(int c, int r) {
+  public static HexShape getCurrentHex(int c, int r) {
     return cellsThatMakeTheBoard[c][r];
   }
+
 }

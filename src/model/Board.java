@@ -35,10 +35,6 @@ public class Board {
 
 
 
-
-
-
-
   public Board(int sizeOfBoard) {
     if (sizeOfBoard < 5 || (sizeOfBoard % 2 == 0)) {
       throw new IllegalStateException("The game must be a minimum of size 9 and cannot be even!");

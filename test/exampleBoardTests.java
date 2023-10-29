@@ -92,4 +92,23 @@ public class exampleBoardTests {
     Assert.assertEquals(nextTibottomLeftOnRight.getColumn(), nextTibottomLeftOnRightRep.getColumn());
 
   }
+
+  @Test
+  public void testBoardString() {
+    Board board = new Board(11);
+    TextualController controller = new TextualController(board);
+    Assert.assertEquals(controller.toString(),
+                    "     _ _ _ _ _ _ \n" +
+                    "    _ _ _ _ _ _ _ \n" +
+                    "   _ _ _ _ _ _ _ _ \n" +
+                    "  _ _ _ _ _ _ _ _ _ \n" +
+                    " _ _ _ _ _ _ _ _ _ _ \n" +
+                    "_ _ _ _ _ _ _ _ _ _ _ \n" +
+                    " _ _ _ _ _ _ _ _ _ _ \n" +
+                    "  _ _ _ _ _ _ _ _ _ \n" +
+                    "   _ _ _ _ _ _ _ _ \n" +
+                    "    _ _ _ _ _ _ _ \n" +
+                    "     _ _ _ _ _ _ ");
+
+  }
 }

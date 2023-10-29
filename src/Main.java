@@ -72,7 +72,7 @@ public final class Main {
         String[] split = playerInput.split(",");
         int firstCoordinate = Integer.parseInt(split[0]);
         int secondCoordinate = Integer.parseInt(split[1]);
-        //Check if there is an empty move or a vaild move
+        //Check if there is an empty move or a valid move
 
         //model.Board.setCell(firstCoordinate, secondCoordinate);
 

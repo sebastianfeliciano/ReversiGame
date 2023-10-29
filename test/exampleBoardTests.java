@@ -39,7 +39,7 @@ public class exampleBoardTests {
    * should not work.
    */
   @Test
-  public void testingNegavtiveBoardValid() {
+  public void testingNegativeBoardValid() {
     Assert.assertThrows(IllegalStateException.class, () -> new Board(-6));
   }
 

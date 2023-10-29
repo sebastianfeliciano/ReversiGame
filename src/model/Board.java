@@ -6,7 +6,7 @@ import controller.PlayerType;
 
 public class Board {
   public static int BOARD_SIZE;  //Default OOD Website Size
-  public HexShape[][] cellsThatMakeTheBoard;
+  public static HexShape[][] cellsThatMakeTheBoard;
 
   public Board() {
     BOARD_SIZE = 7;

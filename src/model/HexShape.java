@@ -11,14 +11,14 @@ public class HexShape {
   // Columns are named col (q). Rows are named row (r).
   // You can either offset the odd or the even column/rows,
   // so the horizontal and vertical hexagons each have two variants.
-  private final int q;
-  private final int r;
+  private final int column;
+  private final int row;
   private final int s;
   protected PlayerType currentPlayerType;
 
-  public HexShape(int q, int r, PlayerType currentPlayerType) {
-    this.q = q;
-    this.r = r;
+  public HexShape(int rowY, int columnQ, PlayerType currentPlayerType) {
+    this.column = columnQ;
+    this.row = rowY;
     this.currentPlayerType = currentPlayerType;
     //s = -q-r
     s = - columnQ - rowY;
@@ -29,7 +29,7 @@ public class HexShape {
 
 
   public PlayerType getPlayerType() {
-    if(this.currentPlayerType == null){
+    if (this.currentPlayerType == null){
       return PlayerType.EMPTY;
     }
     else {
@@ -39,7 +39,7 @@ public class HexShape {
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.q, this.r);
+    return Objects.hash(this.column, this.row);
   }
 
   //Method that will help for testing

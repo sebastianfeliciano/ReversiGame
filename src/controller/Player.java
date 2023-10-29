@@ -21,10 +21,27 @@ public class Player implements IPlayer {
     return type;
   }
 
-  @Override
-  public void moveToSpot(Player currentPlayer, int c, int r) throws IOException {
-    //if (Board.getCurrentCell(c, r) == PlayerType.EMPTY ){
-  }
+//  @Override
+//  public void moveToSpot(Player currentPlayer, int c, int r) throws IOException {
+//    if (!Board.getCurrentCell(c, r) == PlayerType.EMPTY) {
+//      throw new IllegalArgumentException();
+//    }
+//    if (!validMove(c, r)) {
+//      throw new IllegalArgumentException();
+//    }
+//  }
+
+//  public boolean validMove(int c, int r) {
+//    if (c > -Board.BOARD_SIZE /2 || c > Board.BOARD_SIZE / 2) {
+//      return false;
+//    }
+//    if (r > -Board.BOARD_SIZE /2 || r > Board.BOARD_SIZE / 2) {
+//      return false;
+//    } else if (Board.getCurrentHex(c, r).getPlayerType() == PlayerType.EMPTY) {
+//      return true;
+//    }
+//    return false;
+//  }
 }
 
   // other getters, setters, and methods

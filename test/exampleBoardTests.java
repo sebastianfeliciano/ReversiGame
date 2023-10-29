@@ -81,6 +81,7 @@ public class exampleBoardTests {
     Point topRightPos = regularBoard.getTopRightHexPosition();
     System.out.println("Top Right Hex Row: " + topRightPos.y);
     System.out.println("Top Right Hex Column: " + topRightPos.x);
+    //i
 
 
     //Middle Hexagon on the 2DArray

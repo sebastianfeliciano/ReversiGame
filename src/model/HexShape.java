@@ -14,15 +14,15 @@ public class HexShape {
   private final int q;
   private final int r;
   private final int s;
-  private PlayerType currentPlayerType;
+  protected PlayerType currentPlayerType;
 
   public HexShape(int q, int r, PlayerType currentPlayerType) {
     this.q = q;
     this.r = r;
     this.currentPlayerType = currentPlayerType;
     //s = -q-r
-    s = - column - row;
-    if (column + row + s != 0) {
+    s = - columnQ - rowY;
+    if (columnQ + rowY + s != 0) {
       throw new IllegalArgumentException("The Coordinate does not Exist");
     }
   }
@@ -44,15 +44,15 @@ public class HexShape {
 
   //Method that will help for testing
   public String getColumn(){
-    return "Q: " +String.valueOf(this.column);
+    return String.valueOf(this.column);
   }
 
   public String getRow(){
-    return "R: " +String.valueOf(this.row);
+    return String.valueOf(this.row);
   }
 
   public String getSValue(){
-    return "s: " +String.valueOf(this.s);
+    return String.valueOf(this.s);
   }
 
 }

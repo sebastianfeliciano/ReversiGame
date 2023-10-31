@@ -13,7 +13,6 @@ import view.TextualController;
 
 public final class Main {
   public static void main(String[] args) {
-
     Scanner scanner = new Scanner(System.in);
     System.out.println("Welcome to REVERSI!");
     System.out.println("What size board would you like (0 for default)?");
@@ -64,7 +63,6 @@ public final class Main {
         type = PlayerType.BLACK;
       }
       players.add(new Player(playerName, type, currentBoard));
-      //System.out.println("controller.Player " + (i + 1) + ": " + players.get(i).getName());
     }
     if (numberOfPlayers == 1) {
       players.add(new Player("Computer", PlayerType.BLACK, currentBoard));
@@ -153,7 +151,6 @@ public final class Main {
           System.out.println("It's a tie!");
         }
       }
-
     }
 
   }

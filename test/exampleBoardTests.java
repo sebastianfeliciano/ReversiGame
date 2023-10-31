@@ -11,7 +11,6 @@ public class exampleBoardTests {
 
   Board board = new Board(11);
 
-
   /**
    * Tests a Board that is given an even number which
    * should not work.
@@ -147,6 +146,9 @@ public class exampleBoardTests {
     Assert.assertEquals(3, board.countPieces(PlayerType.BLACK));
   }
 
+  /**
+   * Tests that the count of hex shapes gets correctly updated, when a piece is placed.
+   */
   @Test
   public void testCount() {
     Board board = new Board(11);
@@ -163,5 +165,47 @@ public class exampleBoardTests {
 
     Assert.assertEquals(4, board.countPieces(PlayerType.WHITE));
     Assert.assertEquals(board.getBoardSize(), 11);
+  }
+
+  @Test
+  public void testFlipPieces() {
+    Board oldBoard = new Board(7);
+    Player player1 = new Player("E", PlayerType.WHITE, oldBoard);
+    Player player2 = new Player("S", PlayerType.BLACK, oldBoard);
+
+    HexShape initialHex = oldBoard.getCurrentHex(3, 2);
+    PlayerType initialType = initialHex.getPlayerType();
+    Assert.assertEquals(PlayerType.EMPTY, initialType);
+
+    player1.placeKey(-1,-1);
+
+    HexShape postFlipHex = oldBoard.getCurrentHex(3, 2);
+    PlayerType postFlipType = postFlipHex.getPlayerType();
+    Assert.assertEquals(PlayerType.WHITE, postFlipType);
+  }
+
+  @Test
+  public void testBothPlayersPassed() {
+    Board board = new Board();
+
+    Player player1 = new Player("e", PlayerType.WHITE, board);
+    Player player2 = new Player("s", PlayerType.BLACK, board);
+    player1.setHasPassed(true);
+    player2.setHasPassed(true);
+    Assert.assertTrue(player1.hasPassed());
+    Assert.assertTrue(player2.hasPassed());
+  }
+
+  @Test
+  public void testTrapped() {
+    Board board = new Board();
+
+    HexShape hex = new HexShape(0,0, null);
+    hex.setPlayerType(PlayerType.EMPTY);
+
+    Player player1 = new Player("e", PlayerType.WHITE, board);
+    Player player2 = new Player("s", PlayerType.BLACK, board);
+    Assert.assertFalse(board.isBoardFull());
+
   }
 }

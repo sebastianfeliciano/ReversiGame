@@ -37,6 +37,5 @@ MAIN
   - If the user selects the default size (0), a default-size board of 11 is created.
   - Valid coordinates :
     - q and r are non-negative, and less than the board size, ensuring it's not to the left of the board, above/below the board
-    - q / r ranges from -1 to n - 1
-    - For example, is the board size if 8 then valid q and r values can be from - 1 to 7.
+    - q / r ranges from -BoardSize / 2 to BoardSize / 2
 

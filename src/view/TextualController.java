@@ -1,8 +1,6 @@
 package view;
 
 import java.io.IOException;
-import java.util.Arrays;
-
 import controller.PlayerType;
 import model.Board;
 import model.HexShape;
@@ -34,7 +32,6 @@ public class TextualController implements ReversiTextualView {
     this.output = output;
   }
 
-
   /**
    * Renders the game using the appendable builder method.
    */
@@ -43,7 +40,6 @@ public class TextualController implements ReversiTextualView {
     output.append(toString());
   }
 
-
   /**
    * Returns a to-Commandline view
    * representation of the Reversi model.Board Model.
@@ -51,8 +47,6 @@ public class TextualController implements ReversiTextualView {
   @Override
   public String toString() {
     StringBuilder stringMaker = new StringBuilder();
-
-
     int sizeOfEntireBoard = board.getBoardSize();
     int midPoint = sizeOfEntireBoard / 2;
 
@@ -92,12 +86,8 @@ public class TextualController implements ReversiTextualView {
         String currentPlayerInTheHexagon = currentHexagon.getPlayerType().toString();
         stringMaker.append(currentPlayerInTheHexagon).append(' ');
       }
-
       stringMaker.append('\n');
     }
-
     return stringMaker.toString();
   }
-
 }
-

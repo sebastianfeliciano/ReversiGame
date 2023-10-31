@@ -56,4 +56,13 @@ public class exampleHexShape {
     Assert.assertEquals(stuffWithBlack.getPlayerType(), PlayerType.WHITE);
 
   }
+
+  /**
+   * Tests that the s value is equal to -q - r.
+   */
+  @Test
+  public void testS() {
+    HexShape hex = new HexShape(7, 7, PlayerType.EMPTY);
+    Assert.assertEquals(hex.getSValue(), "-14");
+  }
 }

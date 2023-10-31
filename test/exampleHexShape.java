@@ -5,6 +5,10 @@ import controller.PlayerType;
 import model.HexShape;
 
 public class exampleHexShape {
+
+  /**
+   * Tests that the columns and rows are being correctly initiated.
+   */
   @Test
   public void testColumnAndRow() {
     HexShape hex = new HexShape(7, 7, PlayerType.EMPTY);

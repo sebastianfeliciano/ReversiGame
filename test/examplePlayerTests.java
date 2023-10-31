@@ -5,6 +5,10 @@ import controller.PlayerType;
 import view.TextualController;
 
 public class examplePlayerTests {
+
+  /**
+   * Tests that player type strings are correct.
+   */
   @Test
   public void testPlayerType() {
     Assert.assertEquals(PlayerType.WHITE.toString(), "X");

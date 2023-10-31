@@ -55,23 +55,63 @@ public class Board {
   }
 
   public void flipPieces(int x, int y, PlayerType currentPlayer) {
+    if (currentPlayer == null) {
+      System.out.println("Current player is null!");
+      return;
+    }
+
     PlayerType opponent = currentPlayer.nextPlayer();
+    if (opponent == null) {
+      System.out.println("Opponent is null!");
+      return;
+    }
 
     for (Directions dir : Directions.values()) {
+      if (dir == null) {
+        System.out.println("Direction is null!");
+        continue;
+      }
+
       int nextQ = x + dir.getQMove();
       int nextR = y + dir.getRMove();
+
+      HexShape currentHex = this.getCurrentHex(nextQ, nextR);
+      if (currentHex == null) {
+        continue;
+      }
+
+      PlayerType hexPlayer = currentHex.getPlayerType();
+      if (hexPlayer == null) {
+        continue;
+      }
+
       List<HexShape> piecesToFlip = new ArrayList<>();
 
       while (isValidCoordinate(nextQ, nextR) && this.getCurrentHex(nextQ, nextR).getPlayerType().equals(opponent)) {
         piecesToFlip.add(getCurrentHex(nextQ, nextR));
         nextQ += dir.getQMove();
         nextR += dir.getRMove();
+
+        currentHex = this.getCurrentHex(nextQ, nextR);
+        if(currentHex == null) {
+          break;
+        }
+
+        hexPlayer = currentHex.getPlayerType();
+        if(hexPlayer == null) {
+          break;
+        }
       }
 
-      // If the line ends in the current player's piece, then flip all the pieces in this line
-      if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextQ, nextR).getPlayerType().equals(currentPlayer)) {
+//      if (!piecesToFlip.isEmpty() && piecesToFlip.get(piecesToFlip.size() - 1).getPlayerType().equals(opponent)) {
+//        piecesToFlip.clear();
+//      }
+
+      if (isValidCoordinate(nextQ, nextR) && hexPlayer.equals(currentPlayer)) {
         for (HexShape piece : piecesToFlip) {
           piece.setPlayerType(currentPlayer);
+          int countOfPiecesToFlip = piecesToFlip.size();
+          System.out.println("Number of Pieces that have to be flipped: "+countOfPiecesToFlip);
         }
       }
     }
@@ -175,6 +215,4 @@ public class Board {
     }
     return count;
   }
-
-
 }

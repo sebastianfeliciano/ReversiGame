@@ -87,8 +87,8 @@ public class Board {
 
       List<HexShape> piecesToFlip = new ArrayList<>();
 
-      while (isValidCoordinate(nextQ, nextR) && hexPlayer.equals(opponent)) {
-        piecesToFlip.add(currentHex);
+      while (isValidCoordinate(nextQ, nextR) && this.getCurrentHex(nextQ, nextR).getPlayerType().equals(opponent)) {
+        piecesToFlip.add(getCurrentHex(nextQ, nextR));
         nextQ += dir.getQMove();
         nextR += dir.getRMove();
 

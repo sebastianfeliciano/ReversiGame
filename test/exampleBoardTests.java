@@ -78,6 +78,15 @@ public class exampleBoardTests {
     System.out.println("Y:" + mostBottomRight.getRow());
     System.out.println("X:" + mostBottomRight.getColumn());
 
+
+
+    HexShape topRIght = regularBoard.getCurrentHex(0, 6);
+    //mostBottomRight(3, 0)
+
+    //0, 3
+    System.out.print("X:" + topRIght.getColumn());
+    System.out.print("Y:" + topRIght.getRow());
+
   }
 
   @Test

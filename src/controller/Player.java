@@ -1,16 +1,19 @@
 package controller;
 
-import java.io.IOException;
-
 import model.Board;
+
 
 public class Player implements IPlayer {
   private final String name;
   private final PlayerType type;
+  private final Board board;
+  private boolean hasPassed;
 
-  public Player(String name, PlayerType type) {
+  public Player(String name, PlayerType type, Board board) {  // Added Board parameter
     this.name = name;
     this.type = type;
+    this.board = board;
+    this.hasPassed = false;
   }
 
   public String getName() {
@@ -21,27 +24,23 @@ public class Player implements IPlayer {
     return type;
   }
 
-//  @Override
-//  public void moveToSpot(Player currentPlayer, int c, int r) throws IOException {
-//    if (!Board.getCurrentCell(c, r) == PlayerType.EMPTY) {
-//      throw new IllegalArgumentException();
-//    }
-//    if (!validMove(c, r)) {
-//      throw new IllegalArgumentException();
-//    }
-//  }
+  public boolean hasPassed() {
+    return hasPassed;
+  }
 
-//  public boolean validMove(int c, int r) {
-//    if (c > -Board.BOARD_SIZE /2 || c > Board.BOARD_SIZE / 2) {
-//      return false;
-//    }
-//    if (r > -Board.BOARD_SIZE /2 || r > Board.BOARD_SIZE / 2) {
-//      return false;
-//    } else if (Board.getCurrentHex(c, r).getPlayerType() == PlayerType.EMPTY) {
-//      return true;
-//    }
-//    return false;
-//  }
-}
+  public void setHasPassed(boolean hasPassed) {
+    this.hasPassed = hasPassed;
+  }
 
-  // other getters, setters, and methods
+  @Override
+  public void placeKey(int x, int y) {
+    if (!board.isValidMove(x, y, this.getType())) { // Notice the change here
+      throw new IllegalArgumentException("Not a Valid Move!");
+    }
+    int q = x + board.getBoardSize() / 2;
+    int r = y + board.getBoardSize() / 2;
+    board.placePiece(q, r, this.getType());
+    board.flipPieces(q, r, this.getType());
+  }
+
+  }

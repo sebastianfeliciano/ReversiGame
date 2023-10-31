@@ -1,7 +1,6 @@
+import controller.Player;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.awt.*;
 
 import controller.PlayerType;
 import model.Board;
@@ -175,5 +174,23 @@ public class exampleBoardTests {
   @Test
   public void testCountPieces() {
     Assert.assertEquals(0, board.countPieces(PlayerType.WHITE));
+  }
+
+  @Test
+  public void testCount() {
+    Board board = new Board();
+    Player player1 = new Player("e", PlayerType.WHITE, board);
+
+    player1.placeKey(-1, -1);
+
+    board.getCurrentHex(11 / 2, 11 / 2 + 1).setPlayerType(PlayerType.BLACK);
+    board.getCurrentHex(11 / 2 + 1, 11 / 2).setPlayerType(PlayerType.WHITE);
+    board.getCurrentHex(11 / 2, 11 / 2 - 1).setPlayerType(PlayerType.WHITE);
+    board.getCurrentHex(11 / 2 + 1, 11 / 2 - 1).setPlayerType(PlayerType.BLACK);
+    board.getCurrentHex(11 / 2 - 1, 11 / 2).setPlayerType(PlayerType.BLACK);
+    board.getCurrentHex(11 / 2 - 1, 11 / 2 + 1).setPlayerType(PlayerType.WHITE);
+
+    Assert.assertEquals(4, board.countPieces(PlayerType.WHITE));
+    Assert.assertEquals(board.getBoardSize(), 11);
   }
 }

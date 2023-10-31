@@ -44,47 +44,21 @@ public class exampleBoardTests {
     Assert.assertEquals(middle.getRow(), middleRepresentation.getRow());
     Assert.assertEquals(middle.getColumn(), middleRepresentation.getColumn());
 
-//    //Middle Hexagon on the 2DArray
-//    HexShape bottomLeft = regularBoard.getCurrentHex(6, 0);
-//    //Coordinates Assigned to it
-//    HexShape btmLeftRep = new HexShape(-3, -3, null);
-//    Assert.assertEquals(bottomLeft.getRow(), btmLeftRep.getRow());
-//    Assert.assertEquals(bottomLeft.getColumn(), btmLeftRep.getColumn());
-//
-//
-//    HexShape topRightHex = regularBoard.getTopRightHex();
-//    //Coordinates Assigned to it based on the textView
-//    HexShape topRightRepresentation = new HexShape(-3, 3, null);
-//    System.out.println("Expected Row: " + topRightRepresentation.getRow() + ", Expected Column: " + topRightRepresentation.getColumn());
-//    String row = topRightHex.getRow();
-//    String column = topRightHex.getColumn();
-//
-//    System.out.println("Expected Row: " + topRightHex.getRow() + ", Expected Column: " + topRightHex.getColumn());
-//
-//    Point topRightPos = regularBoard.getTopRightHexPosition();
-//    System.out.println("Top Right Hex Row: " + topRightPos.y);
-//    System.out.println("Top Right Hex Column: " + topRightPos.x);
 
-    HexShape nextBottomLeftOnRight = regularBoard.getCurrentHex(3, 4);
-    HexShape nextToBottomLeftOnRightRep = new HexShape(0, 1, null);
-    Assert.assertEquals(nextBottomLeftOnRight.getRow(), nextToBottomLeftOnRightRep.getRow());
-    Assert.assertEquals(nextBottomLeftOnRight.getColumn(), nextToBottomLeftOnRightRep.getColumn());
+    HexShape bottomLeft = regularBoard.getCurrentHex(6, 0);
+    HexShape btmLeftRep = new HexShape(3, -3, null);
+    Assert.assertEquals(bottomLeft.getRow(), btmLeftRep.getRow());
+    Assert.assertEquals(bottomLeft.getColumn(), btmLeftRep.getColumn());
 
+    HexShape topRightHex = regularBoard.getCurrentHex(0, 6);
+    HexShape topRightRepresentation = new HexShape(-3, 3, null);
+    Assert.assertEquals(topRightHex.getRow(), topRightRepresentation.getRow());
+    Assert.assertEquals(topRightHex.getColumn(), topRightRepresentation.getColumn());
 
-    HexShape mostBottomRight = regularBoard.getCurrentHex(6, 3);
-    //mostBottomRight(3, 0)
-
-    //0, 3
-    System.out.println("Y:" + mostBottomRight.getRow());
-    System.out.println("X:" + mostBottomRight.getColumn());
-
-    HexShape topRight = regularBoard.getCurrentHex(0, 6);
-    //mostBottomRight(3, 0)
-
-    //0, 3
-    System.out.print("X:" + topRight.getColumn());
-    System.out.print("Y:" + topRight.getRow());
-
+    HexShape rightMiddle = regularBoard.getCurrentHex(3, 4);
+    HexShape rightMiddleRep = new HexShape(0, 1, null);
+    Assert.assertEquals(rightMiddle.getRow(), rightMiddleRep.getRow());
+    Assert.assertEquals(rightMiddle.getColumn(), rightMiddleRep.getColumn());
   }
 
 
@@ -124,11 +98,6 @@ public class exampleBoardTests {
     Assert.assertEquals(11, board.getBoardSize());
   }
 
-//  @Test
-//  public void testGetCurrentHex() {
-//    HexShape hex = new HexShape(0,0, PlayerType.EMPTY);
-//    Assert.assertNotNull(hex);
-//  }
 
   /**
    * Tests that a valid coordinate is passed into the game.
@@ -145,7 +114,8 @@ public class exampleBoardTests {
    */
   @Test
   public void testValidMove() {
-    Assert.assertTrue(board.isValidMove(1, -1, PlayerType.WHITE));
+    Board board1 = new Board(7);
+    Assert.assertTrue(board1.isValidMove(1, -1, PlayerType.WHITE));
   }
 
   /**
@@ -162,7 +132,7 @@ public class exampleBoardTests {
    * Tests that a board is full when it's first started.
    */
   @Test
-  public void testBoardFull() {
+  public void testBoardFullInitalState() {
     Assert.assertFalse(board.isBoardFull());
   }
 
@@ -172,13 +142,14 @@ public class exampleBoardTests {
    * is in the game when started.
    */
   @Test
-  public void testCountPieces() {
-    Assert.assertEquals(0, board.countPieces(PlayerType.WHITE));
+  public void testInitialCountPieces() {
+    Assert.assertEquals(3, board.countPieces(PlayerType.WHITE));
+    Assert.assertEquals(3, board.countPieces(PlayerType.BLACK));
   }
 
   @Test
   public void testCount() {
-    Board board = new Board();
+    Board board = new Board(11);
     Player player1 = new Player("e", PlayerType.WHITE, board);
 
     player1.placeKey(-1, -1);

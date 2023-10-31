@@ -2,6 +2,7 @@ package view;
 import java.io.IOException;
 import java.util.Arrays;
 
+import controller.PlayerType;
 import model.Board;
 import model.HexShape;
 
@@ -58,27 +59,39 @@ public class TextualController implements ReversiTextualView {
   public String toString() {
     StringBuilder stringMaker = new StringBuilder();
 
-    int sizeOfEntireBoard = Board.BOARD_SIZE;
+    // Set the middle hexagon to PlayerType.BLACK
+    board.getCurrentHex(3, 3).setPlayerType(PlayerType.BLACK);
+    board.getCurrentHex(3, 4).setPlayerType(PlayerType.BLACK);
 
-    int middleRowIndex = sizeOfEntireBoard / 2;
+    int sizeOfEntireBoard = board.getBoardSize();
+    int midPoint = sizeOfEntireBoard / 2;
 
     for (int currentRow = 0; currentRow < sizeOfEntireBoard; currentRow++) {
-      int allowedNumberOfHexagons;
+      int numOfHexagons;
 
-      if (currentRow <= middleRowIndex) {
-        allowedNumberOfHexagons = (sizeOfEntireBoard / 2) + currentRow + 1;
+      if (currentRow <= midPoint) {
+        numOfHexagons = midPoint + currentRow + 1;
       } else {
-        allowedNumberOfHexagons = sizeOfEntireBoard - (currentRow - middleRowIndex);
+        numOfHexagons = sizeOfEntireBoard - (currentRow - midPoint);
       }
 
-      int numOfSpaces = (sizeOfEntireBoard - allowedNumberOfHexagons);
+      //1stLine
+      //4 Hex
+      //3 Spaces
+      int spacesBefore = (sizeOfEntireBoard - numOfHexagons);
 
-      for (int spaces = 0; spaces < numOfSpaces; spaces++) {
+      for (int s = 0; s < spacesBefore; s++) {
         stringMaker.append(' ');
       }
 
-      for (int currentNumOfHexagons = 0; currentNumOfHexagons < allowedNumberOfHexagons; currentNumOfHexagons++) {
-        HexShape currentHexagon = board.getCurrentHex(currentRow, allowedNumberOfHexagons - 1);
+      for (int h = 0; h < numOfHexagons; h++) {
+        HexShape currentHexagon;
+        if (currentRow <= midPoint) {
+           currentHexagon = board.getCurrentHex(currentRow, spacesBefore + h);
+        } else  {
+           currentHexagon = board.getCurrentHex(currentRow, h);
+        }
+
         String currentPlayerInTheHexagon = currentHexagon.getPlayerType().toString();
         stringMaker.append(currentPlayerInTheHexagon).append(' ');
       }
@@ -88,5 +101,9 @@ public class TextualController implements ReversiTextualView {
 
     return stringMaker.toString();
   }
+
+
+
+
 }
 

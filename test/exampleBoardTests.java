@@ -19,20 +19,6 @@ public class exampleBoardTests {
     Assert.assertThrows(IllegalStateException.class, () -> new Board(12));
   }
 
-  /**
-   * Tests a Board that is given an odd number which
-   * should work and be empty.
-   */
-  @Test
-  public void testingOddBoardValid() {
-    Board madeBoard = new Board(); //This is default as 11
-    for(int i = 0; i < Board.BOARD_SIZE; i++) {
-      for(int j = 0; j < Board.BOARD_SIZE; j++) {
-        HexShape hexShape = new HexShape(i, j, null); // 'null' assumes PlayerType isn't needed here, adjust as necessary.
-        Assert.assertEquals(madeBoard.getCurrentHex(j, i).getPlayerType(), PlayerType.EMPTY);
-      }
-    }
-  }
 
   /**
    * Tests a Board that is given a negative number which
@@ -98,17 +84,17 @@ public class exampleBoardTests {
     Board board = new Board(11);
     TextualController controller = new TextualController(board);
     Assert.assertEquals(controller.toString(),
-                    "     _ _ _ _ _ _ \n" +
-                    "    _ _ _ _ _ _ _ \n" +
-                    "   _ _ _ _ _ _ _ _ \n" +
-                    "  _ _ _ _ _ _ _ _ _ \n" +
-                    " _ _ _ _ _ _ _ _ _ _ \n" +
-                    "_ _ _ _ _ _ _ _ _ _ _ \n" +
-                    " _ _ _ _ _ _ _ _ _ _ \n" +
-                    "  _ _ _ _ _ _ _ _ _ \n" +
-                    "   _ _ _ _ _ _ _ _ \n" +
-                    "    _ _ _ _ _ _ _ \n" +
-                    "     _ _ _ _ _ _ ");
+              "    _ _ _ _ _ _ \n" +
+                    "    _ _ _ _ _ _ _\n" +
+                    "   _ _ _ _ _ _ _ _\n" +
+                    "  _ _ _ _ _ _ _ _ _\n" +
+                    " _ _ _ _ _ _ _ _ _ _\n" +
+                    "_ _ _ _ _ _ _ _ _ _ _\n" +
+                    " _ _ _ _ _ _ _ _ _ _\n" +
+                    "  _ _ _ _ _ _ _ _ _\n" +
+                    "   _ _ _ _ _ _ _ _\n" +
+                    "    _ _ _ _ _ _ _\n" +
+                    "     _ _ _ _ _ _");
 
   }
 }

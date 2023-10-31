@@ -43,16 +43,19 @@ public class HexShape {
   }
 
   //Method that will help for testing
-  public String getColumn(){
+  public String getColumn() {
     return String.valueOf(this.column);
   }
 
-  public String getRow(){
+  public String getRow() {
     return String.valueOf(this.row);
   }
 
-  public String getSValue(){
+  public String getSValue() {
     return String.valueOf(this.s);
   }
 
+  public PlayerType setPlayerType(PlayerType type) {
+    return this.currentPlayerType = type;
+  }
 }

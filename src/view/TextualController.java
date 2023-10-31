@@ -83,8 +83,15 @@ public class TextualController implements ReversiTextualView {
         HexShape currentHexagon;
         if (currentRow <= midPoint) {
           currentHexagon = board.getCurrentHex(currentRow, spacesBefore + h);
+          System.out.print(currentHexagon.getRow() + ",");
+          System.out.println(currentHexagon.getColumn());
+          System.out.println(currentHexagon.getPlayerType().toString());
+
         } else {
           currentHexagon = board.getCurrentHex(currentRow, h);
+          System.out.print(currentHexagon.getRow() + ",");
+          System.out.println(currentHexagon.getColumn());
+          System.out.println(currentHexagon.getPlayerType().toString());
         }
 
         String currentPlayerInTheHexagon = currentHexagon.getPlayerType().toString();

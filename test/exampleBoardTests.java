@@ -167,6 +167,9 @@ public class exampleBoardTests {
     Assert.assertEquals(board.getBoardSize(), 11);
   }
 
+  /**
+   * Tests that the flip pieces method works correctly.
+   */
   @Test
   public void testFlipPieces() {
     Board oldBoard = new Board(7);
@@ -184,6 +187,9 @@ public class exampleBoardTests {
     Assert.assertEquals(PlayerType.WHITE, postFlipType);
   }
 
+  /**
+   * Tests whether both players have passed their move.
+   */
   @Test
   public void testBothPlayersPassed() {
     Board board = new Board();
@@ -196,6 +202,9 @@ public class exampleBoardTests {
     Assert.assertTrue(player2.hasPassed());
   }
 
+  /**
+   * Tests whether a player has any more valid moves.
+   */
   @Test
   public void testTrapped() {
     Board board = new Board();

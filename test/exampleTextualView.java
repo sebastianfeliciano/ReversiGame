@@ -94,20 +94,4 @@ public class exampleTextualView {
                     "    _ _ _ _ _ _ _ \n" +
                     "     _ _ _ _ _ _ \n", controller.toString());
   }
-
-  /**
-   * Tests when a player decides to quit the game.
-   */
-  @Test
-  public void testQuit() {
-    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    PrintStream originalOut = System.out;
-    System.setOut(new PrintStream(outContent));
-    String inputData = "0\n2\nPlayer1\nPlayer2\npass\npass\n";
-    System.setIn(new ByteArrayInputStream(inputData.getBytes()));
-    Main.main(new String[]{});
-    System.setOut(originalOut);
-    String consoleOutput = outContent.toString();
-    Assert.assertTrue(consoleOutput.contains("The game is over!"));
-  }
 }

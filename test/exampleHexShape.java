@@ -68,6 +68,9 @@ public class exampleHexShape {
     Assert.assertEquals(hexExample.getSValue(), "1");
   }
 
+  /**
+   * Tests that the player type is correct.
+   */
   @Test
   public void testGetPlayerType() {
     HexShape hex = new HexShape(7, 7, PlayerType.EMPTY);
@@ -78,7 +81,9 @@ public class exampleHexShape {
     Assert.assertEquals(stuffWithBlack.getPlayerType(), PlayerType.BLACK);
   }
 
-
+  /**
+   * Tests that a player type is being set correctly.
+   */
   @Test
   public void testSetPlayerType() {
     HexShape hex = new HexShape(7, 7, PlayerType.EMPTY);

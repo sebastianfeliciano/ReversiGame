@@ -30,12 +30,18 @@ Initializing Our Board :
 the starting (starQ) and (endQ) points of the columns containing these hexagons are determined.
 - For each row, hexagons are instantiated for valid columns between 'startQ' and 'endQ'
 
+Class Invariants
+- BoardSize is non-negative and cannot be even
+- Board size cannot be passed in a negative number, our constructor will throw an exception
+- And it cannot be even, because then a hexagon shape cannot be formed, our constructor will also throw an exception.
+
 MAIN 
 - 
 - Board Initialization: 
   - The user is greeted and prompted to choose a board size
-  - If the user selects the default size (0), a default-size board of 11 is created.
+  - If the user selects the default size (7), a default-size board of 11 is created.
   - Valid coordinates :
     - q and r are non-negative, and less than the board size, ensuring it's not to the left of the board, above/below the board
     - q / r ranges from -BoardSize / 2 to BoardSize / 2
+  
 

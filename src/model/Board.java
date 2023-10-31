@@ -55,6 +55,13 @@ public class Board {
         cellsThatMakeTheBoard[row][column] = new HexShape(r, q, null);
       }
     }
+    this.getCurrentHex(this.BOARD_SIZE / 2, this.BOARD_SIZE / 2 + 1).setPlayerType(PlayerType.BLACK);
+    this.getCurrentHex(this.BOARD_SIZE / 2 + 1, this.BOARD_SIZE / 2).setPlayerType(PlayerType.WHITE);
+    this.getCurrentHex(this.BOARD_SIZE / 2, this.BOARD_SIZE / 2 - 1).setPlayerType(PlayerType.WHITE);
+    this.getCurrentHex(this.BOARD_SIZE / 2 + 1, this.BOARD_SIZE / 2 - 1).setPlayerType(PlayerType.BLACK);
+    this.getCurrentHex(this.BOARD_SIZE / 2 - 1, this.BOARD_SIZE / 2).setPlayerType(PlayerType.BLACK);
+    this.getCurrentHex(this.BOARD_SIZE / 2 - 1, this.BOARD_SIZE / 2 + 1).setPlayerType(PlayerType.WHITE);
+
   }
 
 
@@ -126,6 +133,7 @@ public class Board {
           piece.setPlayerType(currentPlayer);
           int countOfPiecesToFlip = piecesToFlip.size();
           System.out.println("Number of Pieces that have to be flipped: "+countOfPiecesToFlip);
+          System.out.println(piece.getPlayerType().toString());
         }
       }
     }

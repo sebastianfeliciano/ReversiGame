@@ -50,12 +50,7 @@ public class TextualController implements ReversiTextualView {
     int sizeOfEntireBoard = board.getBoardSize();
     int midPoint = sizeOfEntireBoard / 2;
 
-    board.getCurrentHex(sizeOfEntireBoard / 2, sizeOfEntireBoard / 2 + 1).setPlayerType(PlayerType.BLACK);
-    board.getCurrentHex(sizeOfEntireBoard / 2 + 1, sizeOfEntireBoard / 2).setPlayerType(PlayerType.WHITE);
-    board.getCurrentHex(sizeOfEntireBoard / 2, sizeOfEntireBoard / 2 - 1).setPlayerType(PlayerType.WHITE);
-    board.getCurrentHex(sizeOfEntireBoard / 2 + 1, sizeOfEntireBoard / 2 - 1).setPlayerType(PlayerType.BLACK);
-    board.getCurrentHex(sizeOfEntireBoard / 2 - 1, sizeOfEntireBoard / 2).setPlayerType(PlayerType.BLACK);
-    board.getCurrentHex(sizeOfEntireBoard / 2 - 1, sizeOfEntireBoard / 2 + 1).setPlayerType(PlayerType.WHITE);
+
 
 
     for (int currentRow = 0; currentRow < sizeOfEntireBoard; currentRow++) {

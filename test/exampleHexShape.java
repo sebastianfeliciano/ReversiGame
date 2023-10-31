@@ -17,20 +17,14 @@ public class exampleHexShape {
     Assert.assertEquals(hex.getPlayerType(), PlayerType.EMPTY);
   }
 
-  /**
-   * Tests that the s value is equal to -q - r.
-   */
   @Test
-  public void testS() {
+  public void testGetSValue() {
     HexShape hex = new HexShape(7, 7, PlayerType.EMPTY);
     Assert.assertEquals(hex.getSValue(), "-14");
     HexShape hexExample = new HexShape(-1, 0, PlayerType.EMPTY);
     Assert.assertEquals(hexExample.getSValue(), "1");
   }
 
-  /**
-   * Tests that the player type is correct.
-   */
   @Test
   public void testGetPlayerType() {
     HexShape hex = new HexShape(7, 7, PlayerType.EMPTY);
@@ -41,9 +35,7 @@ public class exampleHexShape {
     Assert.assertEquals(stuffWithBlack.getPlayerType(), PlayerType.BLACK);
   }
 
-  /**
-   * Tests that a player type is being set correctly.
-   */
+
   @Test
   public void testSetPlayerType() {
     HexShape hex = new HexShape(7, 7, PlayerType.EMPTY);
@@ -61,5 +53,6 @@ public class exampleHexShape {
 
     stuffWithBlack.setPlayerType(PlayerType.WHITE);
     Assert.assertEquals(stuffWithBlack.getPlayerType(), PlayerType.WHITE);
+
   }
 }

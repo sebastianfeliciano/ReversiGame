@@ -97,6 +97,7 @@ public class exampleBoardTests {
     Assert.assertEquals(11, board.getBoardSize());
   }
 
+
   /**
    * Tests that a valid coordinate is passed into the game.
    */
@@ -111,7 +112,7 @@ public class exampleBoardTests {
    */
   @Test
   public void testValidMove() {
-    Board board1 = new Board(11);
+    Board board1 = new Board(7);
     Assert.assertTrue(board1.isValidMove(-1, -1, PlayerType.WHITE));
   }
 
@@ -129,7 +130,7 @@ public class exampleBoardTests {
    * Tests that a board is full when it's first started.
    */
   @Test
-  public void testBoardFull() {
+  public void testBoardFullInitalState() {
     Assert.assertFalse(board.isBoardFull());
   }
 
@@ -149,7 +150,7 @@ public class exampleBoardTests {
    */
   @Test
   public void testCount() {
-    Board board = new Board();
+    Board board = new Board(11);
     Player player1 = new Player("e", PlayerType.WHITE, board);
 
     player1.placeKey(-1, -1);

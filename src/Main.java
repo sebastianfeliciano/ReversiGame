@@ -108,8 +108,7 @@ public final class Main {
                 if (playerInput.equalsIgnoreCase("pass")) {
                   player.setHasPassed(true);
                   validMoveMade = true;
-                }
-                else {
+                } else {
                   String[] split = playerInput.split(",");
                   int firstCoordinate = Integer.parseInt(split[0]);
                   int secondCoordinate = Integer.parseInt(split[1]);
@@ -130,12 +129,12 @@ public final class Main {
                 System.out.println(e.getMessage());
               }
             }
-          }
-        else {
+          } else {
             System.out.println(player.getName() + " has passed their turn.");
           }
         }
       }
+    }
 
       if (currentBoard.isGameOver()) {
         System.out.println("The game is over!");
@@ -153,11 +152,10 @@ public final class Main {
         } else {
           System.out.println("It's a tie!");
         }
-        break;
       }
 
     }
-  }
+
   }
 
 

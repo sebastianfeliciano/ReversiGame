@@ -1,4 +1,5 @@
 package view;
+
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -7,7 +8,7 @@ import model.Board;
 import model.HexShape;
 
 public class TextualController implements ReversiTextualView {
-  private Board board;
+  private final Board board;
   private final Appendable output;
 
   /**
@@ -47,24 +48,21 @@ public class TextualController implements ReversiTextualView {
    * Returns a to-Commandline view
    * representation of the Reversi model.Board Model.
    */
-//  @Override
-//  public String toString() {
-//    StringBuilder stringMaker = new StringBuilder();
-//    for (HexShape[] hex : Board.cellsThatMakeTheBoard) {
-//      stringMaker.append(Arrays.toString(hex)).append(" ");
-//    }
-//    return stringMaker.toString();
-//  }
   @Override
   public String toString() {
     StringBuilder stringMaker = new StringBuilder();
 
-    // Set the middle hexagon to PlayerType.BLACK
-    board.getCurrentHex(3, 3).setPlayerType(PlayerType.BLACK);
-    board.getCurrentHex(3, 4).setPlayerType(PlayerType.BLACK);
 
     int sizeOfEntireBoard = board.getBoardSize();
     int midPoint = sizeOfEntireBoard / 2;
+
+    board.getCurrentHex(sizeOfEntireBoard / 2, sizeOfEntireBoard / 2 + 1).setPlayerType(PlayerType.BLACK);
+    board.getCurrentHex(sizeOfEntireBoard / 2 + 1, sizeOfEntireBoard / 2).setPlayerType(PlayerType.WHITE);
+    board.getCurrentHex(sizeOfEntireBoard / 2, sizeOfEntireBoard / 2 - 1).setPlayerType(PlayerType.WHITE);
+    board.getCurrentHex(sizeOfEntireBoard / 2 + 1, sizeOfEntireBoard / 2 - 1).setPlayerType(PlayerType.BLACK);
+    board.getCurrentHex(sizeOfEntireBoard / 2 - 1, sizeOfEntireBoard / 2).setPlayerType(PlayerType.BLACK);
+    board.getCurrentHex(sizeOfEntireBoard / 2 - 1, sizeOfEntireBoard / 2 + 1).setPlayerType(PlayerType.WHITE);
+
 
     for (int currentRow = 0; currentRow < sizeOfEntireBoard; currentRow++) {
       int numOfHexagons;
@@ -75,9 +73,6 @@ public class TextualController implements ReversiTextualView {
         numOfHexagons = sizeOfEntireBoard - (currentRow - midPoint);
       }
 
-      //1stLine
-      //4 Hex
-      //3 Spaces
       int spacesBefore = (sizeOfEntireBoard - numOfHexagons);
 
       for (int s = 0; s < spacesBefore; s++) {
@@ -87,9 +82,9 @@ public class TextualController implements ReversiTextualView {
       for (int h = 0; h < numOfHexagons; h++) {
         HexShape currentHexagon;
         if (currentRow <= midPoint) {
-           currentHexagon = board.getCurrentHex(currentRow, spacesBefore + h);
-        } else  {
-           currentHexagon = board.getCurrentHex(currentRow, h);
+          currentHexagon = board.getCurrentHex(currentRow, spacesBefore + h);
+        } else {
+          currentHexagon = board.getCurrentHex(currentRow, h);
         }
 
         String currentPlayerInTheHexagon = currentHexagon.getPlayerType().toString();
@@ -101,9 +96,6 @@ public class TextualController implements ReversiTextualView {
 
     return stringMaker.toString();
   }
-
-
-
 
 }
 

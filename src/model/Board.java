@@ -48,10 +48,10 @@ public class Board {
 
       if (row <= midPoint) {
         startQ = midPoint - row;
-        endQ = BOARD_SIZE - startQ;
+        endQ = BOARD_SIZE;
       } else {
-        startQ = row - midPoint;
-        endQ = BOARD_SIZE - startQ;
+        startQ = 0;
+        endQ = BOARD_SIZE - row + midPoint;
       }
 
       for (int column = startQ; column < endQ; column++) {
@@ -147,37 +147,6 @@ public class Board {
 //    return c >= 0 && c < BOARD_SIZE && r >= 0 && r < BOARD_SIZE;
 //  }
 
-  public Board setHexPieces(Board oldBoard) {
-
-//    board.cellsThatMakeTheBoard[Board.BOARD_SIZE/2][Board.BOARD_SIZE/2 - 1].setPlayerType(PlayerType.WHITE);
-//    System.out.println(board.getCurrentHex(Board.BOARD_SIZE/2 - 1,Board.BOARD_SIZE/2).toString());
-//    board.cellsThatMakeTheBoard[Board.BOARD_SIZE/2 - 1][Board.BOARD_SIZE/2 + 1].setPlayerType(PlayerType.WHITE);  //-1, 1 //4, 2
-//    board.cellsThatMakeTheBoard[Board.BOARD_SIZE/2][Board.BOARD_SIZE/2 + 1].setPlayerType(PlayerType.BLACK); //0, 1 //4,3
-//    System.out.println(board.cellsThatMakeTheBoard[Board.BOARD_SIZE/2 ][Board.BOARD_SIZE/2 + 1].setPlayerType(PlayerType.BLACK).toString());
-//    board.cellsThatMakeTheBoard[Board.BOARD_SIZE/2 + 1][Board.BOARD_SIZE/2 + 1].setPlayerType(PlayerType.WHITE); //1, 0 //3, 4
-//    board.cellsThatMakeTheBoard[Board.BOARD_SIZE/2 - 1][Board.BOARD_SIZE/2 + 1].setPlayerType(PlayerType.BLACK);; //1, -1 //2, 4
-//    board.cellsThatMakeTheBoard[Board.BOARD_SIZE/2 - 1][Board.BOARD_SIZE/2].setPlayerType(PlayerType.WHITE); //0, -1 //2, 3
-//    board.cellsThatMakeTheBoard[Board.BOARD_SIZE/2][Board.BOARD_SIZE/2 - 1].setPlayerType(PlayerType.BLACK); //-1, 0 //3, 2
-
-    //Getting the middle Hex based on the 2DArray (PlayerType which is null (_))
-    System.out.println(oldBoard.getCurrentHex(3, 3).getPlayerType().toString()); //_
-    //Printing Out the playerType if actually Set to White
-    System.out.println(oldBoard.getCurrentHex(3, 3).setPlayerType(PlayerType.WHITE).toString()); //X
-    //Setting playerType to White
-    oldBoard.getCurrentHex(3, 3).setPlayerType(PlayerType.WHITE);
-    //Checking if the set PlayerTyped matches the expected
-    System.out.println(oldBoard.getCurrentHex(3, 3).getPlayerType().toString()); //X
-    //oldBoard.getCurrentHex(3, 3).setPlayerType(PlayerType.WHITE);
-
-    HexShape rightOfMiddle = oldBoard.getCurrentHex(4, 3);
-    System.out.println(rightOfMiddle.getRow()); //ShouldBe0
-    System.out.println(rightOfMiddle.getColumn()); //ShouldBe1
-
-
-    oldBoard.getCurrentHex(4, 3).setPlayerType(PlayerType.WHITE);
-
-    return oldBoard;
-  }
 
   public int getBoardSize() {
     return this.BOARD_SIZE;

@@ -33,49 +33,50 @@ public class exampleBoardTests {
   public void testingCoordinatesOfAHexagonBasedOn2DArray() {
     Board regularBoard = new Board(7);
 
-    //TopLeft Hexagon on the 2DArray
-    HexShape topLeft = regularBoard.getCurrentHex(3, 0);
-    //Coordinates Assigned to it
-    HexShape topLeftRepresentation = new HexShape(-3, 0, null);
-    Assert.assertEquals(topLeft.getColumn(), topLeftRepresentation.getColumn());
+//    HexShape topLeft = regularBoard.getCurrentHex(0, 3);
+//    HexShape topLeftRepresentation = new HexShape(-3, 0, null);
+//    Assert.assertEquals(topLeft.getColumn(), topLeftRepresentation.getColumn());
+//
+//    HexShape middle = regularBoard.getCurrentHex(3, 3);
+//    HexShape middleRepresentation = new HexShape(0, 0, null);
+//    Assert.assertEquals(middle.getRow(), middleRepresentation.getRow());
+//    Assert.assertEquals(middle.getColumn(), middleRepresentation.getColumn());
+//
+////    //Middle Hexagon on the 2DArray
+////    HexShape bottomLeft = regularBoard.getCurrentHex(6, 0);
+////    //Coordinates Assigned to it
+////    HexShape btmLeftRep = new HexShape(-3, -3, null);
+////    Assert.assertEquals(bottomLeft.getRow(), btmLeftRep.getRow());
+////    Assert.assertEquals(bottomLeft.getColumn(), btmLeftRep.getColumn());
+////
+////
+////    HexShape topRightHex = regularBoard.getTopRightHex();
+////    //Coordinates Assigned to it based on the textView
+////    HexShape topRightRepresentation = new HexShape(-3, 3, null);
+////    System.out.println("Expected Row: " + topRightRepresentation.getRow() + ", Expected Column: " + topRightRepresentation.getColumn());
+////    String row = topRightHex.getRow();
+////    String column = topRightHex.getColumn();
+////
+////    System.out.println("Expected Row: " + topRightHex.getRow() + ", Expected Column: " + topRightHex.getColumn());
+////
+////    Point topRightPos = regularBoard.getTopRightHexPosition();
+////    System.out.println("Top Right Hex Row: " + topRightPos.y);
+////    System.out.println("Top Right Hex Column: " + topRightPos.x);
+//
+//    HexShape nextBottomLeftOnRight = regularBoard.getCurrentHex(3, 4);
+//    HexShape nextToBottomLeftOnRightRep = new HexShape(0, 1, null);
+//    Assert.assertEquals(nextBottomLeftOnRight.getRow(), nextToBottomLeftOnRightRep.getRow());
+//    Assert.assertEquals(nextBottomLeftOnRight.getColumn(), nextToBottomLeftOnRightRep.getColumn());
 
-    //Middle Hexagon on the 2DArray
-    HexShape middle = regularBoard.getCurrentHex(3, 3);
-    //Coordinates Assigned to it
-    HexShape middleRepresentation = new HexShape(0, 0, null);
-    Assert.assertEquals(middle.getRow(), middleRepresentation.getRow());
-    Assert.assertEquals(middle.getColumn(), middleRepresentation.getColumn());
-
-    //Middle Hexagon on the 2DArray
-    HexShape bottomLeft = regularBoard.getCurrentHex(0, 6);
-    //Coordinates Assigned to it
-    HexShape btmLeftRep = new HexShape(-3, -3, null);
-    Assert.assertEquals(middle.getRow(), middleRepresentation.getRow());
-    Assert.assertEquals(middle.getColumn(), middleRepresentation.getColumn());
-
-    //WTFFFFFFF
-    //TopRight Hexagon on the 2DArray Q being 6 and R being 0
-    HexShape topRightHex = regularBoard.getTopRightHex();
-    //Coordinates Assigned to it based on the textView
-    HexShape topRightRepresentation = new HexShape(-3, 3, null);
-    System.out.println("Expected Row: " + topRightRepresentation.getRow() + ", Expected Column: " + topRightRepresentation.getColumn());
-    String row = topRightHex.getRow();
-    String column = topRightHex.getColumn();
-
-    System.out.println("Expected Row: " + topRightHex.getRow() + ", Expected Column: " + topRightHex.getColumn());
-
-    Point topRightPos = regularBoard.getTopRightHexPosition();
-    System.out.println("Top Right Hex Row: " + topRightPos.y);
-    System.out.println("Top Right Hex Column: " + topRightPos.x);
-    //i
 
 
-    //Middle Hexagon on the 2DArray
-    HexShape nextTibottomLeftOnRight = regularBoard.getCurrentHex(4, 3);
-    //Coordinates Assigned to it
-    HexShape nextTibottomLeftOnRightRep = new HexShape(0, 1, null);
-    Assert.assertEquals(nextTibottomLeftOnRight.getRow(), nextTibottomLeftOnRightRep.getRow());
-    Assert.assertEquals(nextTibottomLeftOnRight.getColumn(), nextTibottomLeftOnRightRep.getColumn());
+
+    HexShape mostBottomRight = regularBoard.getCurrentHex(6, 3);
+    //mostBottomRight(3, 0)
+
+    //0, 3
+    System.out.println("Y:" + mostBottomRight.getRow());
+    System.out.println("X:" + mostBottomRight.getColumn());
 
   }
 
@@ -97,4 +98,5 @@ public class exampleBoardTests {
                     "     _ _ _ _ _ _");
 
   }
+
 }

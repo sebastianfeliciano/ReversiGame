@@ -12,7 +12,7 @@ public enum PlayerType {
 
   //Checks who the nextPlayer should be (opposite game piece) or the
   //Switch GamePiece
-  PlayerType nextPlayer(){
+  public PlayerType nextPlayer(){
     {
       if (this == BLACK) {
         return WHITE;

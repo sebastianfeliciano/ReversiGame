@@ -1,5 +1,7 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.List;
 
@@ -14,6 +16,25 @@ public final class Main {
 
     Scanner scanner = new Scanner(System.in);
     System.out.println("Welcome to REVERSI!");
+    System.out.println("What size board would you like (0 for default)?");
+    Board currentBoard;
+    int chosenSizeOfBoard = scanner.nextInt();
+    scanner.nextLine();
+    try {
+      if (chosenSizeOfBoard == 0) {
+        currentBoard = new Board();
+        TextualController boardGenerator = new TextualController(currentBoard);
+        System.out.println(boardGenerator);
+      } else {
+        currentBoard = new Board(chosenSizeOfBoard);
+        TextualController boardGenerator = new TextualController(currentBoard);
+        System.out.println(boardGenerator);
+      }
+    } catch (InputMismatchException e) {
+      throw new InputMismatchException("Put a valid number!");
+    }
+
+
     System.out.println("How many People are Playing?");
 
     //Number of Players wanted in the game
@@ -35,52 +56,108 @@ public final class Main {
     for (int i = 0; i < numberOfPlayers; i++) {
       System.out.println("Enter Player " + (i + 1) + " name:");
       String playerName = scanner.next();
+      scanner.nextLine();
       PlayerType type;
       if (i == 0) {
         type = PlayerType.WHITE;
       } else {
         type = PlayerType.BLACK;
       }
-      players.add(new Player(playerName, type));
+      players.add(new Player(playerName, type, currentBoard));
       //System.out.println("controller.Player " + (i + 1) + ": " + players.get(i).getName());
     }
-
-
-    System.out.println("What size board would you like (0 for default)?");
-    try {
-      int chosenSizeOfBoard = scanner.nextInt();
-      scanner.nextLine();
-      if (chosenSizeOfBoard == 0) {
-        Board empty = new Board();
-        TextualController boardGenerator = new TextualController(empty);
-        System.out.println(boardGenerator);
-      } else {
-        Board empty = new Board(chosenSizeOfBoard);
-        TextualController boardGenerator = new TextualController(empty);
-        System.out.println(boardGenerator);
-      }
-    } catch (InputMismatchException e) {
-      throw new InputMismatchException("Put a valid number!");
+    if (numberOfPlayers == 1) {
+      players.add(new Player("Computer", PlayerType.BLACK, currentBoard));
     }
 
-    //While Game isnt over
     for (Player player : players) {
-      System.out.println(player.getName() + "'s Turn \uD83D\uDE08");
-      System.out.println("Enter your move in the form of x,y coordinates:");
-      try {
-        String playerInput = scanner.nextLine().trim();
-        String[] split = playerInput.split(",");
-        int firstCoordinate = Integer.parseInt(split[0]);
-        int secondCoordinate = Integer.parseInt(split[1]);
-        //Check if there is an empty move or a valid move
-
-        //model.Board.setCell(firstCoordinate, secondCoordinate);
-
-
-      } catch (NumberFormatException e) {
-        System.out.println(e);
-      }
+      player.setHasPassed(false);
     }
 
+    TextualController boardGenerator0 = new TextualController(currentBoard);
+    System.out.println(boardGenerator0);
+
+    boolean isGameOver = false;
+
+    while (!isGameOver) {
+      isGameOver = currentBoard.isGameOver();
+      for (Player player : players) {
+        boolean validMoveMade = false;
+        if (player.getName().equals("Computer")) {
+          System.out.println("Computer's turn!");
+
+          // Simple random move strategy for the computer
+          while (!validMoveMade) {
+            int x = new Random().nextInt(currentBoard.getBoardSize()); // Assuming Board class has getSize() method
+            int y = new Random().nextInt(currentBoard.getBoardSize());
+            try {
+              player.placeKey(x, y);
+              validMoveMade = true;
+            } catch (IllegalArgumentException e) {
+              System.out.println(e);
+            }
+          }
+        } else {
+          if (!player.hasPassed()) {
+            System.out.println(player.getName() + "'s Turn \uD83D\uDE08 (" + player.getType().toString() + ")");
+
+            while (!validMoveMade) {
+              System.out.println("Enter your move (e.g., x,y coordinates), or 'pass' to skip your turn:");
+              try {
+                String playerInput = scanner.nextLine().trim();
+                if (playerInput.equalsIgnoreCase("pass")) {
+                  player.setHasPassed(true);
+                  validMoveMade = true;
+                }
+                else {
+                  String[] split = playerInput.split(",");
+                  int firstCoordinate = Integer.parseInt(split[0]);
+                  int secondCoordinate = Integer.parseInt(split[1]);
+
+                  player.placeKey(firstCoordinate, secondCoordinate);
+                  validMoveMade = true;
+                  TextualController boardGenerator = new TextualController(currentBoard);
+                  try {
+                    boardGenerator.render();
+                  } catch (IOException e) {
+                    System.out.println("Error rendering the board: " + e.getMessage());
+                  }
+                }
+
+              } catch (NumberFormatException e) {
+                System.out.println("Invalid input format. Please enter coordinates in the form x,y.");
+              } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+              }
+            }
+          }
+        else {
+            System.out.println(player.getName() + " has passed their turn.");
+          }
+        }
+      }
+
+      if (currentBoard.isGameOver()) {
+        System.out.println("The game is over!");
+
+        int whiteCount = currentBoard.countPieces(PlayerType.WHITE);
+        int blackCount = currentBoard.countPieces(PlayerType.BLACK);
+
+        System.out.println("White pieces: " + whiteCount);
+        System.out.println("Black pieces: " + blackCount);
+
+        if (whiteCount > blackCount) {
+          System.out.println("White wins!");
+        } else if (blackCount > whiteCount) {
+          System.out.println("Black wins!");
+        } else {
+          System.out.println("It's a tie!");
+        }
+        break;
+      }
+
+    }
   }
-}
+  }
+
+

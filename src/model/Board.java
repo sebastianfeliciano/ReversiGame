@@ -6,18 +6,28 @@ import controller.PlayerType;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Sets up a board for the controller to use.
+ */
 public class Board {
   public int BOARD_SIZE;  //Default OOD Website Size
   public HexShape[][] cellsThatMakeTheBoard;
   private boolean whitePassed = false;
   private boolean blackPassed = false;
 
-
+  /**
+   * Controller used in the mine to set the size of the board.
+   * A default board is size 7.
+   */
   public Board() {
     this(7);
   }
 
+  /**
+   * Constructor used for testing.
+   * Throws an exception if the game size is even or less than 5,
+   * because a valid hexagon cannot be created from either value.
+   */
   public Board(int sizeOfBoard) {
     if (sizeOfBoard < 5 || (sizeOfBoard % 2 == 0)) {
       throw new IllegalStateException("The game must be a minimum of size 5 and cannot be even!");
@@ -48,12 +58,20 @@ public class Board {
   }
 
 
-
-  // Changed this to an instance method
+  /**
+   * Returns the current hex shape based on row and column.
+   */
   public HexShape getCurrentHex(int row, int column) {
     return cellsThatMakeTheBoard[row][column];
   }
 
+  /**
+   * Flips a player type based on passed in coordinates passed
+   * in by the player.
+   * Breaks out of the loop if the player, opponent,
+   * or direction is invalid.
+   *
+   */
   public void flipPieces(int x, int y, PlayerType currentPlayer) {
     if (currentPlayer == null) {
       System.out.println("Current player is null!");
@@ -103,10 +121,6 @@ public class Board {
         }
       }
 
-//      if (!piecesToFlip.isEmpty() && piecesToFlip.get(piecesToFlip.size() - 1).getPlayerType().equals(opponent)) {
-//        piecesToFlip.clear();
-//      }
-
       if (isValidCoordinate(nextQ, nextR) && hexPlayer.equals(currentPlayer)) {
         for (HexShape piece : piecesToFlip) {
           piece.setPlayerType(currentPlayer);
@@ -117,6 +131,10 @@ public class Board {
     }
   }
 
+  /**
+   * Determines if a valid move is passed in,
+   * based on coordinates, and a player type.
+   */
   public boolean isValidMove(int x, int y, PlayerType playerType) {
     // Convert (x, y) to (q, r) representation
     if (x > this.getBoardSize()/2 || y > this.getBoardSize()/2
@@ -157,26 +175,53 @@ public class Board {
     return false;
   }
 
+  /**
+   * Determines is a valid coordinate was passed in
+   * based on rows and columns.
+   */
   public boolean isValidCoordinate(int q, int r) {
-    return q >= 0 && q < this.getBoardSize() && r >= 0 && r < this.getBoardSize();
+    return q >= 0 && q < this.getBoardSize()
+            && r >= 0 && r < this.getBoardSize();
   }
 
+  /**
+   * Places a certain piece in the board, based on
+   * row and column, and playerType.
+   */
   public void placePiece(int q, int r, PlayerType type) {
     this.getCurrentHex(r, q).setPlayerType(type);
   }
 
+  /**
+   * Returns the size of a board.
+   */
   public int getBoardSize() {
     return BOARD_SIZE;
   }
 
+  /**
+   * Determines whether a game is over
+   * based on if the board is full, or if both
+   * players have skipped their turn.
+   */
   public boolean isGameOver() {
     return isBoardFull() || bothPlayersPassed() || isPlayerTrapped(PlayerType.WHITE) || isPlayerTrapped(PlayerType.BLACK);
   }
 
+  /**
+   * Determines if both players have skipped their turns.
+   */
   private boolean bothPlayersPassed() {
-    return whitePassed && blackPassed;
+    boolean b = false;
+    if (whitePassed == true && blackPassed == true) {
+      b = true;
+    }
+    return b;
   }
 
+  /**
+   * Determines whether a player is trapped, and has no valid next move.
+   */
   private boolean isPlayerTrapped(PlayerType player) {
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < BOARD_SIZE; j++) {
@@ -191,6 +236,10 @@ public class Board {
     return true;
   }
 
+  /**
+   * Determines if a board is completely full,
+   * causing the game to be over.
+   */
   public boolean isBoardFull() {
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < BOARD_SIZE; j++) {
@@ -203,7 +252,9 @@ public class Board {
     return true;
   }
 
-
+  /**
+   * Counts the amount of pieces that exist in a board.
+   */
   public int countPieces(PlayerType type) {
     int count = 0;
     for (int i = 0; i < BOARD_SIZE; i++) {

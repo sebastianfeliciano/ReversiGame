@@ -1,7 +1,9 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+import controller.Player;
 import controller.PlayerType;
+import model.Board;
 import view.TextualController;
 
 public class examplePlayerTests {
@@ -26,5 +28,104 @@ public class examplePlayerTests {
             new TextualController(null));
   }
 
+  /**
+   * Tests that the textual controller returns the correct names of players.
+   */
+  @Test
+  public void testGetName() {
+    Board firstBoard = new Board();
+    Player one = new Player("Sebastian", PlayerType.BLACK, firstBoard);
+    Player two = new Player("Christian", PlayerType.WHITE, firstBoard);
+    Assert.assertEquals(one.getName(), "Sebastian");
+    Assert.assertEquals(two.getName(), "Christian");
+  }
 
+
+  /**
+   * Tests that the textual controller returns the correct types of players.
+   */
+  @Test
+  public void testGetType() {
+    Board firstBoard = new Board();
+    Player one = new Player("Sebastian", PlayerType.BLACK, firstBoard);
+    Player two = new Player("Christian", PlayerType.WHITE, firstBoard);
+    Assert.assertEquals(one.getType(), PlayerType.BLACK);
+    Assert.assertEquals(two.getType(), PlayerType.WHITE);
+  }
+
+  /**
+   * Tests that the textual controller returns if the player has passed or not.
+   */
+  @Test
+  public void hasPassed() {
+    Board firstBoard = new Board();
+    Player one = new Player("Sebastian", PlayerType.BLACK, firstBoard);
+    Player two = new Player("Christian", PlayerType.WHITE, firstBoard);
+  }
+
+  /**
+   * Tests that the textual controller returns that the player has passed.
+   */
+  @Test
+  public void setHasPassed() {
+    Board firstBoard = new Board();
+    Player one = new Player("Sebastian", PlayerType.BLACK, firstBoard);
+    Player two = new Player("Christian", PlayerType.WHITE, firstBoard);
+  }
+
+  /**
+   * Tests that a key is correctly placed in the board.
+   */
+  @Test
+  public void testPlaceKey() {
+    Board firstBoard = new Board(7);
+    Player one = new Player("Sebastian", PlayerType.WHITE, firstBoard);
+    Player two = new Player("Christian", PlayerType.BLACK, firstBoard);
+    Assert.assertEquals(firstBoard.getCurrentHex(2, 2).getPlayerType(),
+            PlayerType.EMPTY);
+    one.placeKey(-1,-1);
+    Assert.assertEquals(firstBoard.getCurrentHex(2, 2).getPlayerType(),
+            PlayerType.WHITE);
+  }
+
+
+  /**
+   * Tests that an invalid key is placed in the board.
+   */
+  @Test
+  public void testInValidPlaceKey() {
+    Board firstBoard = new Board(7);
+    Player one = new Player("Sebastian", PlayerType.WHITE, firstBoard);
+    Player two = new Player("Christian", PlayerType.BLACK, firstBoard);
+    Assert.assertThrows(IllegalArgumentException.class, () -> one.placeKey(-7, -7));
+  }
+
+  /**
+   * Tests that a key is correctly seeing that a player has skipped their turn.
+   */
+  @Test
+  public void testSetHasPassed() {
+    Board firstBoard = new Board(7);
+    Player one = new Player("Sebastian", PlayerType.WHITE, firstBoard);
+    Player two = new Player("Christian", PlayerType.BLACK, firstBoard);
+    Assert.assertFalse(one.hasPassed());
+    Assert.assertFalse(two.hasPassed());
+
+    one.setHasPassed(true);
+    two.setHasPassed(true);
+    Assert.assertTrue(one.hasPassed());
+    Assert.assertTrue(two.hasPassed());
+  }
+
+  /**
+   * Tests that when a player skips their turn, the board stays the same.
+   */
+  @Test
+  public void testHasPassedInitalState() {
+    Board firstBoard = new Board(7);
+    Player one = new Player("Sebastian", PlayerType.WHITE, firstBoard);
+    Player two = new Player("Christian", PlayerType.BLACK, firstBoard);
+    Assert.assertFalse(one.hasPassed());
+    Assert.assertFalse(two.hasPassed());
+  }
 }

@@ -13,7 +13,6 @@ import view.TextualController;
 
 public final class Main {
   public static void main(String[] args) {
-
     Scanner scanner = new Scanner(System.in);
     System.out.println("Welcome to REVERSI!");
     System.out.println("What size board would you like (0 for default)?");
@@ -64,7 +63,6 @@ public final class Main {
         type = PlayerType.BLACK;
       }
       players.add(new Player(playerName, type, currentBoard));
-      //System.out.println("controller.Player " + (i + 1) + ": " + players.get(i).getName());
     }
     if (numberOfPlayers == 1) {
       players.add(new Player("Computer", PlayerType.BLACK, currentBoard));
@@ -108,8 +106,7 @@ public final class Main {
                 if (playerInput.equalsIgnoreCase("pass")) {
                   player.setHasPassed(true);
                   validMoveMade = true;
-                }
-                else {
+                } else {
                   String[] split = playerInput.split(",");
                   int firstCoordinate = Integer.parseInt(split[0]);
                   int secondCoordinate = Integer.parseInt(split[1]);
@@ -130,8 +127,7 @@ public final class Main {
                 System.out.println(e.getMessage());
               }
             }
-          }
-        else {
+          } else {
             System.out.println(player.getName() + " has passed their turn.");
           }
         }
@@ -155,9 +151,8 @@ public final class Main {
         }
         break;
       }
-
     }
   }
-  }
+}
 
 

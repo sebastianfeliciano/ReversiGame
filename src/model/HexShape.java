@@ -16,6 +16,11 @@ public class HexShape {
   private final int s;
   protected PlayerType currentPlayerType;
 
+  /**
+   * Constructor for creating a certain cell in a board.
+   * Throws an IllegalArgumentException when a certain coordinate does not
+   * exist in the board.
+   */
   public HexShape(int rowY, int columnQ, PlayerType currentPlayerType) {
     this.column = columnQ;
     this.row = rowY;
@@ -27,9 +32,12 @@ public class HexShape {
     }
   }
 
-
+  /**
+   * Returns the current player type.
+   * Returns an empty player if the current player type is null.
+   */
   public PlayerType getPlayerType() {
-    if (this.currentPlayerType == null){
+    if (this.currentPlayerType == null) {
       return PlayerType.EMPTY;
     }
     else {
@@ -37,24 +45,39 @@ public class HexShape {
     }
   }
 
+  /**
+   * Returns the hashcode of a certain row and column.
+   */
   @Override
   public int hashCode() {
     return Objects.hash(this.column, this.row);
   }
 
-  //Method that will help for testing
+  /**
+   * Method that will help for testing.
+   */
   public String getColumn() {
     return String.valueOf(this.column);
   }
 
+
+  /**
+   * Returns the row value.
+   */
   public String getRow() {
     return String.valueOf(this.row);
   }
 
+  /**
+   * Returns the value of the s-coordinate.
+   */
   public String getSValue() {
     return String.valueOf(this.s);
   }
 
+  /**
+   * Sets the current player type.
+   */
   public PlayerType setPlayerType(PlayerType type) {
     return this.currentPlayerType = type;
   }

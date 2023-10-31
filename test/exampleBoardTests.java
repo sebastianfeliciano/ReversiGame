@@ -11,7 +11,6 @@ public class exampleBoardTests {
 
   Board board = new Board(11);
 
-
   /**
    * Tests a Board that is given an even number which
    * should not work.
@@ -44,47 +43,21 @@ public class exampleBoardTests {
     Assert.assertEquals(middle.getRow(), middleRepresentation.getRow());
     Assert.assertEquals(middle.getColumn(), middleRepresentation.getColumn());
 
-//    //Middle Hexagon on the 2DArray
-//    HexShape bottomLeft = regularBoard.getCurrentHex(6, 0);
-//    //Coordinates Assigned to it
-//    HexShape btmLeftRep = new HexShape(-3, -3, null);
-//    Assert.assertEquals(bottomLeft.getRow(), btmLeftRep.getRow());
-//    Assert.assertEquals(bottomLeft.getColumn(), btmLeftRep.getColumn());
-//
-//
-//    HexShape topRightHex = regularBoard.getTopRightHex();
-//    //Coordinates Assigned to it based on the textView
-//    HexShape topRightRepresentation = new HexShape(-3, 3, null);
-//    System.out.println("Expected Row: " + topRightRepresentation.getRow() + ", Expected Column: " + topRightRepresentation.getColumn());
-//    String row = topRightHex.getRow();
-//    String column = topRightHex.getColumn();
-//
-//    System.out.println("Expected Row: " + topRightHex.getRow() + ", Expected Column: " + topRightHex.getColumn());
-//
-//    Point topRightPos = regularBoard.getTopRightHexPosition();
-//    System.out.println("Top Right Hex Row: " + topRightPos.y);
-//    System.out.println("Top Right Hex Column: " + topRightPos.x);
 
-    HexShape nextBottomLeftOnRight = regularBoard.getCurrentHex(3, 4);
-    HexShape nextToBottomLeftOnRightRep = new HexShape(0, 1, null);
-    Assert.assertEquals(nextBottomLeftOnRight.getRow(), nextToBottomLeftOnRightRep.getRow());
-    Assert.assertEquals(nextBottomLeftOnRight.getColumn(), nextToBottomLeftOnRightRep.getColumn());
+    HexShape bottomLeft = regularBoard.getCurrentHex(6, 0);
+    HexShape btmLeftRep = new HexShape(3, -3, null);
+    Assert.assertEquals(bottomLeft.getRow(), btmLeftRep.getRow());
+    Assert.assertEquals(bottomLeft.getColumn(), btmLeftRep.getColumn());
 
+    HexShape topRightHex = regularBoard.getCurrentHex(0, 6);
+    HexShape topRightRepresentation = new HexShape(-3, 3, null);
+    Assert.assertEquals(topRightHex.getRow(), topRightRepresentation.getRow());
+    Assert.assertEquals(topRightHex.getColumn(), topRightRepresentation.getColumn());
 
-    HexShape mostBottomRight = regularBoard.getCurrentHex(6, 3);
-    //mostBottomRight(3, 0)
-
-    //0, 3
-    System.out.println("Y:" + mostBottomRight.getRow());
-    System.out.println("X:" + mostBottomRight.getColumn());
-
-    HexShape topRight = regularBoard.getCurrentHex(0, 6);
-    //mostBottomRight(3, 0)
-
-    //0, 3
-    System.out.print("X:" + topRight.getColumn());
-    System.out.print("Y:" + topRight.getRow());
-
+    HexShape rightMiddle = regularBoard.getCurrentHex(3, 4);
+    HexShape rightMiddleRep = new HexShape(0, 1, null);
+    Assert.assertEquals(rightMiddle.getRow(), rightMiddleRep.getRow());
+    Assert.assertEquals(rightMiddle.getColumn(), rightMiddleRep.getColumn());
   }
 
 
@@ -124,12 +97,6 @@ public class exampleBoardTests {
     Assert.assertEquals(11, board.getBoardSize());
   }
 
-//  @Test
-//  public void testGetCurrentHex() {
-//    HexShape hex = new HexShape(0,0, PlayerType.EMPTY);
-//    Assert.assertNotNull(hex);
-//  }
-
   /**
    * Tests that a valid coordinate is passed into the game.
    */
@@ -139,13 +106,13 @@ public class exampleBoardTests {
     Assert.assertTrue(board.isValidCoordinate(10, 10));
   }
 
-
   /**
    * Tests that a valid move is passed into the game.
    */
   @Test
   public void testValidMove() {
-    Assert.assertTrue(board.isValidMove(1, -1, PlayerType.WHITE));
+    Board board1 = new Board(11);
+    Assert.assertTrue(board1.isValidMove(-1, -1, PlayerType.WHITE));
   }
 
   /**
@@ -172,10 +139,14 @@ public class exampleBoardTests {
    * is in the game when started.
    */
   @Test
-  public void testCountPieces() {
-    Assert.assertEquals(0, board.countPieces(PlayerType.WHITE));
+  public void testInitialCountPieces() {
+    Assert.assertEquals(3, board.countPieces(PlayerType.WHITE));
+    Assert.assertEquals(3, board.countPieces(PlayerType.BLACK));
   }
 
+  /**
+   * Tests that the count of hex shapes gets correctly updated, when a piece is placed.
+   */
   @Test
   public void testCount() {
     Board board = new Board();
@@ -192,5 +163,47 @@ public class exampleBoardTests {
 
     Assert.assertEquals(4, board.countPieces(PlayerType.WHITE));
     Assert.assertEquals(board.getBoardSize(), 11);
+  }
+
+  @Test
+  public void testFlipPieces() {
+    Board oldBoard = new Board(7);
+    Player player1 = new Player("E", PlayerType.WHITE, oldBoard);
+    Player player2 = new Player("S", PlayerType.BLACK, oldBoard);
+
+    HexShape initialHex = oldBoard.getCurrentHex(3, 2);
+    PlayerType initialType = initialHex.getPlayerType();
+    Assert.assertEquals(PlayerType.EMPTY, initialType);
+
+    player1.placeKey(-1,-1);
+
+    HexShape postFlipHex = oldBoard.getCurrentHex(3, 2);
+    PlayerType postFlipType = postFlipHex.getPlayerType();
+    Assert.assertEquals(PlayerType.WHITE, postFlipType);
+  }
+
+  @Test
+  public void testBothPlayersPassed() {
+    Board board = new Board();
+
+    Player player1 = new Player("e", PlayerType.WHITE, board);
+    Player player2 = new Player("s", PlayerType.BLACK, board);
+    player1.setHasPassed(true);
+    player2.setHasPassed(true);
+    Assert.assertTrue(player1.hasPassed());
+    Assert.assertTrue(player2.hasPassed());
+  }
+
+  @Test
+  public void testTrapped() {
+    Board board = new Board();
+
+    HexShape hex = new HexShape(0,0, null);
+    hex.setPlayerType(PlayerType.EMPTY);
+
+    Player player1 = new Player("e", PlayerType.WHITE, board);
+    Player player2 = new Player("s", PlayerType.BLACK, board);
+    Assert.assertFalse(board.isBoardFull());
+
   }
 }

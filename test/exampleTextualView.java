@@ -9,7 +9,6 @@ import view.TextualController;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.io.StringReader;
 
 public class exampleTextualView {
 

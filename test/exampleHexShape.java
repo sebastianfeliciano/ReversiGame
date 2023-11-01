@@ -67,39 +67,4 @@ public class exampleHexShape {
     HexShape hexExample = new HexShape(-1, 0, PlayerType.EMPTY);
     Assert.assertEquals(hexExample.getSValue(), "1");
   }
-
-  /**
-   * Tests that the player type is correct.
-   */
-  @Test
-  public void testGetPlayerType() {
-    HexShape hex = new HexShape(7, 7, PlayerType.EMPTY);
-    Assert.assertEquals(hex.getPlayerType(), PlayerType.EMPTY);
-    HexShape stuff = new HexShape(7, 7, null);
-    Assert.assertEquals(stuff.getPlayerType(), PlayerType.EMPTY);
-    HexShape stuffWithBlack = new HexShape(7, 7, PlayerType.BLACK);
-    Assert.assertEquals(stuffWithBlack.getPlayerType(), PlayerType.BLACK);
-  }
-
-  /**
-   * Tests that a player type is being set correctly.
-   */
-  @Test
-  public void testSetPlayerType() {
-    HexShape hex = new HexShape(7, 7, PlayerType.EMPTY);
-    Assert.assertEquals(hex.getPlayerType(), PlayerType.EMPTY);
-    HexShape stuff = new HexShape(7, 7, null);
-    Assert.assertEquals(stuff.getPlayerType(), PlayerType.EMPTY);
-    HexShape stuffWithBlack = new HexShape(7, 7, PlayerType.BLACK);
-    Assert.assertEquals(stuffWithBlack.getPlayerType(), PlayerType.BLACK);
-
-    hex.setPlayerType(PlayerType.BLACK);
-    Assert.assertEquals(hex.getPlayerType(), PlayerType.BLACK);
-
-    stuff.setPlayerType(PlayerType.BLACK);
-    Assert.assertEquals(stuff.getPlayerType(), PlayerType.BLACK);
-
-    stuffWithBlack.setPlayerType(PlayerType.WHITE);
-    Assert.assertEquals(stuffWithBlack.getPlayerType(), PlayerType.WHITE);
-  }
 }

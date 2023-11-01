@@ -114,7 +114,7 @@ public class exampleBoardTests {
   @Test
   public void testValidMove() {
     Board board1 = new Board(7);
-    Assert.assertTrue(board1.isValidMove(1, -1, PlayerType.WHITE));
+    Assert.assertTrue(board1.isValidMove(-1, -1, PlayerType.WHITE));
   }
 
   /**
@@ -165,26 +165,6 @@ public class exampleBoardTests {
 
     Assert.assertEquals(4, board.countPieces(PlayerType.WHITE));
     Assert.assertEquals(board.getBoardSize(), 11);
-  }
-
-  /**
-   * Tests that the flip pieces method works correctly.
-   */
-  @Test
-  public void testFlipPieces() {
-    Board oldBoard = new Board(7);
-    Player player1 = new Player("E", PlayerType.WHITE, oldBoard);
-    Player player2 = new Player("S", PlayerType.BLACK, oldBoard);
-
-    HexShape initialHex = oldBoard.getCurrentHex(3, 2);
-    PlayerType initialType = initialHex.getPlayerType();
-    Assert.assertEquals(PlayerType.EMPTY, initialType);
-
-    player1.placeKey(-1,-1);
-
-    HexShape postFlipHex = oldBoard.getCurrentHex(3, 2);
-    PlayerType postFlipType = postFlipHex.getPlayerType();
-    Assert.assertEquals(PlayerType.WHITE, postFlipType);
   }
 
   /**

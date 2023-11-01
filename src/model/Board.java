@@ -29,7 +29,7 @@ public class Board {
    * because a valid hexagon cannot be created from either value.
    */
   public Board(int sizeOfBoard) {
-    if (sizeOfBoard < 5 || (sizeOfBoard % 2 == 0)) {
+    if (sizeOfBoard < 7 || (sizeOfBoard % 2 == 0)) {
       throw new IllegalStateException("The game must be a minimum of size 5 and cannot be even!");
     }
 
@@ -63,7 +63,6 @@ public class Board {
     this.getCurrentHex(this.BOARD_SIZE / 2 - 1, this.BOARD_SIZE / 2 + 1).setPlayerType(PlayerType.WHITE);
 
   }
-
 
   /**
    * Returns the current hex shape based on row and column.
@@ -100,7 +99,7 @@ public class Board {
       int nextQ = x + dir.getQMove();
       int nextR = y + dir.getRMove();
 
-      HexShape currentHex = this.getCurrentHex(nextQ, nextR);
+      HexShape currentHex = this.getCurrentHex(nextR, nextQ);
       if (currentHex == null) {
         continue;
       }
@@ -118,22 +117,20 @@ public class Board {
         nextR += dir.getRMove();
 
         currentHex = this.getCurrentHex(nextQ, nextR);
-        if(currentHex == null) {
+        if (currentHex == null) {
           break;
         }
 
         hexPlayer = currentHex.getPlayerType();
-        if(hexPlayer == null) {
+        if (hexPlayer == null) {
           break;
         }
       }
 
-      if (isValidCoordinate(nextQ, nextR) && hexPlayer.equals(currentPlayer)) {
+      if (isValidCoordinate(nextQ, nextR)) {
+        assert hexPlayer != null;
         for (HexShape piece : piecesToFlip) {
           piece.setPlayerType(currentPlayer);
-          int countOfPiecesToFlip = piecesToFlip.size();
-          System.out.println("Number of Pieces that have to be flipped: "+countOfPiecesToFlip);
-          System.out.println(piece.getPlayerType().toString());
         }
       }
     }
@@ -188,8 +185,7 @@ public class Board {
    * based on rows and columns.
    */
   public boolean isValidCoordinate(int q, int r) {
-    return q >= 0 && q < this.getBoardSize()
-            && r >= 0 && r < this.getBoardSize();
+    return q >= 0 && q < this.getBoardSize() && r >= 0 && r < this.getBoardSize();
   }
 
   /**
@@ -198,13 +194,26 @@ public class Board {
    */
   public void placePiece(int q, int r, PlayerType type) {
     this.getCurrentHex(r, q).setPlayerType(type);
+    whitePassed = false;
+    blackPassed = false;
+  }
+
+  /**
+   * Changes the state of each player if they passed or not.
+   */
+  public void playerPassed(PlayerType playerType) {
+    if (playerType == PlayerType.WHITE) {
+      whitePassed = true;
+    } else if (playerType == PlayerType.BLACK) {
+      blackPassed = true;
+    }
   }
 
   /**
    * Returns the size of a board.
    */
   public int getBoardSize() {
-    return BOARD_SIZE;
+    return this.BOARD_SIZE;
   }
 
   /**
@@ -213,18 +222,14 @@ public class Board {
    * players have skipped their turn.
    */
   public boolean isGameOver() {
-    return isBoardFull() || bothPlayersPassed() || isPlayerTrapped(PlayerType.WHITE) || isPlayerTrapped(PlayerType.BLACK);
+    return (isBoardFull() || bothPlayersPassed() || isPlayerTrapped(PlayerType.WHITE) || isPlayerTrapped(PlayerType.BLACK));
   }
 
   /**
    * Determines if both players have skipped their turns.
    */
   private boolean bothPlayersPassed() {
-    boolean b = false;
-    if (whitePassed == true && blackPassed == true) {
-      b = true;
-    }
-    return b;
+    return whitePassed && blackPassed;
   }
 
   /**
@@ -236,12 +241,12 @@ public class Board {
         HexShape hex = cellsThatMakeTheBoard[i][j];
         if (hex != null && hex.getPlayerType() == player) {
           if (isValidMove(i - BOARD_SIZE / 2, j - BOARD_SIZE / 2, player)) {
-            return false;
+            return true;
           }
         }
       }
     }
-    return true;
+    return false;
   }
 
   /**
@@ -252,7 +257,10 @@ public class Board {
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < BOARD_SIZE; j++) {
         HexShape hex = getCurrentHex(i, j);
-        if (hex == null || hex.getPlayerType() == null || hex.getPlayerType() == PlayerType.EMPTY) {
+        if (hex == null) {
+          continue;
+        }
+        if (hex.getPlayerType() == null || hex.getPlayerType() == PlayerType.EMPTY) {
           return false;
         }
       }
@@ -273,5 +281,17 @@ public class Board {
       }
     }
     return count;
+  }
+
+  /**
+   * Checks whether a player has passed their turn.
+   */
+  public boolean hasPlayerPassed(PlayerType type) {
+    if (type == PlayerType.WHITE) {
+      return whitePassed;
+    } else if (type == PlayerType.BLACK) {
+      return blackPassed;
+    }
+    return false;
   }
 }

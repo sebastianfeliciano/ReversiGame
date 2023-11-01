@@ -37,7 +37,7 @@ public class HexShape {
    * Returns an empty player if the current player type is null.
    */
   public PlayerType getPlayerType() {
-    if (this.currentPlayerType == null) {
+    if (this.currentPlayerType == null){
       return PlayerType.EMPTY;
     }
     else {
@@ -59,7 +59,6 @@ public class HexShape {
   public String getColumn() {
     return String.valueOf(this.column);
   }
-
 
   /**
    * Returns the row value.

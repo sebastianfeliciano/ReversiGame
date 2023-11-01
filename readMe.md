@@ -41,6 +41,8 @@ MAIN
   - The user is greeted and prompted to choose a board size
   - If the user selects the default size (7), a default-size board of 11 is created.
   - Valid coordinates :
+    - negative x is left, and negative y is up
+    - a sample game that we ran was -1,-1 -> pass -> -2,1
     - q and r are non-negative, and less than the board size, ensuring it's not to the left of the board, above/below the board
     - q / r ranges from -BoardSize / 2 to BoardSize / 2
   

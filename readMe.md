@@ -39,7 +39,11 @@ MAIN
 - 
 - Board Initialization: 
   - The user is greeted and prompted to choose a board size
+<<<<<<< HEAD
   - If the user selects the default size (7), a default-size board of 7 is created.
+=======
+  - If the user selects the default size (7), a default-size board of 11 is created.
+>>>>>>> main
   - Valid coordinates :
     - q and r are non-negative, and less than the board size, ensuring it's not to the left of the board, above/below the board
     - q / r ranges from -BoardSize / 2 to BoardSize / 2

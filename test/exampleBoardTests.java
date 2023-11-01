@@ -113,7 +113,11 @@ public class exampleBoardTests {
   @Test
   public void testValidMove() {
     Board board1 = new Board(7);
+<<<<<<< HEAD
     Assert.assertTrue(board1.isValidMove(-1, -1, PlayerType.WHITE));
+=======
+    Assert.assertTrue(board1.isValidMove(1, -1, PlayerType.WHITE));
+>>>>>>> main
   }
 
   /**

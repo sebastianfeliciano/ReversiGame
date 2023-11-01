@@ -132,6 +132,7 @@ public final class Main {
           }
         }
       }
+    }
 
       if (currentBoard.isGameOver()) {
         System.out.println("The game is over!");
@@ -149,10 +150,14 @@ public final class Main {
         } else {
           System.out.println("It's a tie!");
         }
-        break;
       }
     }
+<<<<<<< HEAD
   }
 }
+=======
+
+  }
+>>>>>>> main
 
 

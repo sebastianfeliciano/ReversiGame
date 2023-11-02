@@ -1,0 +1,10 @@
+package model;
+
+import controller.PlayerType;
+
+public interface BoardModel extends ReadOnlyBoardModel {
+    void flipPieces(int x, int y, PlayerType currentPlayer);
+
+    void playerPassed(PlayerType playerType);
+
+}

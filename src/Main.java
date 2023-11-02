@@ -10,7 +10,13 @@ import controller.PlayerType;
 import model.Board;
 import view.TextualController;
 
+/**
+ * Main entry point for players to play Reversi.
+ */
 public final class Main {
+  /**
+   * Main userInputs points for players to play Reversi.
+   */
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
     System.out.println("Welcome to REVERSI!");
@@ -37,7 +43,8 @@ public final class Main {
     scanner.nextLine();
 
     if (numberOfPlayers <= 0 || numberOfPlayers > 2) {
-      throw new IllegalArgumentException("The Number of Players Must be either 1 or 2 to play this game");
+      throw new IllegalArgumentException("The Number of " +
+              "Players Must be either 1 or 2 to play this game");
     }
 
     List<Player> players = new ArrayList<>();
@@ -86,10 +93,12 @@ public final class Main {
             continue;
           }
 
-          System.out.println(player.getName() + "'s Turn \uD83D\uDE08 (" + player.getType().toString() + ")");
+          System.out.println(player.getName() + "'s Turn \uD83D\uDE08 ("
+                  + player.getType().toString() + ")");
 
           while (!validMoveMade) {
-            System.out.println("Enter your move (e.g., x,y coordinates), or 'pass' to skip your turn:");
+            System.out.println("Enter your move (e.g., x,y coordinates), or " +
+                    "'pass' to skip your turn:");
 
             try {
               String playerInput = scanner.nextLine().trim();
@@ -119,7 +128,8 @@ public final class Main {
           }
         }
 
-        if (currentBoard.hasPlayerPassed(PlayerType.WHITE) && currentBoard.hasPlayerPassed(PlayerType.BLACK)) {
+        if (currentBoard.hasPlayerPassed(PlayerType.WHITE)
+                && currentBoard.hasPlayerPassed(PlayerType.BLACK)) {
           System.out.println("Both players have passed consecutively. Ending game.");
           isGameOver = true;
           break;

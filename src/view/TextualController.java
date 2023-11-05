@@ -1,11 +1,14 @@
 package view;
 
 import java.io.IOException;
-import java.util.Arrays;
 
-import controller.PlayerType;
 import model.Board;
 import model.HexShape;
+
+/**
+ * The Textual Controller tracks and exports the board to the user so that
+ * they can interact with it.
+ */
 
 public class TextualController implements ReversiTextualView {
     private final Board board;
@@ -51,11 +54,8 @@ public class TextualController implements ReversiTextualView {
     @Override
     public String toString() {
         StringBuilder stringMaker = new StringBuilder();
-
-
         int sizeOfEntireBoard = board.getBoardSize();
         int midPoint = sizeOfEntireBoard / 2;
-
 
         for (int currentRow = 0; currentRow < sizeOfEntireBoard; currentRow++) {
             int numOfHexagons;
@@ -71,30 +71,19 @@ public class TextualController implements ReversiTextualView {
             for (int s = 0; s < spacesBefore; s++) {
                 stringMaker.append(' ');
             }
-
             for (int h = 0; h < numOfHexagons; h++) {
                 HexShape currentHexagon;
                 if (currentRow <= midPoint) {
                     currentHexagon = board.getCurrentHex(currentRow, spacesBefore + h);
-                    System.out.print(currentHexagon.getRow() + ",");
-                    System.out.println(currentHexagon.getColumn());
-                    System.out.println(currentHexagon.getPlayerType().toString());
-
                 } else {
                     currentHexagon = board.getCurrentHex(currentRow, h);
-                    System.out.print(currentHexagon.getRow() + ",");
-                    System.out.println(currentHexagon.getColumn());
-                    System.out.println(currentHexagon.getPlayerType().toString());
                 }
-
                 String currentPlayerInTheHexagon = currentHexagon.getPlayerType().toString();
                 stringMaker.append(currentPlayerInTheHexagon).append(' ');
             }
-
             stringMaker.append('\n');
         }
 
         return stringMaker.toString();
     }
-
 }

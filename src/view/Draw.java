@@ -36,13 +36,13 @@ public class Draw extends JPanel {
             hexagon.addPoint(x, y);
         }
 
-        if (playerType == PlayerType.BLACK) {
-            g.setColor(Color.BLACK);
-        } else if (playerType == PlayerType.WHITE) {
-            g.setColor(Color.WHITE);
-        } else {
+//        if (playerType == PlayerType.BLACK) {
+//            g.setColor(Color.BLACK);
+//        } else if (playerType == PlayerType.WHITE) {
+//            g.setColor(Color.WHITE);
+//        } else {
             g.setColor(Color.GRAY);
-        }
+
 
         g.fillPolygon(hexagon);
 
@@ -50,6 +50,26 @@ public class Draw extends JPanel {
         g.drawPolygon(hexagon);
     }
 
+
+    private void drawCircleInHex(Graphics g, int centerX, int centerY, int hexSize, PlayerType playerType) {
+        int radius = hexSize / 2;
+
+        Color color;
+        switch (playerType) {
+            case BLACK:
+                color = Color.BLACK;
+                break;
+            case WHITE:
+                color = Color.WHITE;
+                break;
+            default:
+                color = Color.GRAY;
+                break;
+        }
+
+        g.setColor(color);
+        g.fillOval(centerX - radius, centerY - radius, 2 * radius, 2 * radius);
+    }
 
     public void drawBoard(Graphics g, Board board) {
         int hexSize = 30;
@@ -71,7 +91,11 @@ public class Draw extends JPanel {
                         centerY += hexHeight / 2;
                     }
 
+
                     drawHexagon(g, centerX, centerY, hexSize, hexShape.getPlayerType());
+
+                    drawCircleInHex(g, centerX, centerY, hexSize, hexShape.getPlayerType());
+
                 }
             }
         }

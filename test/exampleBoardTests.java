@@ -15,7 +15,6 @@ public class exampleBoardTests {
    * Tests a Board that is given an even number which
    * should not work.
    */
-
   @Test
   public void testingEvenBoardInvalid() {
     Assert.assertThrows(IllegalStateException.class, () -> new Board(12));
@@ -85,9 +84,7 @@ public class exampleBoardTests {
                     "   _ _ _ _ _ _ _ _ \n" +
                     "    _ _ _ _ _ _ _ \n" +
                     "     _ _ _ _ _ _ \n");
-
   }
-
 
   /**
    * Tests that the board constructor is not null,
@@ -304,7 +301,7 @@ public class exampleBoardTests {
       for (HexShape[] row : board1.cellsThatMakeTheBoard) {
 
         for (HexShape hexShape : row) {
-          if (hexShape == null){
+          if (hexShape == null) {
             continue;
           }
           hexShape.setPlayerType(PlayerType.WHITE);
@@ -312,4 +309,66 @@ public class exampleBoardTests {
       }
       Assert.assertTrue(board1.isBoardFull());
     }
-}
+
+  /**
+   * Tests that the score of a game correctly updates.
+   */
+  @Test
+    public void testGetScore() {
+      Board board = new Board();
+      Assert.assertEquals(
+              "Checking that the starting number of white pieces is 3",
+              board.getScoreWhite(board), 3);
+
+      Assert.assertEquals(
+              "Checking that the starting number of black pieces is 3",
+              board.getScoreBlack(board), 3);
+
+      Player player1 = new Player("S", PlayerType.WHITE, board);
+      Player player2 = new Player("E", PlayerType.WHITE, board);
+      PlayerType playerOneType = PlayerType.BLACK; // Assuming Player One is BLACK
+      PlayerType playerTwoType = PlayerType.WHITE; // Assuming Player Two is WHITE
+
+      Assert.assertEquals(playerOneType.name(), "BLACK");
+      Assert.assertEquals(playerTwoType.name(), "WHITE");
+
+
+      player1.placeKey(-1, -1); // Player One places piece at (-1,-1)
+      player2.hasPassed();       // Player Two passes
+      player1.placeKey(-2, 1);  // Player One places piece at (-2,1)
+
+      Assert.assertEquals(6, board.getScoreWhite(board));
+      Assert.assertEquals(2, board.getScoreBlack(board));
+  }
+
+    @Test
+    public void testCopy() {
+      Board original = new Board(7);
+      original.placePiece(3, 3, PlayerType.BLACK);
+      original.placePiece(4, 4, PlayerType.WHITE);
+      original.playerPassed(PlayerType.WHITE);
+      original.playerPassed(PlayerType.BLACK);
+
+      Board copied = original.deepCopy();
+
+      Assert.assertNotSame("Copied board should not be the same as original board", original, copied);
+
+      Assert.assertEquals("Board sizes should be equal", original.getBoardSize(), copied.getBoardSize());
+
+      Assert.assertEquals("White passed piece should be copied", original.hasPlayerPassed(PlayerType.WHITE), copied.hasPlayerPassed(PlayerType.WHITE));
+      Assert.assertEquals("Black passed piece should be copied", original.hasPlayerPassed(PlayerType.BLACK), copied.hasPlayerPassed(PlayerType.BLACK));
+
+      for (int i = 0; i < original.getBoardSize(); i++) {
+        for (int j = 0; j < original.getBoardSize(); j++) {
+          HexShape originalHex = original.getCurrentHex(i, j);
+          HexShape copiedHex = copied.getCurrentHex(i, j);
+          if (originalHex != null) {
+            Assert.assertNotNull("Copied HexShape should not be null", copiedHex);
+            Assert.assertEquals("HexShape player types should be equal", originalHex.getPlayerType(), copiedHex.getPlayerType());
+          } else {
+            Assert.assertNull("Copied HexShape should be null", copiedHex);
+          }
+        }
+      }
+    }
+  }

@@ -3,15 +3,16 @@ package view;
 import controller.PlayerType;
 import model.Board;
 import model.HexShape;
+import model.ReadOnlyBoardModel;
 
 import java.awt.*;
 import javax.swing.*;
 
 public class Draw extends JPanel {
 
-    Board board = new Board(11);
+    static Board board = new Board(11);
 
-    public Draw() {
+    public Draw(ReadOnlyBoardModel board) {
         setPreferredSize(new Dimension(650, 650));
         setBackground(Color.darkGray);
     }
@@ -19,9 +20,7 @@ public class Draw extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         drawBoard(g, board);
-
     }
 
     public void drawHexagon(Graphics g, int centerX, int centerY, int size, PlayerType playerType) {
@@ -101,16 +100,11 @@ public class Draw extends JPanel {
         }
     }
 
-
-
     public static void main(String[] args) {
         JFrame frame = new JFrame("Hexagon Drawing");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        frame.add(new Draw());
-
+        frame.add(new Draw(board));
         frame.pack();
-
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

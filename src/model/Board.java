@@ -9,8 +9,8 @@ import java.util.List;
 /**
  * Sets up a board for the controller to use.
  */
-public class Board {
-  public int BOARD_SIZE;  //Default OOD Website Size
+public class Board implements ReadOnlyBoardModel, BoardModel {
+  public int BOARD_SIZE;
   public HexShape[][] cellsThatMakeTheBoard;
   private boolean whitePassed = false;
   private boolean blackPassed = false;
@@ -209,9 +209,27 @@ public class Board {
     }
   }
 
+  @Override
+  public int getScoreWhite(Board board) {
+    if (isGameOver()) {
+      return 0;
+    }
+    return board.countPieces(PlayerType.WHITE);
+  }
+
+  @Override
+  public int getScoreBlack(Board board) {
+    if (isGameOver()) {
+      return 0;
+    }
+    return board.countPieces(PlayerType.BLACK);
+  }
+
+
   /**
    * Returns the size of a board.
    */
+  @Override
   public int getBoardSize() {
     return this.BOARD_SIZE;
   }
@@ -293,5 +311,20 @@ public class Board {
       return blackPassed;
     }
     return false;
+  }
+
+  public Board deepCopy() {
+    Board newBoard = new Board(this.BOARD_SIZE);
+    for (int i = 0; i < BOARD_SIZE; i++) {
+      for (int j = 0; j < BOARD_SIZE; j++) {
+        if (this.cellsThatMakeTheBoard[i][j] != null) {
+          newBoard.cellsThatMakeTheBoard[i][j] = new HexShape(
+                  i, j, this.cellsThatMakeTheBoard[i][j].getPlayerType());
+        }
+      }
+    }
+    newBoard.whitePassed = this.whitePassed;
+    newBoard.blackPassed = this.blackPassed;
+    return newBoard;
   }
 }

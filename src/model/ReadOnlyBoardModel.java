@@ -8,6 +8,11 @@ public interface ReadOnlyBoardModel {
      * - a way to copy the board / score / currentHex
      * - visualizations
      */
+
+    int getScoreWhite(Board board);
+
+    int getScoreBlack(Board board);
+
     int getBoardSize();
 
     boolean isGameOver();

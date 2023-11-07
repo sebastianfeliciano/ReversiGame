@@ -17,38 +17,39 @@ public class Draw extends JPanel {
         setBackground(Color.darkGray);
     }
 
+    public int getWindowWidth() {
+        System.out.println(this.getWidth());
+        return this.getWidth();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawBoard(g, board);
     }
 
-    public void drawHexagon(Graphics g, int centerX, int centerY, int size, PlayerType playerType) {
+    public void drawOutline(Graphics g, int centerX, int centerY, int size, PlayerType playerType, double rotation) {
         int sides = 6;
-
         Polygon hexagon = new Polygon();
 
         for (int i = 0; i < sides; i++) {
-            double angle = 2 * Math.PI / sides * i;
+            double angle = 2 * Math.PI / sides * i + rotation;
             int x = (int) (centerX + size * Math.cos(angle));
             int y = (int) (centerY + size * Math.sin(angle));
             hexagon.addPoint(x, y);
         }
 
-//        if (playerType == PlayerType.BLACK) {
-//            g.setColor(Color.BLACK);
-//        } else if (playerType == PlayerType.WHITE) {
-//            g.setColor(Color.WHITE);
-//        } else {
-            g.setColor(Color.GRAY);
-
-
+        g.setColor(Color.GRAY);
         g.fillPolygon(hexagon);
 
         g.setColor(Color.BLACK);
         g.drawPolygon(hexagon);
     }
 
+    public void drawCoordinates(Graphics g, HexShape hex, int centerX, int centerY) {
+        g.setColor(Color.PINK);
+        g.drawString(hex.getRow() + ", "  + hex.getColumn(), centerX, centerY);
+    }
 
     private void drawCircleInHex(Graphics g, int centerX, int centerY, int hexSize, PlayerType playerType) {
         int radius = hexSize / 2;
@@ -71,7 +72,7 @@ public class Draw extends JPanel {
     }
 
     public void drawBoard(Graphics g, Board board) {
-        int hexSize = 30;
+        int hexSize = getWindowWidth() / 30;
         int boardSize = board.getBoardSize();
         int midPoint = boardSize / 2;
         int hexHeight = (int) (Math.sqrt(3) * hexSize);
@@ -86,15 +87,11 @@ public class Draw extends JPanel {
                     int centerX = startX + col * hexSize * 3 / 2;
                     int centerY = startY + row * hexHeight;
 
-                    if (col % 2 == 0) {
-                        centerY += hexHeight / 2;
-                    }
+                    centerX += hexSize / 2;
 
-
-                    drawHexagon(g, centerX, centerY, hexSize, hexShape.getPlayerType());
-
+                    drawOutline(g, centerX, centerY, hexSize, hexShape.getPlayerType(), Math.PI / 6);
                     drawCircleInHex(g, centerX, centerY, hexSize, hexShape.getPlayerType());
-
+                    drawCoordinates(g, hexShape, centerX - 10, centerY - 4);
                 }
             }
         }

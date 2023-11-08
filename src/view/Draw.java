@@ -18,8 +18,13 @@ public class Draw extends JPanel {
     }
 
     public int getWindowWidth() {
-        System.out.println(this.getWidth());
-        return this.getWidth();
+        System.out.println("Width: " + this.getWidth());
+        if (this.getWidth() > 1110){
+            return 1110;
+        }
+        else {
+            return this.getWidth();
+        }
     }
 
     @Override
@@ -34,12 +39,13 @@ public class Draw extends JPanel {
 
         for (int i = 0; i < sides; i++) {
             double angle = 2 * Math.PI / sides * i + rotation;
+            System.out.println("Angle: "+i+ " Side");
             int x = (int) (centerX + size * Math.cos(angle));
             int y = (int) (centerY + size * Math.sin(angle));
             hexagon.addPoint(x, y);
         }
 
-        g.setColor(Color.GRAY);
+        g.setColor(Color.LIGHT_GRAY);
         g.fillPolygon(hexagon);
 
         g.setColor(Color.BLACK);
@@ -63,7 +69,7 @@ public class Draw extends JPanel {
                 color = Color.WHITE;
                 break;
             default:
-                color = Color.GRAY;
+                color = Color.LIGHT_GRAY;
                 break;
         }
 
@@ -72,7 +78,7 @@ public class Draw extends JPanel {
     }
 
     public void drawBoard(Graphics g, Board board) {
-        int hexSize = (getWindowHeight() * getWindowWidth()) / 20000;
+        int hexSize = (getWindowHeight() * getWindowWidth()) / 25000;
         int sizeOfEntireBoard = board.getBoardSize();
         int midPoint = sizeOfEntireBoard / 2;
 
@@ -93,8 +99,6 @@ public class Draw extends JPanel {
 
             int spacesBefore = (sizeOfEntireBoard - currentHexsMade);
 
-            int offSet = (sizeOfEntireBoard - currentHexsMade) * hexSize * 3/4;
-
             for (int h = 0; h < currentHexsMade; h++) {
                 HexShape currentHex;
                 if (currentRow <= midPoint) {
@@ -102,9 +106,9 @@ public class Draw extends JPanel {
                 } else {
                     currentHex = board.getCurrentHex(currentRow, h);
                 }
+                int offSet = (sizeOfEntireBoard - currentHexsMade) * hexSize;
 
-                int centerX = startX + offSet + h * hexSize * 3 / 2;
-
+                int centerX = startX + offSet + h * hexSize * 7/4;
                 int centerY = startY + currentRow * hexHeight;
 
                 drawOutline(g, centerX, centerY, hexSize, currentHex.getPlayerType(), Math.PI / 6);
@@ -115,7 +119,13 @@ public class Draw extends JPanel {
     }
 
     private int getWindowHeight() {
-        return this.getHeight();
+        System.out.println("Height: " + this.getHeight());
+        if (this.getHeight() > 750){
+            return 750;
+        }
+        else {
+            return this.getHeight();
+        }
     }
 
     public static void main(String[] args) {

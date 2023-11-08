@@ -80,4 +80,18 @@ public class HexShape {
   public PlayerType setPlayerType(PlayerType type) {
     return this.currentPlayerType = type;
   }
+
+
+  public static int hex_length(HexShape hex) {
+    return (Math.abs(hex.column) + Math.abs(hex.row) + Math.abs(hex.s)) / 2;
+  }
+
+  public static int hex_distance(HexShape a, HexShape b) {
+    return hex_length(hex_subtract(a, b));
+  }
+
+  public static HexShape hex_subtract(HexShape a, HexShape b) {
+    return new HexShape(a.column - b.column, a.row - b.row, PlayerType.EMPTY);
+  }
+
 }

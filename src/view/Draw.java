@@ -72,29 +72,50 @@ public class Draw extends JPanel {
     }
 
     public void drawBoard(Graphics g, Board board) {
-        int hexSize = getWindowWidth() / 30;
-        int boardSize = board.getBoardSize();
-        int midPoint = boardSize / 2;
+        int hexSize = (getWindowHeight() * getWindowWidth()) / 20000;
+        int sizeOfEntireBoard = board.getBoardSize();
+        int midPoint = sizeOfEntireBoard / 2;
+
         int hexHeight = (int) (Math.sqrt(3) * hexSize);
 
         int startX = getWidth() / 2 - (midPoint * hexSize * 3 / 2);
-        int startY = getHeight() / 2 - (boardSize * hexHeight / 2);
+        int startY = getHeight() / 2 - (sizeOfEntireBoard * hexHeight / 2);
 
-        for (int row = 0; row < boardSize; row++) {
-            for (int col = 0; col < boardSize; col++) {
-                HexShape hexShape = board.getCurrentHex(row, col);
-                if (hexShape != null) {
-                    int centerX = startX + col * hexSize * 3 / 2;
-                    int centerY = startY + row * hexHeight;
+        for (int currentRow = 0; currentRow < sizeOfEntireBoard; currentRow++) {
+            int currentHexsMade;
 
-                    centerX += hexSize / 2;
+            if (currentRow <= midPoint){
+                currentHexsMade = midPoint + currentRow + 1;
+            }
+            else {
+                currentHexsMade = sizeOfEntireBoard - (currentRow - midPoint);
+            }
 
-                    drawOutline(g, centerX, centerY, hexSize, hexShape.getPlayerType(), Math.PI / 6);
-                    drawCircleInHex(g, centerX, centerY, hexSize, hexShape.getPlayerType());
-                    drawCoordinates(g, hexShape, centerX - 10, centerY - 4);
+            int spacesBefore = (sizeOfEntireBoard - currentHexsMade);
+
+            int offSet = (sizeOfEntireBoard - currentHexsMade) * hexSize * 3/4;
+
+            for (int h = 0; h < currentHexsMade; h++) {
+                HexShape currentHex;
+                if (currentRow <= midPoint) {
+                    currentHex = board.getCurrentHex(currentRow, spacesBefore + h);
+                } else {
+                    currentHex = board.getCurrentHex(currentRow, h);
                 }
+
+                int centerX = startX + offSet + h * hexSize * 3 / 2;
+
+                int centerY = startY + currentRow * hexHeight;
+
+                drawOutline(g, centerX, centerY, hexSize, currentHex.getPlayerType(), Math.PI / 6);
+                drawCircleInHex(g, centerX, centerY, hexSize, currentHex.getPlayerType());
+                drawCoordinates(g, currentHex, centerX - 10, centerY - 4);
             }
         }
+    }
+
+    private int getWindowHeight() {
+        return this.getHeight();
     }
 
     public static void main(String[] args) {

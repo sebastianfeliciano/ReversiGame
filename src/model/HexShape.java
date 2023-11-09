@@ -3,7 +3,7 @@ package model;
 import java.util.Objects;
 
 import controller.PlayerType;
-import view.HexButton;
+import view.PlayerButton;
 
 public class HexShape {
 
@@ -16,7 +16,7 @@ public class HexShape {
   private final int row;
   private final int s;
   protected PlayerType currentPlayerType;
-  private HexButton button;
+  private PlayerButton button;
 
   /**
    * Constructor for creating a certain cell in a board.
@@ -96,7 +96,7 @@ public class HexShape {
     return new HexShape(a.column - b.column, a.row - b.row, PlayerType.EMPTY);
   }
 
-  public void setButton(HexButton hexButton) {
-    this.button = hexButton;
+  public void setButton(PlayerButton playerButton) {
+    this.button = playerButton;
   }
 }

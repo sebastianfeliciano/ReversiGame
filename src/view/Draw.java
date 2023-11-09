@@ -6,6 +6,8 @@ import model.HexShape;
 import model.ReadOnlyBoardModel;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
@@ -16,7 +18,13 @@ public class Draw extends JPanel {
     public Draw(ReadOnlyBoardModel board) {
         setPreferredSize(new Dimension(650, 650));
         setBackground(new Color(this.getWindowWidth()/11, 34, 83));
-
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+             System.out.println(" E X: "+e.getX());
+             System.out.println(" E Y: "+e.getY());
+            }
+        });
     }
 
 
@@ -34,7 +42,7 @@ public class Draw extends JPanel {
         super.paintComponent(g);
         drawBoard(g, board);
     }
-    public void drawHexButton(Graphics g, HexShape hex, int centerX, int centerY, int hexSize, PlayerType playerType) {
+    public void drawEachHexagon(Graphics g, HexShape hex, int centerX, int centerY, int hexSize, PlayerType playerType) {
         int sides = 6;
         Polygon hexagon = new Polygon();
 
@@ -67,29 +75,8 @@ public class Draw extends JPanel {
 
         g.setColor(color);
         g.fillOval(centerX - radius, centerY - radius, 2 * radius, 2 * radius);
-        HexButton button = new HexButton(hex);
-        button.setBounds(centerX - hexSize / 2, centerY - hexSize / 2, hexSize, hexSize);
-        add(button);
     }
 
-
-    public void drawOutline(Graphics g, int centerX, int centerY, int size, PlayerType playerType) {
-        int sides = 6;
-        Polygon hexagon = new Polygon();
-
-        for (int i = 0; i < sides; i++) {
-            double angle = 2 * Math.PI / sides * i + (Math.PI / 6);
-            int x = (int) (centerX + size * Math.cos(angle));
-            int y = (int) (centerY + size * Math.sin(angle));
-            hexagon.addPoint(x, y);
-        }
-
-        g.setColor(Color.LIGHT_GRAY);
-        g.fillPolygon(hexagon);
-
-        g.setColor(Color.BLACK);
-        g.drawPolygon(hexagon);
-    }
 
     public void drawCoordinates(Graphics g, HexShape hex, int centerX, int centerY) {
         g.setColor(Color.PINK);
@@ -98,7 +85,6 @@ public class Draw extends JPanel {
 
     private void drawCircleInHex(Graphics g, int centerX, int centerY, int hexSize, PlayerType playerType) {
         int radius = hexSize / 2;
-
         Color color;
         switch (playerType) {
             case BLACK:
@@ -111,7 +97,6 @@ public class Draw extends JPanel {
                 color = Color.LIGHT_GRAY;
                 break;
         }
-
         g.setColor(color);
         g.fillOval(centerX - radius, centerY - radius, 2 * radius, 2 * radius);
     }
@@ -153,15 +138,12 @@ public class Draw extends JPanel {
                 int centerX = startX + offSet + h * horizontalDistanceBetweenAdjacentHexagonCenters; //Moves the chain from top to bottom left
                 int centerY = (int) Math.round(startY + currentRow * hexHeight); //Moves chain from left to right
 
+                PlayerButton playerButton = new PlayerButton(currentHex);
+                playerButton.setBounds(centerX - hexSize / 2, centerY - hexSize / 2, hexSize, hexSize);
+                //add(playerButton);
+                playerButton.setVisible(true);
 
-                drawOutline(g, centerX, centerY, hexSize, currentHex.getPlayerType());
-
-                HexButton hexButton = new HexButton(currentHex);
-                hexButton.setBounds(centerX - hexSize / 2, centerY - hexSize / 2, hexSize, hexSize);
-                add(hexButton);
-                hexButton.setVisible(true);
-
-                drawHexButton(g, currentHex, centerX, centerY, hexSize, currentHex.getPlayerType());
+                drawEachHexagon(g, currentHex, centerX, centerY, hexSize, currentHex.getPlayerType());
                 drawCircleInHex(g, centerX, centerY, hexSize, currentHex.getPlayerType());
                 drawCoordinates(g, currentHex, centerX - 10, centerY - 4);
             }

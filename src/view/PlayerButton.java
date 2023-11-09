@@ -3,23 +3,23 @@ package view;
 
 import javax.swing.*;
 
-import controller.Player;
 import controller.PlayerType;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import model.Board;
 import model.HexShape;
-import view.Draw;
 
-public class HexButton extends JButton {
+public class PlayerButton extends JButton implements MouseListener {
   private HexShape hex;
   private PlayerType type;
+  private Board b;
 
-  public HexButton(HexShape hex) {
+
+  public PlayerButton(HexShape hex) {
     this.hex = hex;
     hex.setButton(this);
     setBorderPainted(false);
@@ -27,14 +27,9 @@ public class HexButton extends JButton {
     setFocusPainted(false);
     setOpaque(false);
     this.type = PlayerType.EMPTY;
+    Board b1 = this.b;
 
     setPreferredSize(new Dimension(100, 100));
-    addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        System.out.println(hex.getRow() + ", " + hex.getColumn());
-      }
-    });
   }
 
   @Override
@@ -56,5 +51,30 @@ public class HexButton extends JButton {
 
   public void setPlayerType(PlayerType playerType) {
     type = playerType;
+  }
+
+  @Override
+  public void mouseClicked(MouseEvent e) {
+
+  }
+
+  @Override
+  public void mousePressed(MouseEvent e) {
+
+  }
+
+  @Override
+  public void mouseReleased(MouseEvent e) {
+
+  }
+
+  @Override
+  public void mouseEntered(MouseEvent e) {
+
+  }
+
+  @Override
+  public void mouseExited(MouseEvent e) {
+
   }
 }

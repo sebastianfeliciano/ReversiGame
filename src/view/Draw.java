@@ -60,9 +60,6 @@ public class Draw extends JPanel {
             case WHITE:
                 color = Color.WHITE;
                 break;
-//            case BLUE :
-//                color = Color.BLUE;
-//                break;
             default:
                 color = Color.LIGHT_GRAY;
                 break;

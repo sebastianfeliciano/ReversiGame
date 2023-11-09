@@ -62,7 +62,7 @@ public class PlayerButton extends JButton implements MouseListener {
   public void mousePressed(MouseEvent e) {
 
   }
-
+//
   @Override
   public void mouseReleased(MouseEvent e) {
 

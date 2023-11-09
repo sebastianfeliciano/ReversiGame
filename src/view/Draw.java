@@ -6,6 +6,7 @@ import model.HexShape;
 import model.ReadOnlyBoardModel;
 
 import java.awt.*;
+
 import javax.swing.*;
 
 public class Draw extends JPanel {
@@ -14,13 +15,14 @@ public class Draw extends JPanel {
 
     public Draw(ReadOnlyBoardModel board) {
         setPreferredSize(new Dimension(650, 650));
-        setBackground(Color.darkGray);
+        setBackground(new Color(this.getWindowWidth()/11, 34, 83));
+
     }
 
+
     public int getWindowWidth() {
-        System.out.println("Width: " + this.getWidth());
-        if (this.getWidth() > 1110){
-            return 1110;
+        if (this.getWidth() > 650){
+            return 650;
         }
         else {
             return this.getWidth();
@@ -32,14 +34,51 @@ public class Draw extends JPanel {
         super.paintComponent(g);
         drawBoard(g, board);
     }
-
-    public void drawOutline(Graphics g, int centerX, int centerY, int size, PlayerType playerType, double rotation) {
+    public void drawHexButton(Graphics g, HexShape hex, int centerX, int centerY, int hexSize, PlayerType playerType) {
         int sides = 6;
         Polygon hexagon = new Polygon();
 
         for (int i = 0; i < sides; i++) {
-            double angle = 2 * Math.PI / sides * i + rotation;
-            System.out.println("Angle: "+i+ " Side");
+            double angle = 2 * Math.PI / sides * i + Math.PI / 6;
+            int x = (int) (centerX + hexSize * Math.cos(angle));
+            int y = (int) (centerY + hexSize * Math.sin(angle));
+            hexagon.addPoint(x, y);
+        }
+
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillPolygon(hexagon);
+
+        g.setColor(Color.BLACK);
+        g.drawPolygon(hexagon);
+
+        int radius = hexSize / 2;
+        Color color;
+        switch (playerType) {
+            case BLACK:
+                color = Color.BLACK;
+                break;
+            case WHITE:
+                color = Color.WHITE;
+                break;
+            default:
+                color = Color.LIGHT_GRAY;
+                break;
+        }
+
+        g.setColor(color);
+        g.fillOval(centerX - radius, centerY - radius, 2 * radius, 2 * radius);
+        HexButton button = new HexButton(hex);
+        button.setBounds(centerX - hexSize / 2, centerY - hexSize / 2, hexSize, hexSize);
+        add(button);
+    }
+
+
+    public void drawOutline(Graphics g, int centerX, int centerY, int size, PlayerType playerType) {
+        int sides = 6;
+        Polygon hexagon = new Polygon();
+
+        for (int i = 0; i < sides; i++) {
+            double angle = 2 * Math.PI / sides * i + (Math.PI / 6);
             int x = (int) (centerX + size * Math.cos(angle));
             int y = (int) (centerY + size * Math.sin(angle));
             hexagon.addPoint(x, y);
@@ -78,14 +117,17 @@ public class Draw extends JPanel {
     }
 
     public void drawBoard(Graphics g, Board board) {
-        int hexSize = (getWindowHeight() * getWindowWidth()) / 25000;
+        int hexSize = (getWindowHeight() * getWindowWidth()) / 15000;
         int sizeOfEntireBoard = board.getBoardSize();
         int midPoint = sizeOfEntireBoard / 2;
 
-        int hexHeight = (int) (Math.sqrt(3) * hexSize);
+        int horizontalDistanceBetweenAdjacentHexagonCenters = (int) (Math.sqrt(3) * hexSize);
+
+        double hexHeight = 3.0/2 * hexSize;
+        double theVerticalDistance = 3.0/4 * hexHeight;
 
         int startX = getWidth() / 2 - (midPoint * hexSize * 3 / 2);
-        int startY = getHeight() / 2 - (sizeOfEntireBoard * hexHeight / 2);
+        int startY = getHeight() / 2 - (sizeOfEntireBoard * horizontalDistanceBetweenAdjacentHexagonCenters / 2);
 
         for (int currentRow = 0; currentRow < sizeOfEntireBoard; currentRow++) {
             int currentHexsMade;
@@ -106,12 +148,20 @@ public class Draw extends JPanel {
                 } else {
                     currentHex = board.getCurrentHex(currentRow, h);
                 }
-                int offSet = (sizeOfEntireBoard - currentHexsMade) * hexSize;
+                int offSet = (sizeOfEntireBoard - currentHexsMade) * horizontalDistanceBetweenAdjacentHexagonCenters/2;
 
-                int centerX = startX + offSet + h * hexSize * 7/4;
-                int centerY = startY + currentRow * hexHeight;
+                int centerX = startX + offSet + h * horizontalDistanceBetweenAdjacentHexagonCenters; //Moves the chain from top to bottom left
+                int centerY = (int) Math.round(startY + currentRow * hexHeight); //Moves chain from left to right
 
-                drawOutline(g, centerX, centerY, hexSize, currentHex.getPlayerType(), Math.PI / 6);
+
+                drawOutline(g, centerX, centerY, hexSize, currentHex.getPlayerType());
+
+                HexButton hexButton = new HexButton(currentHex);
+                hexButton.setBounds(centerX - hexSize / 2, centerY - hexSize / 2, hexSize, hexSize);
+                add(hexButton);
+                hexButton.setVisible(true);
+
+                drawHexButton(g, currentHex, centerX, centerY, hexSize, currentHex.getPlayerType());
                 drawCircleInHex(g, centerX, centerY, hexSize, currentHex.getPlayerType());
                 drawCoordinates(g, currentHex, centerX - 10, centerY - 4);
             }
@@ -119,9 +169,8 @@ public class Draw extends JPanel {
     }
 
     private int getWindowHeight() {
-        System.out.println("Height: " + this.getHeight());
-        if (this.getHeight() > 750){
-            return 750;
+        if (this.getHeight() > 650){
+            return 650;
         }
         else {
             return this.getHeight();

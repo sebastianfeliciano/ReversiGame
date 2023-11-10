@@ -201,7 +201,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   /**
    * Changes the state of each player if they passed or not.
    */
-  public void playerPassed(PlayerType playerType) {
+  public void playerPass(PlayerType playerType) {
     if (playerType == PlayerType.WHITE) {
       whitePassed = true;
     } else if (playerType == PlayerType.BLACK) {

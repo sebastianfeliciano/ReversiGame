@@ -104,7 +104,7 @@ public final class Main {
               String playerInput = scanner.nextLine().trim();
 
               if (playerInput.equalsIgnoreCase("pass")) {
-                currentBoard.playerPassed(player.getType());
+                currentBoard.playerPass(player.getType());
                 validMoveMade = true;
                 break;
               } else {

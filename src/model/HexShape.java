@@ -1,11 +1,12 @@
 package model;
 
+import java.awt.*;
 import java.util.Objects;
 
 import controller.PlayerType;
 import view.PlayerButton;
 
-public class HexShape {
+public class HexShape extends Polygon {
 
   //The most common approach is to
   // offset every other column or row.

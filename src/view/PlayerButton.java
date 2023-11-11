@@ -37,20 +37,8 @@ public class PlayerButton extends JButton implements MouseListener {
     super.paintComponent(g);
 
   }
-
-//  private Polygon createHexagon(int centerX, int centerY, int size) {
-//    Polygon hexagon = new Polygon();
-//    for (int i = 0; i < 6; i++) {
-//      double angle = Math.PI / 3 * i + Math.PI / 6;
-//      int x = (int) (centerX + size * Math.cos(angle));
-//      int y = (int) (centerY + size * Math.sin(angle));
-//      hexagon.addPoint(x, y);
-//    }
-//    return hexagon;
-//  }
-
   public void setPlayerType(PlayerType playerType) {
-    type = playerType;
+    this.type = playerType;
   }
 
   @Override
@@ -62,7 +50,7 @@ public class PlayerButton extends JButton implements MouseListener {
   public void mousePressed(MouseEvent e) {
 
   }
-//
+
   @Override
   public void mouseReleased(MouseEvent e) {
 

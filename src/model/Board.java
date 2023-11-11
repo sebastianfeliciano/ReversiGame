@@ -1,6 +1,6 @@
 package model;
 
-import controller.Directions;
+import controller.DirectionsEnum;
 import controller.PlayerType;
 
 import java.util.ArrayList;
@@ -90,7 +90,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
       return;
     }
 
-    for (Directions dir : Directions.values()) {
+    for (DirectionsEnum dir : DirectionsEnum.values()) {
       if (dir == null) {
         System.out.println("Direction is null!");
         continue;
@@ -141,13 +141,12 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
    * based on coordinates, and a player type.
    */
   public boolean isValidMove(int x, int y, PlayerType playerType) {
-    // Convert (x, y) to (q, r) representation
     if (x > this.getBoardSize()/2 || y > this.getBoardSize()/2
             || x < -this.getBoardSize()/2 || y < -this.getBoardSize()/2){
       return false;
     }
-    int q = x + this.getBoardSize()/ 2; //Converts it onto the 2D Array Layout
-    int r = y + this.getBoardSize() / 2; //Converts it onto the 2D array
+    int q = x + this.getBoardSize()/ 2;
+    int r = y + this.getBoardSize() / 2;
 
     if (Math.abs(r) >= this.getBoardSize()) {
       return false;
@@ -161,7 +160,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     PlayerType opponent = currentPlayer.nextPlayer();
 
 
-    for (Directions dir : Directions.values()) {
+    for (DirectionsEnum dir : DirectionsEnum.values()) {
       int nextQ = q + dir.getQMove();
       int nextR = r + dir.getRMove();
 
@@ -299,6 +298,10 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
       }
     }
     return count;
+  }
+
+  public int getMidPoint() {
+    return this.getBoardSize() / 2;
   }
 
   /**

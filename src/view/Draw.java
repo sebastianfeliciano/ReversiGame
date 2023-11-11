@@ -17,18 +17,31 @@ public class Draw extends JPanel {
   static Board board = new Board(11);
   public HexShape[][] cellsThatMakeTheBoard;
 
+  Polygon storedHex;
+  boolean isClicked = false;
+  private int clickedRow = 0;
+  private int clickedColumn = 0;
+
   public Draw(ReadOnlyBoardModel board) {
     setPreferredSize(new Dimension(650, 650));
     setBackground(new Color(this.getWindowWidth() / 11, 34, 83));
     addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
-        System.out.println(" E X: " + e.getX());
-        System.out.println(" E Y: " + e.getY());
-        //findHex(e.getX(), e.getY());
-        System.out.println("Hex Object: "+findHex(e.getX(), e.getY()));
-        System.out.print("Hex X: "+ Objects.requireNonNull(findHex(e.getX(), e.getY())).getRow());
-        System.out.print("Hex Y: "+Objects.requireNonNull(findHex(e.getX(), e.getY())).getColumn());
+        try {
+          HexShape clickedHex = findHex(e.getX(), e.getY());
+          if (clickedHex != null) {
+            int clickedRow = Integer.parseInt(clickedHex.getRow());
+            int clickedColumn = Integer.parseInt(clickedHex.getColumn());
+            isClicked = true;
+            repaint();
+          }
 
+          System.out.println("Hex Object: "+findHex(e.getX(), e.getY()));
+          System.out.println(Objects.requireNonNull(findHex(e.getX(), e.getY())).getColumn()+", "+Objects.requireNonNull(findHex(e.getX(), e.getY())).getRow());
+
+          //System.out.println(Objects.requireNonNull(findHex(e.getX(), e.getY())).getPlayerType());
+        } catch (Exception ignored) {
+        }
       }
     });
   }
@@ -42,6 +55,11 @@ public class Draw extends JPanel {
     int startX = getWidth() / 2 - (midPoint * hexSize * 3 / 2);
     int startY = getHeight() / 2 - (sizeOfEntireBoard * horizontalDistanceBetweenAdjacentHexagonCenters / 2);
 
+    System.out.println("Mouse X: " + mouseX + ", Mouse Y: " + mouseY); // Debugging
+    System.out.println("Hex Size: " + hexSize); // Debugging
+    System.out.println("Board Size: " + sizeOfEntireBoard); // Debugging
+
+
     for (int currentRow = 0; currentRow < sizeOfEntireBoard; currentRow++) {
       int currentHexsMade;
       if (currentRow <= midPoint) {
@@ -49,6 +67,8 @@ public class Draw extends JPanel {
       } else {
         currentHexsMade = sizeOfEntireBoard - (currentRow - midPoint);
       }
+
+
 
       int spacesBefore = (sizeOfEntireBoard - currentHexsMade);
 
@@ -65,8 +85,13 @@ public class Draw extends JPanel {
             return board.getCurrentHex(currentRow, h);
           }
         }
+//        System.out.println("Mouse X: " + mouseX + ", Mouse Y: " + mouseY); // Debugging
+//        System.out.println("Hex Size: " + hexSize); // Debugging
+//        System.out.println("Board Size: " + sizeOfEntireBoard); // Debugging
       }
+
     }
+        System.out.println("No Hexagon Found");
     return null;
   }
 
@@ -78,12 +103,12 @@ public class Draw extends JPanel {
     if (xDistance > hexSize * Math.sqrt(3) / 2) {
       return false;
     }
-    if (yDistance > (double) (hexSize * 3) / 2) {
+    if (yDistance > ((double) (hexSize * 3) / 2)/2) {
       return false;
     }
-    if (yDistance > (double) hexSize / 2){
-      return xDistance * Math.sqrt(3) / 3 + (double) hexSize / 2 < yDistance;
-    }
+//    if (yDistance > (double) hexSize / 2){
+//      return xDistance * Math.sqrt(3) / 3 + (double) hexSize / 2 < yDistance;
+//    }
     return true;
   }
 
@@ -100,22 +125,31 @@ public class Draw extends JPanel {
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     drawBoard(g, board);
+
+    if(isClicked) {
+      g.setColor(Color.CYAN);
+      g.fillPolygon(storedHex);
+      isClicked = false;
+    }
+
   }
 
   public void drawEachHexagon(Graphics g, HexShape hex, int centerX, int centerY, int hexSize, PlayerType playerType) {
     int sides = 6;
-    Polygon hexagon = new Polygon();
+    Polygon hexagon = new Polygon(hex);
 
     for (int i = 0; i < sides; i++) {
       double angle = 2 * Math.PI / sides * i + Math.PI / 6;
       int x = (int) (centerX + hexSize * Math.cos(angle));
       int y = (int) (centerY + hexSize * Math.sin(angle));
       hexagon.addPoint(x, y);
-      System.out.println("Hex X " + i + ": " + x);
-      System.out.println("Hex Y: " + y);
     }
 
-    g.setColor(Color.LIGHT_GRAY);
+    if(Integer.parseInt(hex.getRow()) == clickedRow && Integer.parseInt(hex.getColumn()) == clickedColumn) {
+      g.setColor(Color.CYAN);
+    } else {
+      g.setColor(Color.LIGHT_GRAY);
+    }
     g.fillPolygon(hexagon);
 
     g.setColor(Color.BLACK);
@@ -140,10 +174,10 @@ public class Draw extends JPanel {
   }
 
 
-  public void drawCoordinates(Graphics g, HexShape hex, int centerX, int centerY) {
-    g.setColor(Color.PINK);
-    g.drawString(hex.getRow() + ", " + hex.getColumn(), centerX, centerY);
-  }
+//  public void drawCoordinates(Graphics g, HexShape hex, int centerX, int centerY) {
+//    g.setColor(Color.PINK);
+//    g.drawString(hex.getRow() + ", " + hex.getColumn(), centerX, centerY);
+//  }
 
   private void drawCircleInHex(Graphics g, int centerX, int centerY, int hexSize, PlayerType playerType) {
     int radius = hexSize / 2;
@@ -167,12 +201,8 @@ public class Draw extends JPanel {
     int hexSize = (getWindowHeight() * getWindowWidth()) / 15000;
     int sizeOfEntireBoard = board.getBoardSize();
     int midPoint = sizeOfEntireBoard / 2;
-
     int horizontalDistanceBetweenAdjacentHexagonCenters = (int) (Math.sqrt(3) * hexSize);
-
     double hexHeight = 3.0 / 2 * hexSize;
-    double theVerticalDistance = 3.0 / 4 * hexHeight;
-
     int startX = getWidth() / 2 - (midPoint * hexSize * 3 / 2);
     int startY = getHeight() / 2 - (sizeOfEntireBoard * horizontalDistanceBetweenAdjacentHexagonCenters / 2);
 
@@ -206,7 +236,7 @@ public class Draw extends JPanel {
 
         drawEachHexagon(g, currentHex, centerX, centerY, hexSize, currentHex.getPlayerType());
         drawCircleInHex(g, centerX, centerY, hexSize, currentHex.getPlayerType());
-        drawCoordinates(g, currentHex, centerX - 10, centerY - 4);
+        //drawCoordinates(g, currentHex, centerX - 10, centerY - 4);
       }
     }
   }

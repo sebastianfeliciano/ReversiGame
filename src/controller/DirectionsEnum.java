@@ -3,7 +3,7 @@ package controller;
 /**
  * Sets up an enum for directions.
  */
-public enum Directions {
+public enum DirectionsEnum {
   UP(0, 1),
   DOWN(0, -1),
   LEFT(-1, 0),
@@ -19,7 +19,7 @@ public enum Directions {
   /**
    * Constructor used to make a move.
    */
-  Directions(int qMove, int rMove) {
+  DirectionsEnum(int qMove, int rMove) {
     this.qMove = qMove;
     this.rMove = rMove;
   }

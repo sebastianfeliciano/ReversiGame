@@ -16,7 +16,6 @@ public class HexShape {
   private final int row;
   private final int s;
   protected PlayerType currentPlayerType;
-  private PlayerButton button;
 
   /**
    * Constructor for creating a certain cell in a board.
@@ -27,7 +26,6 @@ public class HexShape {
     this.column = columnQ;
     this.row = rowY;
     this.currentPlayerType = currentPlayerType;
-    //s = -q-r
     s = - columnQ - rowY;
     if (columnQ + rowY + s != 0) {
       throw new IllegalArgumentException("The Coordinate does not Exist");
@@ -39,12 +37,7 @@ public class HexShape {
    * Returns an empty player if the current player type is null.
    */
   public PlayerType getPlayerType() {
-    if (this.currentPlayerType == null){
-      return PlayerType.EMPTY;
-    }
-    else {
-      return this.currentPlayerType;
-    }
+    return Objects.requireNonNullElse(this.currentPlayerType, PlayerType.EMPTY);
   }
 
   /**
@@ -83,20 +76,9 @@ public class HexShape {
     return this.currentPlayerType = type;
   }
 
-
-  public static int hex_length(HexShape hex) {
-    return (Math.abs(hex.column) + Math.abs(hex.row) + Math.abs(hex.s)) / 2;
-  }
-
-  public static int hex_distance(HexShape a, HexShape b) {
-    return hex_length(hex_subtract(a, b));
-  }
-
-  public static HexShape hex_subtract(HexShape a, HexShape b) {
-    return new HexShape(a.column - b.column, a.row - b.row, PlayerType.EMPTY);
-  }
-
+  /**
+   * Sets up a specific button in a board.
+   */
   public void setButton(PlayerButton playerButton) {
-    this.button = playerButton;
   }
 }

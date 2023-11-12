@@ -1,18 +1,32 @@
+import controller.PlayerType;
 import model.Board;
+import model.HexShape;
 import org.junit.Assert;
 import org.junit.Test;
-import view.Draw;
+import view.DrawUtils;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class ExampleDrawTests {
 
     Board board = new Board();
-    Draw draw = new Draw(board);
+    DrawUtils draw = new DrawUtils(board);
     @Test
     public void testSize() {
         draw.setSize(new Dimension(600,600));
         Assert.assertEquals(draw.getSize(), new Dimension(600,600));
+    }
+
+    @Test
+    public void testInitialization() {
+        JFrame frame = new JFrame();
+        DrawUtils draw = new DrawUtils(new Board(11));
+        frame.add(draw);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800,600);
+        frame.setVisible(true);
+        Assert.assertNotNull(draw);
     }
 
     @Test
@@ -22,6 +36,79 @@ public class ExampleDrawTests {
         Assert.assertEquals(draw.getHeight(), 600);
         draw.setBackground(Color.GRAY);
         Assert.assertEquals(Color.GRAY, draw.getBackground());
+    }
+
+    @Test
+    public void testFindHex() {
+        DrawUtils draw = new DrawUtils(new Board(11));
+        int x = draw.getWidth() / 2;
+        int y = draw.getHeight() / 2;
+        HexShape hex = draw.findHex(x, y);
+        Assert.assertNotNull(hex);
+    }
+
+    @Test
+    public void testGetHexSize() {
+        DrawUtils draw = new DrawUtils(new Board(11));
+        draw.setSize(600,600);
+        int hexSize = draw.getHexSize();
+        System.out.print(draw.getHexSize());
+        Assert.assertTrue(hexSize > 0 && hexSize % 2 == 0);
+    }
+
+    @Test
+    public void testIsPointInHex() {
+        DrawUtils draw = new DrawUtils(new Board(11));
+        int x = draw.getWidth() / 2;
+        int y = draw.getHeight() / 2;
+
+        int hexSize = draw.getHexSize();
+        boolean isPointInHex = draw.isPointInHex(x, y, x, y, hexSize);
+        Assert.assertTrue(isPointInHex);
+    }
+
+    @Test
+    public void testGetWindowWidth() {
+        DrawUtils draw = new DrawUtils(new Board(11));
+
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(draw);
+
+        draw.setPreferredSize(new Dimension(650, 650));
+
+        frame.pack();
+        frame.setVisible(true);
+
+        int windowWidth = draw.getWindowWidth();
+        System.out.println(draw.getWindowWidth());
+
+       Assert.assertEquals(650, windowWidth);
+    }
+
+
+    @Test
+    public void testGetWindowHeight() {
+        DrawUtils drawUtils = new DrawUtils(new Board(11));
+        int windowHeight = drawUtils.getWindowHeight();
+        Assert.assertTrue(windowHeight > 0);
+    }
+
+    @Test
+    public void testDrawEachHexagon() {
+        DrawUtils drawUtils = new DrawUtils(new Board(11));
+
+        int x = drawUtils.getWidth() / 2;
+        int y = drawUtils.getHeight() / 2;
+
+        HexShape hexShape = new HexShape(0, 0, PlayerType.BLACK);
+
+        int hexSize = drawUtils.getHexSize();
+
+        Graphics g = new JPanel().getGraphics();
+
+        drawUtils.drawEachHexagon(g, hexShape, x, y, hexSize, PlayerType.BLACK);
+
     }
 
     @Test

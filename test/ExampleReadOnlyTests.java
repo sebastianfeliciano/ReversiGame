@@ -168,8 +168,8 @@ public class ExampleReadOnlyTests {
         Player player2 = new Player("s", PlayerType.BLACK, board);
         player1.setHasPassed();
         player2.setHasPassed();
-        Assert.assertTrue(player1.hasPassed());
-        Assert.assertTrue(player2.hasPassed());
+        Assert.assertTrue(player1.hasPassed);
+        Assert.assertTrue(player2.hasPassed);
     }
 
     /**
@@ -301,7 +301,7 @@ public class ExampleReadOnlyTests {
 
 
         player1.placeKey(-1, -1); // Player One places piece at (-1,-1)
-        player2.hasPassed();       // Player Two passes
+        player2.setHasPassed();       // Player Two passes
         player1.placeKey(-2, 1);  // Player One places piece at (-2,1)
 
         Assert.assertEquals(6, board.getScoreWhite(board));

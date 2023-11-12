@@ -7,9 +7,8 @@ import java.io.IOException;
  */
 public interface IPlayer {
 
-
   /**
-   * Renders a model in a manner in which the Player can play a char..
+   * Renders a model in a manner in which the Player can play a character
    * @throws IOException if the rendering fails for some reason
    */
   void placeKey(int x, int y) throws IOException;

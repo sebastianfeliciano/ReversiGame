@@ -7,9 +7,9 @@ public class Player implements IPlayer {
   private final String name;
   private final PlayerType type;
   private final Board board;
-  private boolean hasPassed;
+  public boolean hasPassed;
 
-  public Player(String name, PlayerType type, Board board) {  // Added Board parameter
+  public Player(String name, PlayerType type, Board board) {
     this.name = name;
     this.type = type;
     this.board = board;
@@ -22,10 +22,6 @@ public class Player implements IPlayer {
 
   public PlayerType getType() {
     return type;
-  }
-
-  public boolean hasPassed() {
-    return hasPassed;
   }
 
   public void setHasPassed() {

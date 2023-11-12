@@ -23,7 +23,7 @@ public class exampleBoardTests {
         PlayerType playerTwoType = PlayerType.WHITE; // Assuming Player Two is WHITE
 
         player1.placeKey(-1, -1); // Player One places piece at (-1,-1)
-        player2.hasPassed();       // Player Two passes
+        player2.setHasPassed();       // Player Two passes
         player1.placeKey(-2, 1);  // Player One places piece at (-2,1)
 
         PlayerType hexAt42PlayerType = board.getCurrentHex(2, 4).getPlayerType();

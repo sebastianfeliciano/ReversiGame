@@ -156,9 +156,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
       return false;
     }
 
-    PlayerType currentPlayer = playerType;
-    PlayerType opponent = currentPlayer.nextPlayer();
-
+    PlayerType opponent = playerType.nextPlayer();
 
     for (DirectionsEnum dir : DirectionsEnum.values()) {
       int nextQ = q + dir.getQMove();
@@ -170,7 +168,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
           nextQ += dir.getQMove();
           nextR += dir.getRMove();
 
-          if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ).getPlayerType().equals(currentPlayer)) {
+          if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ).getPlayerType().equals(playerType)) {
             return true;
           }
         }
@@ -300,6 +298,9 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     return count;
   }
 
+  /**
+   * Returns the midPoint of a board.
+   */
   public int getMidPoint() {
     return this.getBoardSize() / 2;
   }
@@ -316,6 +317,9 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     return false;
   }
 
+  /**
+   * Makes a deep copy of the board that players can access.
+   */
   public Board deepCopy() {
     Board newBoard = new Board(this.BOARD_SIZE);
     for (int i = 0; i < BOARD_SIZE; i++) {

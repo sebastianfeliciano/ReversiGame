@@ -37,7 +37,6 @@ public class TextualController implements ReversiTextualView {
         this.output = output;
     }
 
-
     /**
      * Renders the game using the appendable builder method.
      */
@@ -68,9 +67,7 @@ public class TextualController implements ReversiTextualView {
 
             int spacesBefore = (sizeOfEntireBoard - numOfHexagons);
 
-            for (int s = 0; s < spacesBefore; s++) {
-                stringMaker.append(' ');
-            }
+            stringMaker.append(" ".repeat(Math.max(0, spacesBefore)));
             for (int h = 0; h < numOfHexagons; h++) {
                 HexShape currentHexagon;
                 if (currentRow <= midPoint) {

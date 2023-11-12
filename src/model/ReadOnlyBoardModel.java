@@ -3,11 +3,6 @@ package model;
 import controller.PlayerType;
 
 public interface ReadOnlyBoardModel {
-    /**
-     * what we need to add:
-     * - a way to copy the board / score / currentHex
-     * - visualizations
-     */
 
     int getScoreWhite(Board board);
 

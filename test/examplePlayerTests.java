@@ -105,7 +105,7 @@ public class examplePlayerTests {
     Board firstBoard = new Board(7);
     Player one = new Player("Sebastian", PlayerType.WHITE, firstBoard);
     Player two = new Player("Christian", PlayerType.BLACK, firstBoard);
-    Assert.assertFalse(one.hasPassed());
-    Assert.assertFalse(two.hasPassed());
+    Assert.assertFalse(one.hasPassed);
+    Assert.assertFalse(two.hasPassed);
   }
 }

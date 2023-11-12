@@ -6,7 +6,6 @@ import javax.swing.*;
 import controller.PlayerType;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -14,13 +13,10 @@ import model.Board;
 import model.HexShape;
 
 public class PlayerButton extends JButton implements MouseListener {
-  private HexShape hex;
   private PlayerType type;
   private Board b;
 
-
   public PlayerButton(HexShape hex) {
-    this.hex = hex;
     hex.setButton(this);
     setBorderPainted(false);
     setContentAreaFilled(false);
@@ -35,8 +31,8 @@ public class PlayerButton extends JButton implements MouseListener {
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-
   }
+
   public void setPlayerType(PlayerType playerType) {
     this.type = playerType;
   }

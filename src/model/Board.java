@@ -334,4 +334,20 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     newBoard.blackPassed = this.blackPassed;
     return newBoard;
   }
+
+  @Override
+  public List<DirectionsEnum> getValidMoves(PlayerType player) {
+    List<DirectionsEnum> validMoves = new ArrayList<>();
+
+    for (DirectionsEnum direction : DirectionsEnum.values()) {
+      int q = direction.getQMove();
+      int r = direction.getRMove();
+
+      if (isValidMove(q, r, player)) {
+        validMoves.add(direction);
+      }
+    }
+
+    return validMoves;
+  }
 }

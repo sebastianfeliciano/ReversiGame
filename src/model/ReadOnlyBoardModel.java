@@ -1,6 +1,9 @@
 package model;
 
+import controller.DirectionsEnum;
 import controller.PlayerType;
+
+import java.util.List;
 
 public interface ReadOnlyBoardModel {
 
@@ -23,4 +26,6 @@ public interface ReadOnlyBoardModel {
     boolean isValidMove(int x, int y, PlayerType playerType);
 
     boolean isValidCoordinate(int q, int r);
+
+    List<DirectionsEnum> getValidMoves(PlayerType player);
 }

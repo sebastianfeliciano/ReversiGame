@@ -73,6 +73,22 @@ public class DrawUtils extends JPanel implements ReversiView {
             System.exit(0));
     add(executeButton, BorderLayout.SOUTH);
     add(quitButton, BorderLayout.WEST);
+    executeButton = new JButton("Enter Coordinates ( , )");
+    executeButton.addActionListener((ActionEvent e) ->
+            System.out.println("Enter Coordinates ( , )"));
+    quitButton = new JButton("Quit");
+    quitButton.addActionListener((ActionEvent e) ->
+            System.exit(0));
+
+    buttonPanel.setLayout(new BorderLayout());
+    buttonPanel.add(executeButton, BorderLayout.WEST);
+    buttonPanel.add(quitButton, BorderLayout.EAST);
+
+    JPanel bottomPanel = new JPanel(new BorderLayout());
+    bottomPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+    setLayout(new BorderLayout());
+    add(bottomPanel, BorderLayout.SOUTH);
   }
 
   @Override

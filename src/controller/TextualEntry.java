@@ -1,3 +1,5 @@
+package controller;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -13,7 +15,7 @@ import view.TextualController;
 /**
  * Main entry point for players to play Reversi.
  */
-public final class Main {
+public final class TextualEntry {
   /**
    * Main userInputs points for players to play Reversi.
    */

@@ -21,6 +21,7 @@ public class DrawUtils extends JPanel implements ReversiView {
   private JPanel buttonPanel;
   private JButton executeButton;
   private int storedClickedColumn = clickedColumn;
+  private int clickCount = 0;
 
   public DrawUtils(ReadOnlyBoardModel board) {
     setPreferredSize(new Dimension(650, 650));
@@ -29,32 +30,36 @@ public class DrawUtils extends JPanel implements ReversiView {
       public void mouseClicked(MouseEvent e) {
         try {
           HexShape clickedHex = findHex(e.getX(), e.getY());
-          storedClickedRow = clickedRow;
-          storedClickedColumn = clickedColumn;
-
           if (clickedHex != null) {
             int newClickedRow = Integer.parseInt(clickedHex.getRow());
             int newClickedColumn = Integer.parseInt(clickedHex.getColumn());
 
             if (newClickedRow == storedClickedRow && newClickedColumn == storedClickedColumn) {
-              isClicked = false;
+              clickCount++;
             } else {
-              isClicked = true;
+              clickCount = 1;
               storedClickedRow = newClickedRow;
               storedClickedColumn = newClickedColumn;
             }
+
+            isClicked = clickCount % 2 != 0;
+
+            if (!isClicked) {
+              System.out.println("Deselected hexagon at " + newClickedColumn + ", " + newClickedRow);
+            } else {
+              System.out.println("Selected hexagon at " + newClickedColumn + ", " + newClickedRow);
+            }
+
             clickedRow = newClickedRow;
             clickedColumn = newClickedColumn;
             repaint();
-            System.out.println(Objects.requireNonNull(findHex(e.getX(), e.getY())).getColumn() + ", " + Objects.requireNonNull(findHex(e.getX(), e.getY())).getRow());
-          }
-          else {
+          } else {
             isClicked = false;
             clickedRow = board.getBoardSize();
             clickedColumn = board.getBoardSize();
           }
           repaint();
-            } catch (Exception ignored) {
+        } catch (Exception ignored) {
         }
       }
     });

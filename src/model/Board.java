@@ -91,91 +91,71 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     }
 
     for (DirectionsEnum dir : DirectionsEnum.values()) {
-      if (dir == null) {
-        System.out.println("Direction is null!");
-        continue;
-      }
-
       int nextQ = x + dir.getQMove();
       int nextR = y + dir.getRMove();
 
-      HexShape currentHex = this.getCurrentHex(nextR, nextQ);
-      if (currentHex == null) {
-        continue;
-      }
-
-      PlayerType hexPlayer = currentHex.getPlayerType();
-      if (hexPlayer == null) {
-        continue;
-      }
-
       List<HexShape> piecesToFlip = new ArrayList<>();
 
-      while (isValidCoordinate(nextQ, nextR) && this.getCurrentHex(nextQ, nextR).getPlayerType().equals(opponent)) {
-        piecesToFlip.add(getCurrentHex(nextQ, nextR));
+      while (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ).getPlayerType() == opponent) {
+        piecesToFlip.add(getCurrentHex(nextR, nextQ));
         nextQ += dir.getQMove();
         nextR += dir.getRMove();
 
-        currentHex = this.getCurrentHex(nextQ, nextR);
-        if (currentHex == null) {
+        if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ).getPlayerType() == currentPlayer) {
+          for (HexShape piece : piecesToFlip) {
+            piece.setPlayerType(currentPlayer);
+          }
           break;
-        }
-
-        hexPlayer = currentHex.getPlayerType();
-        if (hexPlayer == null) {
-          break;
-        }
-      }
-
-      if (isValidCoordinate(nextQ, nextR)) {
-        assert hexPlayer != null;
-        for (HexShape piece : piecesToFlip) {
-          piece.setPlayerType(currentPlayer);
         }
       }
     }
   }
+
 
   /**
    * Determines if a valid move is passed in,
    * based on coordinates, and a player type.
    */
   public boolean isValidMove(int x, int y, PlayerType playerType) {
-    if (x > this.getBoardSize()/2 || y > this.getBoardSize()/2
-            || x < -this.getBoardSize()/2 || y < -this.getBoardSize()/2){
-      return false;
-    }
-    int q = x + this.getBoardSize()/ 2;
+    int q = x + this.getBoardSize() / 2;
     int r = y + this.getBoardSize() / 2;
 
-    if (Math.abs(r) >= this.getBoardSize()) {
-      return false;
-    }
-
-    if (!getCurrentHex(q, r).getPlayerType().equals(PlayerType.EMPTY)) {
+    // Check if the coordinates are valid and the hex is empty
+    if (!isValidCoordinate(q, r) || getCurrentHex(r, q).getPlayerType() != PlayerType.EMPTY) {
       return false;
     }
 
     PlayerType opponent = playerType.nextPlayer();
 
+    // Check each direction for a valid line of opponent's pieces
     for (DirectionsEnum dir : DirectionsEnum.values()) {
       int nextQ = q + dir.getQMove();
       int nextR = r + dir.getRMove();
 
-      //opponent's piece next to the current position
-      if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ).getPlayerType().equals(opponent)) {
-        while (isValidCoordinate(nextQ, nextR) && !getCurrentHex(nextR, nextQ).getPlayerType().equals(PlayerType.EMPTY)) {
-          nextQ += dir.getQMove();
-          nextR += dir.getRMove();
+      // Skip if the next hex is not opponent's or out of bounds
+      if (!isValidCoordinate(nextQ, nextR) || getCurrentHex(nextR, nextQ).getPlayerType() != opponent) {
+        continue;
+      }
 
-          if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ).getPlayerType().equals(playerType)) {
-            return true;
-          }
-        }
+      // Move to the next hex in the same direction
+      nextQ += dir.getQMove();
+      nextR += dir.getRMove();
+
+      // Continue moving in the direction and check for current player's piece
+      while (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ).getPlayerType() == opponent) {
+        nextQ += dir.getQMove();
+        nextR += dir.getRMove();
+      }
+
+      // If a current player's piece is found, it's a valid move
+      if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ).getPlayerType() == playerType) {
+        return true;
       }
     }
     return false;
   }
+
+
 
   /**
    * Determines is a valid coordinate was passed in
@@ -184,6 +164,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   public boolean isValidCoordinate(int q, int r) {
     return q >= 0 && q < this.getBoardSize() && r >= 0 && r < this.getBoardSize();
   }
+
 
   /**
    * Places a certain piece in the board, based on
@@ -207,19 +188,19 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   }
 
   @Override
-  public int getScoreWhite(Board board) {
+  public int getScoreWhite() {
     if (isGameOver()) {
       return 0;
     }
-    return board.countPieces(PlayerType.WHITE);
+    return countPieces(PlayerType.WHITE);
   }
 
   @Override
-  public int getScoreBlack(Board board) {
+  public int getScoreBlack() {
     if (isGameOver()) {
       return 0;
     }
-    return board.countPieces(PlayerType.BLACK);
+    return countPieces(PlayerType.BLACK);
   }
 
 
@@ -335,19 +316,46 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     return newBoard;
   }
 
-  @Override
-  public List<DirectionsEnum> getValidMoves(PlayerType player) {
-    List<DirectionsEnum> validMoves = new ArrayList<>();
+  public List<Move> getValidMovesWithCaptures(PlayerType player) {
+    List<Move> validMoves = new ArrayList<>();
 
-    for (DirectionsEnum direction : DirectionsEnum.values()) {
-      int q = direction.getQMove();
-      int r = direction.getRMove();
+    for (int i = 0; i < BOARD_SIZE; i++) {
+      for (int j = 0; j < BOARD_SIZE; j++) {
+        int captures = calculateCaptures(i, j, player);
+        if (isValidMove(i - getMidPoint(), j - getMidPoint(), player) && captures > 0) {
+          validMoves.add(new Move(i, j, captures));
 
-      if (isValidMove(q, r, player)) {
-        validMoves.add(direction);
+        }
       }
     }
-
     return validMoves;
   }
+
+  private int calculateCaptures(int x, int y, PlayerType player) {
+    int count = 0;
+    PlayerType opponent = player.nextPlayer();
+
+    for (DirectionsEnum dir : DirectionsEnum.values()) {
+      int nextQ = x + dir.getQMove();
+      int nextR = y + dir.getRMove();
+      List<HexShape> piecesToFlip = new ArrayList<>();
+
+      while (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextQ, nextR).getPlayerType() == opponent) {
+        piecesToFlip.add(getCurrentHex(nextQ, nextR));
+        nextQ += dir.getQMove();
+        nextR += dir.getRMove();
+
+        if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextQ, nextR).getPlayerType() == player) {
+          count += piecesToFlip.size();
+          break;
+        }
+      }
+    }
+    return count;
+  }
+
 }
+
+
+
+

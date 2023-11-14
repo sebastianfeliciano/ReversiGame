@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface ReadOnlyBoardModel {
 
-    int getScoreWhite(Board board);
+    int getScoreWhite();
 
-    int getScoreBlack(Board board);
+    int getScoreBlack();
 
     int getBoardSize();
 
@@ -26,6 +26,4 @@ public interface ReadOnlyBoardModel {
     boolean isValidMove(int x, int y, PlayerType playerType);
 
     boolean isValidCoordinate(int q, int r);
-
-    List<DirectionsEnum> getValidMoves(PlayerType player);
 }

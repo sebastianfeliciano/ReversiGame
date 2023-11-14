@@ -285,16 +285,16 @@ public class ExampleReadOnlyTests {
         Board board = new Board();
         Assert.assertEquals(
                 "Checking that the starting number of white pieces is 3",
-                board.getScoreWhite(board), 3);
+                board.getScoreWhite(), 3);
 
         Assert.assertEquals(
                 "Checking that the starting number of black pieces is 3",
-                board.getScoreBlack(board), 3);
+                board.getScoreBlack(), 3);
 
         Player player1 = new Player("S", PlayerType.WHITE, board);
         Player player2 = new Player("E", PlayerType.WHITE, board);
-        PlayerType playerOneType = PlayerType.BLACK; // Assuming Player One is BLACK
-        PlayerType playerTwoType = PlayerType.WHITE; // Assuming Player Two is WHITE
+        PlayerType playerOneType = PlayerType.BLACK;
+        PlayerType playerTwoType = PlayerType.WHITE;
 
         Assert.assertEquals(playerOneType.name(), "BLACK");
         Assert.assertEquals(playerTwoType.name(), "WHITE");
@@ -304,8 +304,8 @@ public class ExampleReadOnlyTests {
         player2.setHasPassed();       // Player Two passes
         player1.placeKey(-2, 1);  // Player One places piece at (-2,1)
 
-        Assert.assertEquals(6, board.getScoreWhite(board));
-        Assert.assertEquals(2, board.getScoreBlack(board));
+        Assert.assertEquals(6, board.getScoreWhite());
+        Assert.assertEquals(2, board.getScoreBlack());
     }
 
     @Test

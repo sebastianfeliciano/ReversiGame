@@ -1,6 +1,7 @@
 package model;
 
 import controller.DirectionsEnum;
+import controller.Player;
 import controller.PlayerType;
 
 import java.util.ArrayList;
@@ -76,7 +77,6 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
    * in by the player.
    * Breaks out of the loop if the player, opponent,
    * or direction is invalid.
-   *
    */
   public void flipPieces(int x, int y, PlayerType currentPlayer) {
     if (currentPlayer == null) {
@@ -133,7 +133,15 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
       int nextR = r + dir.getRMove();
 
       // Skip if the next hex is not opponent's or out of bounds
-      if (!isValidCoordinate(nextQ, nextR) || getCurrentHex(nextR, nextQ).getPlayerType() != opponent) {
+      if (!isValidCoordinate(nextQ, nextR)) {
+        continue;
+      }
+      HexShape neighborHex = getCurrentHex(nextR, nextQ);
+      if (neighborHex == null){
+        continue;
+      }
+
+      if(neighborHex.getPlayerType() != opponent){
         continue;
       }
 
@@ -154,7 +162,6 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     }
     return false;
   }
-
 
 
   /**
@@ -316,23 +323,59 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     return newBoard;
   }
 
-  public List<Move> getValidMovesWithCaptures(PlayerType player) {
+
+  public List<Move> getValidMovesWithCaptures(Player player) {
     List<Move> validMoves = new ArrayList<>();
 
-    for (int i = 0; i < BOARD_SIZE; i++) {
-      for (int j = 0; j < BOARD_SIZE; j++) {
-        int captures = calculateCaptures(i, j, player);
-        if (isValidMove(i - getMidPoint(), j - getMidPoint(), player) && captures > 0) {
-          validMoves.add(new Move(i, j, captures));
+    for (int currentRow = 0; currentRow < getBoardSize(); currentRow++) {
+      int currentHexesMade;
+      if (currentRow <= getMidPoint()) {
+        currentHexesMade = getMidPoint() + currentRow + 1;
+      } else {
+        currentHexesMade = getBoardSize() - (currentRow - getMidPoint());
+      }
+      int spacesBefore = (getBoardSize() - currentHexesMade);
+      for (int h = 0; h < currentHexesMade; h++) {
+        HexShape currentHex;
 
+        if (currentRow <= getMidPoint()) {
+          currentHex = this.getCurrentHex(currentRow, h + spacesBefore);
+
+          if (isValidMove(Integer.parseInt(currentHex.getColumn()),
+                  Integer.parseInt(currentHex.getRow()), player.getType())) {
+
+            int piecesThatAreFlipped = calculateCaptures((Integer.parseInt(currentHex.getColumn())),
+                    Integer.parseInt(currentHex.getRow()), player.getType(), this);
+
+            validMoves.add(new Move((Integer.parseInt(currentHex.getColumn())),
+                    Integer.parseInt(currentHex.getRow()), piecesThatAreFlipped));
+          }
+
+        } else {
+          currentHex = this.getCurrentHex(currentRow, h);
+
+          if (isValidMove(Integer.parseInt(currentHex.getColumn()),
+                  Integer.parseInt(currentHex.getRow()), player.getType())) {
+
+            int piecesThatAreFlipped = calculateCaptures((Integer.parseInt(currentHex.getColumn())),
+                    Integer.parseInt(currentHex.getRow()), player.getType(), this);
+
+            validMoves.add(new Move((Integer.parseInt(currentHex.getColumn())),
+                    Integer.parseInt(currentHex.getRow()), piecesThatAreFlipped));
+          }
         }
       }
+
     }
     return validMoves;
   }
 
-  private int calculateCaptures(int x, int y, PlayerType player) {
+
+  public int calculateCaptures(int q, int r, PlayerType player, Board board) {
+    int x = q + board.getBoardSize() / 2;
+    int y = r + board.getBoardSize() / 2;
     int count = 0;
+
     PlayerType opponent = player.nextPlayer();
 
     for (DirectionsEnum dir : DirectionsEnum.values()) {
@@ -340,12 +383,12 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
       int nextR = y + dir.getRMove();
       List<HexShape> piecesToFlip = new ArrayList<>();
 
-      while (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextQ, nextR).getPlayerType() == opponent) {
+      while (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ).getPlayerType() == opponent) {
         piecesToFlip.add(getCurrentHex(nextQ, nextR));
         nextQ += dir.getQMove();
         nextR += dir.getRMove();
 
-        if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextQ, nextR).getPlayerType() == player) {
+        if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ).getPlayerType() == player) {
           count += piecesToFlip.size();
           break;
         }
@@ -353,6 +396,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     }
     return count;
   }
+
 
 }
 

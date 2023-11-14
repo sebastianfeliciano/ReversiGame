@@ -1,27 +1,25 @@
 package view;
+
 import controller.PlayerType;
 import model.Board;
 import model.HexShape;
 import model.ReadOnlyBoardModel;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Objects;
+
 import javax.swing.*;
-import javax.swing.border.Border;
 
 public class DrawUtils extends JPanel implements ReversiView {
   protected static Board board = new Board(11);
   boolean isClicked = false;
-  private int clickedRow = board.BOARD_SIZE;
-  private int storedClickedRow =  clickedRow;
-  private int clickedColumn = board.BOARD_SIZE;
+  private HexShape firstClickedHex;
+  private HexShape hoveredHex;
   private JButton quitButton;
   private JPanel buttonPanel;
   private JButton executeButton;
-  private int storedClickedColumn = clickedColumn;
-  private int clickCount = 0;
 
   public DrawUtils(ReadOnlyBoardModel board) {
     setPreferredSize(new Dimension(650, 650));
@@ -29,67 +27,83 @@ public class DrawUtils extends JPanel implements ReversiView {
     addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
         try {
-          HexShape clickedHex = findHex(e.getX(), e.getY());
-          if (clickedHex != null) {
-            int newClickedRow = Integer.parseInt(clickedHex.getRow());
-            int newClickedColumn = Integer.parseInt(clickedHex.getColumn());
-
-            if (newClickedRow == storedClickedRow && newClickedColumn == storedClickedColumn) {
-              clickCount++;
-            } else {
-              clickCount = 1;
-              storedClickedRow = newClickedRow;
-              storedClickedColumn = newClickedColumn;
-            }
-
-            isClicked = clickCount % 2 != 0;
-
-            if (!isClicked) {
-              System.out.println("Deselected hexagon at " + newClickedColumn + ", " + newClickedRow);
-            } else {
-              System.out.println("Selected hexagon at " + newClickedColumn + ", " + newClickedRow);
-            }
-
-            clickedRow = newClickedRow;
-            clickedColumn = newClickedColumn;
-            repaint();
-          } else {
-            isClicked = false;
-            clickedRow = board.getBoardSize();
-            clickedColumn = board.getBoardSize();
+          HexShape newClickedHex = findHex(e.getX(), e.getY());;
+          if (firstClickedHex != null && firstClickedHex.equals(newClickedHex)) {
+          firstClickedHex = null;
+          System.out.println("Deselected: "+ newClickedHex.getRow()+", "+newClickedHex.getColumn());
+        } else {
+          firstClickedHex = newClickedHex;
+          System.out.println("Selected: "+ newClickedHex.getRow()+", "+newClickedHex.getColumn());
           }
           repaint();
-        } catch (Exception ignored) {
+        }
+         catch (Exception ignored) {
         }
       }
     });
-    buttonPanel = new JPanel();
-    buttonPanel.setLayout(new FlowLayout());
-    executeButton = new JButton("Execute");
-    executeButton.addActionListener((ActionEvent e) ->
-            System.out.println("Execute:"));
-    quitButton = new JButton("Quit");
-    quitButton.addActionListener((ActionEvent e) ->
-            System.exit(0));
-    add(executeButton, BorderLayout.SOUTH);
-    add(quitButton, BorderLayout.WEST);
-    executeButton = new JButton("Enter Coordinates ( , )");
-    executeButton.addActionListener((ActionEvent e) ->
-            System.out.println("Enter Coordinates ( , )"));
-    quitButton = new JButton("Quit");
-    quitButton.addActionListener((ActionEvent e) ->
-            System.exit(0));
+    addMouseMotionListener(new MouseAdapter() {
+      public void mouseMoved(MouseEvent e) {
+        try {
+        HexShape currentHover = findHex(e.getX(), e.getY());
+        if (hoveredHex != currentHover) {
+          hoveredHex = currentHover;
+          repaint();
+        }
+      }
+        catch (Exception ignored) {
+        }
+    }});
 
-    buttonPanel.setLayout(new BorderLayout());
-    buttonPanel.add(executeButton, BorderLayout.WEST);
-    buttonPanel.add(quitButton, BorderLayout.EAST);
+  buttonPanel =new
 
-    JPanel bottomPanel = new JPanel(new BorderLayout());
-    bottomPanel.add(buttonPanel, BorderLayout.SOUTH);
+  JPanel();
+    buttonPanel.setLayout(new
 
-    setLayout(new BorderLayout());
-    add(bottomPanel, BorderLayout.SOUTH);
-  }
+  FlowLayout());
+  executeButton =new
+
+  JButton("Execute");
+    executeButton.addActionListener((
+  ActionEvent e)->
+          System.out.println("Execute:"));
+  quitButton =new
+
+  JButton("Quit");
+    quitButton.addActionListener((
+  ActionEvent e)->
+          System.exit(0));
+
+  add(executeButton, BorderLayout.SOUTH);
+
+  add(quitButton, BorderLayout.WEST);
+
+  executeButton =new
+
+  JButton("Enter Coordinates ( , )");
+    executeButton.addActionListener((
+  ActionEvent e)->
+          System.out.println("Enter Coordinates ( , )"));
+  quitButton =new
+
+  JButton("Quit");
+    quitButton.addActionListener((
+  ActionEvent e)->
+          System.exit(0));
+
+    buttonPanel.setLayout(new
+
+  BorderLayout());
+    buttonPanel.add(executeButton,BorderLayout.WEST);
+    buttonPanel.add(quitButton,BorderLayout.EAST);
+
+  JPanel bottomPanel = new JPanel(new BorderLayout());
+    bottomPanel.add(buttonPanel,BorderLayout.SOUTH);
+
+  setLayout(new BorderLayout());
+
+  add(bottomPanel, BorderLayout.SOUTH);
+
+}
 
   @Override
   public HexShape findHex(int mouseX, int mouseY) {
@@ -127,7 +141,6 @@ public class DrawUtils extends JPanel implements ReversiView {
       }
 
     }
-    System.out.println("No Hexagon Found");
     return null;
   }
 
@@ -144,12 +157,12 @@ public class DrawUtils extends JPanel implements ReversiView {
     if (xDistance > hexSize * Math.sqrt(3) / 2) {
       return false;
     }
-      return !(yDistance > ((double) (hexSize * 3) / 2) / 2);
+    return !(yDistance > ((double) (hexSize * 3) / 2) / 2);
   }
 
   @Override
   public int getWindowWidth() {
-      return Math.min(this.getWidth(), 650);
+    return Math.min(this.getWidth(), 650);
   }
 
   @Override
@@ -163,7 +176,7 @@ public class DrawUtils extends JPanel implements ReversiView {
   }
 
   @Override
-  public void drawEachHexagon(Graphics g, HexShape hex, int centerX, int centerY, int hexSize, PlayerType playerType) {
+  public void drawEachHexagon(Graphics g, HexShape hex, int centerX, int centerY, int hexSize, PlayerType playerType){
     int sides = 6;
     Polygon hexagon = new Polygon();
     int radius = hexSize / 2;
@@ -175,12 +188,11 @@ public class DrawUtils extends JPanel implements ReversiView {
       hexagon.addPoint(x, y);
     }
 
-    boolean isCurrentHexClicked = isClicked && Integer.parseInt(hex.getRow()) == clickedRow && Integer.parseInt(hex.getColumn()) == clickedColumn;
-
-    if (isCurrentHexClicked){
+    if (hex.equals(firstClickedHex)) {
       g.setColor(Color.CYAN);
-    }
-    else {
+    } else if (hex.equals(hoveredHex)) {
+      g.setColor(Color.GREEN);
+    } else {
       g.setColor(Color.LIGHT_GRAY);
     }
 
@@ -188,18 +200,17 @@ public class DrawUtils extends JPanel implements ReversiView {
     g.setColor(Color.BLACK);
     g.drawPolygon(hexagon);
 
-
-    if (isCurrentHexClicked){
+    if (hex.equals(firstClickedHex)) {
       g.setColor(Color.CYAN);
-    }
-    else {
+    } else {
       g.setColor(getColor(playerType));
     }
     g.fillOval(centerX - radius, centerY - radius, 2 * radius, 2 * radius);
-    }
+  }
 
-    @Override
-    public Color getColor(PlayerType playerType) {
+
+  @Override
+  public Color getColor(PlayerType playerType) {
     Color color;
     switch (playerType) {
       case BLACK:
@@ -258,6 +269,6 @@ public class DrawUtils extends JPanel implements ReversiView {
 
   @Override
   public int getWindowHeight() {
-      return Math.min(this.getHeight(), 650);
+    return Math.min(this.getHeight(), 650);
   }
 }

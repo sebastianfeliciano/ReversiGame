@@ -1,13 +1,13 @@
 package controller;
 
 import model.Board;
-import model.strategies.IStratedgy;
+import model.strategies.IStrategy;
 import model.Move;
 
 public class AIPlayer extends Player {
-  private final IStratedgy strategy;
+  private final IStrategy strategy;
 
-  public AIPlayer(String name, PlayerType type, Board board, IStratedgy strategy) {
+  public AIPlayer(String name, PlayerType type, Board board, IStrategy strategy) {
     super("Computer", type, board);
     this.strategy = strategy;
     this.hasPassed = false;

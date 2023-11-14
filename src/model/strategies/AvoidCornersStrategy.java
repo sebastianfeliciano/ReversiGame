@@ -4,7 +4,7 @@ import controller.PlayerType;
 import model.Board;
 import model.Move;
 
-public class AvoidCornersStrategy implements IStratedgy {
+public class AvoidCornersStrategy implements IStrategy {
 
 
     @Override

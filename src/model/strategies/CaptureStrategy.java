@@ -6,7 +6,7 @@ import model.Move;
 
 import java.util.List;
 
-public class CaptureStrategy implements IStratedgy {
+public class CaptureStrategy implements IStrategy {
 
     @Override
     public Move selectMove(Board board, PlayerType player) {

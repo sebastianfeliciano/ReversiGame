@@ -6,9 +6,8 @@ import model.HexShape;
 import model.ReadOnlyBoardModel;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.security.Key;
 
 import javax.swing.*;
 
@@ -19,7 +18,6 @@ public class DrawUtils extends JPanel implements ReversiView {
   private HexShape hoveredHex;
   private JButton quitButton;
   private JPanel buttonPanel;
-  private JButton executeButton;
 
   public DrawUtils(ReadOnlyBoardModel board) {
     setPreferredSize(new Dimension(650, 650));
@@ -30,10 +28,9 @@ public class DrawUtils extends JPanel implements ReversiView {
           HexShape newClickedHex = findHex(e.getX(), e.getY());;
           if (firstClickedHex != null && firstClickedHex.equals(newClickedHex)) {
           firstClickedHex = null;
-          System.out.println("Deselected: "+ newClickedHex.getRow()+", "+newClickedHex.getColumn());
+          System.out.println("Deselected: " + newClickedHex.getRow()+ ", " + newClickedHex.getColumn());
         } else {
           firstClickedHex = newClickedHex;
-          System.out.println("Selected: "+ newClickedHex.getRow()+", "+newClickedHex.getColumn());
           }
           repaint();
         }
@@ -60,12 +57,7 @@ public class DrawUtils extends JPanel implements ReversiView {
     buttonPanel.setLayout(new
 
   FlowLayout());
-  executeButton =new
 
-  JButton("Execute");
-    executeButton.addActionListener((
-  ActionEvent e)->
-          System.out.println("Execute:"));
   quitButton =new
 
   JButton("Quit");
@@ -73,16 +65,9 @@ public class DrawUtils extends JPanel implements ReversiView {
   ActionEvent e)->
           System.exit(0));
 
-  add(executeButton, BorderLayout.SOUTH);
-
   add(quitButton, BorderLayout.WEST);
 
-  executeButton =new
 
-  JButton("Enter Coordinates ( , )");
-    executeButton.addActionListener((
-  ActionEvent e)->
-          System.out.println("Enter Coordinates ( , )"));
   quitButton =new
 
   JButton("Quit");
@@ -93,7 +78,6 @@ public class DrawUtils extends JPanel implements ReversiView {
     buttonPanel.setLayout(new
 
   BorderLayout());
-    buttonPanel.add(executeButton,BorderLayout.WEST);
     buttonPanel.add(quitButton,BorderLayout.EAST);
 
   JPanel bottomPanel = new JPanel(new BorderLayout());
@@ -103,6 +87,21 @@ public class DrawUtils extends JPanel implements ReversiView {
 
   add(bottomPanel, BorderLayout.SOUTH);
 
+  addKeyListener(new KeyAdapter() {
+    @Override
+    public void keyPressed(KeyEvent e) {
+      if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (firstClickedHex != null) {
+          System.out.println("Chosen: " + firstClickedHex.getRow() + ", " + firstClickedHex.getColumn());
+        } else {
+          System.out.println("No hex selected");
+        }
+      } else if (e.getKeyCode() == KeyEvent.VK_P) {
+        System.out.println("Pass");
+      }
+    }
+  });
+  setFocusable(true);
 }
 
   @Override

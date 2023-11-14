@@ -13,7 +13,6 @@ public class AvoidCornersStrategy implements Strategy {
     @Override
     public DirectionsEnum chooseMove(PlayerType playerType) {
         List<DirectionsEnum> validMoves = board.getValidMoves(playerType);
-
         if (!validMoves.isEmpty()) {
             int randomIndex = (int) (Math.random() * validMoves.size());
             return validMoves.get(randomIndex);

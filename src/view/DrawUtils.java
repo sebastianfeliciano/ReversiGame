@@ -255,8 +255,8 @@ public class DrawUtils extends JPanel implements ReversiView {
           currentHex = board.getCurrentHex(currentRow, h);
         }
         int offSet = (sizeOfEntireBoard - currentHexesMade) * horizontalDistanceBetweenAdjacentHexagonCenters / 2;
-        int centerX = startX + offSet + h * horizontalDistanceBetweenAdjacentHexagonCenters; //Moves the chain from top to bottom left
-        int centerY = (int) Math.round(startY + currentRow * hexHeight); //Moves chain from left to right
+        int centerX = startX + offSet + h * horizontalDistanceBetweenAdjacentHexagonCenters;
+        int centerY = (int) Math.round(startY + currentRow * hexHeight);
 
         PlayerButton playerButton = new PlayerButton(currentHex);
         playerButton.setBounds(centerX - hexSize / 2, centerY - hexSize / 2, hexSize, hexSize);

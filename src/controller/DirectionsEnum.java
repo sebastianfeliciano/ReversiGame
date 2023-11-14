@@ -4,14 +4,12 @@ package controller;
  * Sets up an enum for directions.
  */
 public enum DirectionsEnum {
-  UP(0, 1),
-  DOWN(0, -1),
-  LEFT(-1, 0),
-  RIGHT(1, 0),
-  TOP_LEFT_CORNER(-1, 1),
-  TOP_RIGHT_CORNER(1, 1),
-  BOTTOM_LEFT_CORNER(-1, -1),
-  BOTTOM_RIGHT_CORNER(1, -1);
+  NORTH_EAST(1, -1),
+  EAST(1, 0),
+  SOUTH_EAST(0, 1),
+  SOUTH_WEST(-1, 1),
+  WEST(-1, 0),
+  NORTH_WEST(0, -1);
 
   private final int qMove;
   private final int rMove;

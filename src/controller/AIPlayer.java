@@ -1,18 +1,24 @@
 package controller;
 
 import model.Board;
-import model.Strategy;
+import model.strategies.IStratedgy;
+import model.Move;
 
-public class AIPlayer {
-  private PlayerType type;
-  private Board board;
-  private Strategy strat;
+public class AIPlayer extends Player {
+  private final IStratedgy strategy;
 
-  public AIPlayer(PlayerType type, Board board, Strategy strat) {
-    this.type = type;
-    this.board = board;
-    this.strat = strat;
-
+  public AIPlayer(String name, PlayerType type, Board board, IStratedgy strategy) {
+    super("Computer", type, board);
+    this.strategy = strategy;
+    this.hasPassed = false;
   }
 
+  public void makeMove() {
+    Move selectedMove = strategy.selectMove(this.board, this.getType());
+    if (selectedMove != null) {
+      super.placeKey(selectedMove.getX(), selectedMove.getY());
+    } else {
+      this.setHasPassed();
+    }
+  }
 }

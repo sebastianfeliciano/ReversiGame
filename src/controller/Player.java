@@ -6,7 +6,7 @@ import model.Board;
 public class Player implements IPlayer {
   private final String name;
   private final PlayerType type;
-  private final Board board;
+  final Board board;
   public boolean hasPassed;
 
   public Player(String name, PlayerType type, Board board) {

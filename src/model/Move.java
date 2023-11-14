@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Move {
   private int x;
   private int y;
@@ -44,4 +46,16 @@ public class Move {
     this.piecesCaught = piecesCaught;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Move move = (Move) o;
+    return x == move.x && y == move.y && piecesCaught == move.piecesCaught;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(x, y, piecesCaught);
+  }
 }

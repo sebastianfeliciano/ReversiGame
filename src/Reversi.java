@@ -9,7 +9,7 @@ import javax.swing.*;
 public class Reversi {
 
 
-    static ReadOnlyBoardModel board = new Board(11);
+    static ReadOnlyBoardModel board = new Board(7);
     public static void main(String[] args) {
         JFrame frame = new JFrame("Hexagon Drawing");
         JLabel score = new JLabel("Black: " + board.getScoreBlack() + " White: " + board.getScoreWhite());

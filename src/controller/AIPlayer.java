@@ -14,7 +14,7 @@ public class AIPlayer extends Player {
   }
 
   public void makeMove() {
-    Move selectedMove = strategy.selectMove(this.board, this.getType());
+    Move selectedMove = strategy.selectMove(this.board, this);
     if (selectedMove != null) {
       super.placeKey(selectedMove.getX(), selectedMove.getY());
     } else {

@@ -8,10 +8,10 @@ import model.ReadOnlyBoardModel;
 public class Player implements IPlayer {
   private final String name;
   private final PlayerType type;
-  final ReadOnlyBoardModel board;
+  final Board board;
   public boolean hasPassed;
 
-  public Player(String name, PlayerType type, ReadOnlyBoardModel board) {
+  public Player(String name, PlayerType type, Board board) {
     this.name = name;
     this.type = type;
     this.board = board;

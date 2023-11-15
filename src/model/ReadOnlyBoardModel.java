@@ -6,7 +6,7 @@ import controller.PlayerType;
 
 import java.util.List;
 
-public interface ReadOnlyBoardModel extends BoardModel {
+public interface ReadOnlyBoardModel {
 
     int getScoreWhite();
 

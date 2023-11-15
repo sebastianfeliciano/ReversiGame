@@ -2,7 +2,7 @@ package model;
 
 import controller.PlayerType;
 
-public interface BoardModel {
+public interface BoardModel extends ReadOnlyBoardModel{
     void flipPieces(int x, int y, PlayerType currentPlayer);
 
     void playerPass(PlayerType playerType);

@@ -28,14 +28,13 @@ public class ExampleCaptureStrategies {
   public void testMaxFlipChosenAfterPlayer1Goes() {
     CaptureStrategy strategy = new CaptureStrategy();
     Board mockBoard = new Board(7);
-    ReadOnlyBoardModel copy = mockBoard.getReadOnlyBoard();
-    Player player1 = new Player("Player 2", PlayerType.BLACK, mockBoard);
-    AIPlayer player2 = new AIPlayer("Player 1", PlayerType.WHITE, mockBoard, strategy);
+    Player player1 = new Player("Player 2", PlayerType.WHITE, mockBoard);
+    AIPlayer player2 = new AIPlayer("Player 1", PlayerType.BLACK, mockBoard, strategy);
     player1.placeKey(-1,-1);
+    ReadOnlyBoardModel copy = mockBoard.getReadOnlyBoard();
     Move selectedMove = strategy.selectMove(copy, player2);
-    System.out.println(selectedMove.getX());
-    System.out.println(selectedMove.getY());
-    System.out.println(selectedMove.getPiecesCaught());
+    Move expectedMove = new Move(-1,-2, 2);
+    Assert.assertEquals(selectedMove.getX(), expectedMove.getX());
   }
 
 

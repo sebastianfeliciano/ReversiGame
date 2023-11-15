@@ -1,11 +1,12 @@
 package model;
 
 import controller.DirectionsEnum;
+import controller.Player;
 import controller.PlayerType;
 
 import java.util.List;
 
-public interface ReadOnlyBoardModel {
+public interface ReadOnlyBoardModel extends BoardModel {
 
     int getScoreWhite();
 
@@ -26,4 +27,8 @@ public interface ReadOnlyBoardModel {
     boolean isValidMove(int x, int y, PlayerType playerType);
 
     boolean isValidCoordinate(int q, int r);
+
+    List<Move> getValidMovesWithCaptures(Player player);
+
+    boolean isCornerMove(Move move, int boardSize);
 }

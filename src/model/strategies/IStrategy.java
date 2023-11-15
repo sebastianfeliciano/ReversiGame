@@ -4,7 +4,9 @@ import controller.Player;
 import controller.PlayerType;
 import model.Board;
 import model.Move;
+import model.ReadOnlyBoardModel;
 
 public interface IStrategy {
-    Move selectMove(Board board, Player player);
+
+    Move selectMove(ReadOnlyBoardModel board, Player player);
 }

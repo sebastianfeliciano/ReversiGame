@@ -3,12 +3,13 @@ package model.strategies;
 import controller.Player;
 import model.Board;
 import model.Move;
+import model.ReadOnlyBoardModel;
 
 import java.util.List;
 
 public class CaptureStrategy implements IStrategy {
   @Override
-  public Move selectMove(Board board, Player player) {
+  public Move selectMove(ReadOnlyBoardModel board, Player player) {
     List<Move> validMoves = board.getValidMovesWithCaptures(player);
     if (validMoves.isEmpty()) {
       player.setHasPassed();

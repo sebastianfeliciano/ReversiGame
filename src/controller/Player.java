@@ -1,15 +1,17 @@
 package controller;
 
 import model.Board;
+import model.BoardModel;
+import model.ReadOnlyBoardModel;
 
 
 public class Player implements IPlayer {
   private final String name;
   private final PlayerType type;
-  final Board board;
+  final ReadOnlyBoardModel board;
   public boolean hasPassed;
 
-  public Player(String name, PlayerType type, Board board) {
+  public Player(String name, PlayerType type, ReadOnlyBoardModel board) {
     this.name = name;
     this.type = type;
     this.board = board;

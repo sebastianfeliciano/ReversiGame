@@ -54,6 +54,7 @@ public class GoForCornersStrategy implements IStrategy {
         }
       }
       logger.info("Selected move: " + bestMove.getX() + ", " + bestMove.getY());
+      logger.info("Capturing "+bestMove.getPiecesCaught()+  " pieces!");
       return bestMove;
     }
   }

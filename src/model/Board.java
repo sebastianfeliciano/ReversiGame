@@ -72,6 +72,10 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     return cellsThatMakeTheBoard[row][column];
   }
 
+  public ReadOnlyBoardModel getReadOnlyBoard(){
+    return this;
+  }
+
   /**
    * Flips a player type based on passed in coordinates passed
    * in by the player.
@@ -93,6 +97,19 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     for (DirectionsEnum dir : DirectionsEnum.values()) {
       int nextQ = x + dir.getQMove();
       int nextR = y + dir.getRMove();
+
+      // Skip if the next hex is not opponent's or out of bounds
+      if (!isValidCoordinate(nextQ, nextR)) {
+        continue;
+      }
+      HexShape neighborHex = getCurrentHex(nextR, nextQ);
+      if (neighborHex == null) {
+        continue;
+      }
+
+      if (neighborHex.getPlayerType() != opponent) {
+        continue;
+      }
 
       List<HexShape> piecesToFlip = new ArrayList<>();
 
@@ -389,8 +406,22 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     PlayerType opponent = player.nextPlayer();
 
     for (DirectionsEnum dir : DirectionsEnum.values()) {
+
       int nextQ = x + dir.getQMove();
       int nextR = y + dir.getRMove();
+
+      // Skip if the next hex is not opponent's or out of bounds
+      if (!isValidCoordinate(nextQ, nextR)) {
+        continue;
+      }
+      HexShape neighborHex = getCurrentHex(nextR, nextQ);
+      if (neighborHex == null) {
+        continue;
+      }
+
+      if (neighborHex.getPlayerType() != opponent) {
+        continue;
+      }
       List<HexShape> piecesToFlip = new ArrayList<>();
 
       while (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ).getPlayerType() == opponent) {
@@ -409,7 +440,3 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
 
 
 }
-
-
-
-

@@ -1,12 +1,6 @@
-Nov 15, 2023 12:27:17 PM model.strategies.CaptureStrategy selectMove
+Nov 15, 2023 2:30:54 PM model.strategies.CaptureStrategy selectMove
 INFO: Selecting move for player: Computer
-Nov 15, 2023 12:27:17 PM model.strategies.CaptureStrategy selectMove
-INFO: Selected move: 1, -2
-Nov 15, 2023 12:27:17 PM model.strategies.CaptureStrategy selectMove
-INFO: Capturing 1 pieces!
-Nov 15, 2023 12:27:17 PM model.strategies.CaptureStrategy selectMove
-INFO: Selecting move for player: Player 2
-Nov 15, 2023 12:27:17 PM model.strategies.CaptureStrategy selectMove
-INFO: Selected move: 1, -2
-Nov 15, 2023 12:27:17 PM model.strategies.CaptureStrategy selectMove
-INFO: Capturing 1 pieces!
+Nov 15, 2023 2:30:54 PM model.strategies.CaptureStrategy selectMove
+INFO: Selected move: -2, -1
+Nov 15, 2023 2:30:54 PM model.strategies.CaptureStrategy selectMove
+INFO: Capturing 2 pieces!

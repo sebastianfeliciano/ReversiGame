@@ -1,6 +1,8 @@
 package controller;
 
 import model.Board;
+import model.BoardModel;
+import model.ReadOnlyBoardModel;
 
 
 public class Player implements IPlayer {

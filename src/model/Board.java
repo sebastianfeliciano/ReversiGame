@@ -137,11 +137,11 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
         continue;
       }
       HexShape neighborHex = getCurrentHex(nextR, nextQ);
-      if (neighborHex == null){
+      if (neighborHex == null) {
         continue;
       }
 
-      if(neighborHex.getPlayerType() != opponent){
+      if (neighborHex.getPlayerType() != opponent) {
         continue;
       }
 
@@ -368,6 +368,16 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
 
     }
     return validMoves;
+  }
+
+  @Override
+  public boolean isCornerMove(Move move, int boardSize) {
+    int x = move.getX();
+    int y = move.getY();
+    return (x == 0 && y == 0) ||
+            (x == 0 && y == boardSize - 1) ||
+            (x == boardSize - 1 && y == 0) ||
+            (x == boardSize - 1 && y == boardSize - 1);
   }
 
 

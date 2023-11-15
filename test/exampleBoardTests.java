@@ -51,17 +51,6 @@ public class exampleBoardTests {
   }
 
 
-//    public List<Move> getValidMovesWithCaptures(PlayerType player) {
-//        List<Move> validMoves = new ArrayList<>();
-//        for (int currentRow = 0; currentRow < BOARD_SIZE; currentRow++) {
-//            for (int currentColumn = 0; currentColumn < BOARD_SIZE; currentColumn++) {
-//                System.out.println(getCurrentHex(currentRow,currentColumn));
-//            }
-//        }
-//        return validMoves;
-//    }
-
-
   @Test
   public void testCalculatePiecesWithAValidMove() {
     Board defaultBoard = new Board(7);
@@ -78,7 +67,7 @@ public class exampleBoardTests {
     Player player2 = new Player("Player 2", PlayerType.BLACK, defaultBoard);
     List<Move> validMoves = defaultBoard.getValidMovesWithCaptures(player1);
 
-    // Define the expected moves
+    //Expected moves
     List<Move> expectedMoves = new ArrayList<>();
     expectedMoves.add(new Move(-1, -1, 1));
     expectedMoves.add(new Move(-2, 1, 1));
@@ -98,7 +87,6 @@ public class exampleBoardTests {
       Assert.assertTrue(expectedMoves.contains(validMove));
     }
   }
-
   }
 
 

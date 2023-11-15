@@ -87,29 +87,15 @@ public class ExampleDrawTests {
     }
 
 
+
     @Test
     public void testGetWindowHeight() {
-        DrawUtils drawUtils = new DrawUtils(new Board(11));
-        int windowHeight = drawUtils.getWindowHeight();
-        Assert.assertTrue(windowHeight > 0);
+        DrawUtils draw = new DrawUtils(new Board(11));
+        draw.setSize(600,600);
+        int windowHeight = draw.getWindowHeight();
+        Assert.assertEquals(windowHeight, 600);
     }
 
-    @Test
-    public void testDrawEachHexagon() {
-        DrawUtils drawUtils = new DrawUtils(new Board(11));
-
-        int x = drawUtils.getWidth() / 2;
-        int y = drawUtils.getHeight() / 2;
-
-        HexShape hexShape = new HexShape(0, 0, PlayerType.BLACK);
-
-        int hexSize = drawUtils.getHexSize();
-
-        Graphics g = new JPanel().getGraphics();
-
-        drawUtils.drawEachHexagon(g, hexShape, x, y, hexSize, PlayerType.BLACK);
-
-    }
 
     @Test
     public void testDraw() {

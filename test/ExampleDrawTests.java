@@ -12,6 +12,7 @@ public class ExampleDrawTests {
 
     Board board = new Board();
     DrawUtils draw = new DrawUtils(board);
+
     @Test
     public void testSize() {
         draw.setSize(new Dimension(600,600));
@@ -61,7 +62,6 @@ public class ExampleDrawTests {
         DrawUtils draw = new DrawUtils(new Board(11));
         int x = draw.getWidth() / 2;
         int y = draw.getHeight() / 2;
-
         int hexSize = draw.getHexSize();
         boolean isPointInHex = draw.isPointInHex(x, y, x, y, hexSize);
         Assert.assertTrue(isPointInHex);
@@ -70,23 +70,10 @@ public class ExampleDrawTests {
     @Test
     public void testGetWindowWidth() {
         DrawUtils draw = new DrawUtils(new Board(11));
-
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(draw);
-
-        draw.setPreferredSize(new Dimension(650, 650));
-
-        frame.pack();
-        frame.setVisible(true);
-
+        draw.setSize(600,600);
         int windowWidth = draw.getWindowWidth();
-        System.out.println(draw.getWindowWidth());
-
-       Assert.assertEquals(650, windowWidth);
+        Assert.assertEquals(windowWidth, 600);
     }
-
-
 
     @Test
     public void testGetWindowHeight() {

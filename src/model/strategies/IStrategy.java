@@ -3,12 +3,16 @@ package model.strategies;
 import java.util.Optional;
 
 import controller.Player;
-import controller.PlayerType;
-import model.Board;
 import model.Move;
 import model.ReadOnlyBoardModel;
 
+/**
+ * Interface for all types of strategies.
+ */
 public interface IStrategy {
 
-  Optional<Move> selectMove(ReadOnlyBoardModel board, Player player);
+    /**
+     * Represents a certain move that an AIPlayer makes.
+     */
+    Optional<Move> selectMove(ReadOnlyBoardModel board, Player player);
 }

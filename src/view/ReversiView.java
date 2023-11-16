@@ -6,6 +6,9 @@ import model.HexShape;
 
 import java.awt.*;
 
+/**
+ * Represents the view of a Reversi Board.
+ */
 public interface ReversiView {
 
     HexShape findHex(int mouseX, int mouseY);

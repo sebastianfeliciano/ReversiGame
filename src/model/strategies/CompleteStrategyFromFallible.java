@@ -6,14 +6,25 @@ import controller.Player;
 import model.Move;
 import model.ReadOnlyBoardModel;
 
-public class CompleteStrategyFromFallible implements InfallibleHexGameStrategy {
-  FallibleHexGameStrategy strategyToTry;
+/**
+ * Converts fallible strategies into fallible strategies.
+ * Basically a complete strategy.
+ */
+public class CompleteStrategyFromFallible
+        implements InfallibleHexGameStrategy {
+    FallibleHexGameStrategy strategyToTry;
 
-  public Optional<Move> selectMove(ReadOnlyBoardModel boardModel, Player player) throws IllegalStateException {
-    Optional<Move> firstMove = this.strategyToTry.selectMove(boardModel, player);
-    if (firstMove.isPresent()) {
-      return firstMove;
+    /**
+     * Selects a certain move for the AIPlayer to make.
+     */
+    public Optional<Move> selectMove(ReadOnlyBoardModel boardModel, Player player)
+            throws IllegalStateException {
+        Optional<Move> firstMove = this.strategyToTry
+                .selectMove(boardModel, player);
+        if (firstMove.isPresent()) {
+            return firstMove;
+        }
+        throw new IllegalStateException
+                ("There are no possible moves chosen by this strategy!");
     }
-    throw new IllegalStateException("There are no possible moves chosen by this strategy!");
-  }
 }

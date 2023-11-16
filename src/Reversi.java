@@ -1,15 +1,22 @@
-import java.awt.*;
+
 
 import model.Board;
 import model.ReadOnlyBoardModel;
 import view.DrawUtils;
 
 import javax.swing.*;
+import java.awt.*;
 
+
+/**
+ * Represents the GUI view.
+ */
 public class Reversi {
-
-
     static ReadOnlyBoardModel board = new Board(7);
+
+    /**
+     * Entry point for GUI.
+     */
     public static void main(String[] args) {
         JFrame frame = new JFrame("Hexagon Drawing");
         JLabel score = new JLabel("Black: " + board.getScoreBlack() + " White: " + board.getScoreWhite());

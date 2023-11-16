@@ -1,8 +1,10 @@
 import controller.Player;
 import controller.PlayerType;
 import model.Board;
+
 import org.junit.Assert;
 import org.junit.Test;
+
 import view.TextualController;
 
 public class examplePlayerTests {
@@ -81,7 +83,7 @@ public class examplePlayerTests {
     Player two = new Player("Christian", PlayerType.BLACK, firstBoard);
     Assert.assertEquals(firstBoard.getCurrentHex(2, 2).getPlayerType(),
             PlayerType.EMPTY);
-    one.placeKey(-1,-1);
+    one.placeKey(-1, -1);
     Assert.assertEquals(firstBoard.getCurrentHex(2, 2).getPlayerType(),
             PlayerType.WHITE);
   }

@@ -1,6 +1,7 @@
 import controller.Player;
 import controller.PlayerType;
 import model.Board;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -52,7 +53,7 @@ public class exampleTextualView {
     Board board = new Board(11);
     TextualController controller = new TextualController(board);
     Player player1 = new Player("name", PlayerType.WHITE, board);
-    player1.placeKey(-1,-1);
+    player1.placeKey(-1, -1);
     Assert.assertEquals(controller.toString(),
             "     _ _ _ _ _ _ \n" +
                     "    _ _ _ _ _ _ _ \n" +
@@ -78,7 +79,7 @@ public class exampleTextualView {
     TextualController controller = new TextualController(board);
     Player player1 = new Player("player1", PlayerType.WHITE, board);
     Player player2 = new Player("player2", PlayerType.BLACK, board);
-    player1.placeKey(-1,-1);
+    player1.placeKey(-1, -1);
     player2.placeKey(1, -2);
 
     Assert.assertEquals(

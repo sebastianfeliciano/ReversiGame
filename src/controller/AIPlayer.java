@@ -1,6 +1,9 @@
 package controller;
 
+import java.util.Optional;
+
 import model.Board;
+import model.strategies.FallibleHexGameStrategy;
 import model.strategies.IStrategy;
 import model.Move;
 
@@ -13,10 +16,11 @@ public class AIPlayer extends Player {
     this.hasPassed = false;
   }
 
+
   public void makeMove() {
-    Move selectedMove = strategy.selectMove(this.board, this);
-    if (selectedMove != null) {
-      super.placeKey(selectedMove.getX(), selectedMove.getY());
+    Optional<Move> selectedMove = strategy.selectMove(this.board, this);
+    if (selectedMove.isPresent()) {
+      super.placeKey(selectedMove.get().getX(), selectedMove.get().getY());
     } else {
       this.setHasPassed();
     }

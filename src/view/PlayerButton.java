@@ -12,7 +12,7 @@ import java.awt.event.MouseListener;
 import model.Board;
 import model.HexShape;
 
-public class PlayerButton extends JButton implements MouseListener {
+public class PlayerButton extends JButton {
   private PlayerType type;
   private Board b;
 
@@ -31,34 +31,5 @@ public class PlayerButton extends JButton implements MouseListener {
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-  }
-
-  public void setPlayerType(PlayerType playerType) {
-    this.type = playerType;
-  }
-
-  @Override
-  public void mouseClicked(MouseEvent e) {
-
-  }
-
-  @Override
-  public void mousePressed(MouseEvent e) {
-
-  }
-
-  @Override
-  public void mouseReleased(MouseEvent e) {
-
-  }
-
-  @Override
-  public void mouseEntered(MouseEvent e) {
-
-  }
-
-  @Override
-  public void mouseExited(MouseEvent e) {
-
   }
 }

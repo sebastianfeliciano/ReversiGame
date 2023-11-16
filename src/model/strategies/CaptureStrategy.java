@@ -1,16 +1,16 @@
 package model.strategies;
 
 import controller.Player;
-import model.Board;
 import model.Move;
 import model.ReadOnlyBoardModel;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-public class CaptureStrategy implements IStrategy {
+public class CaptureStrategy implements FallibleHexGameStrategy {
   private static final Logger logger = Logger.getLogger(CaptureStrategy.class.getName());
 
   static {
@@ -24,14 +24,14 @@ public class CaptureStrategy implements IStrategy {
   }
 
   @Override
-  public Move selectMove(ReadOnlyBoardModel board, Player player) {
+  public Optional<Move> selectMove(ReadOnlyBoardModel board, Player player) {
     logger.info("Selecting move for player: " + player.getName());
     List<Move> validMoves = board.getValidMovesWithCaptures(player);
 
     if (validMoves.isEmpty()) {
       logger.info("No valid moves available. Passing turn.");
       player.setHasPassed();
-      return null;
+      return Optional.empty();
     }
     Move bestMove = validMoves.get(0);
     for (Move move : validMoves) {
@@ -46,7 +46,7 @@ public class CaptureStrategy implements IStrategy {
     }
     logger.info("Selected move: " + bestMove.getX() + ", " + bestMove.getY());
     logger.info("Capturing "+bestMove.getPiecesCaught()+  " pieces!");
-    return bestMove;
+    return Optional.of(bestMove);
   }
 }
 

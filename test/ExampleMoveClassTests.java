@@ -12,35 +12,36 @@ public class ExampleMoveClassTests {
   public void setUp() {
     move = new Move(1, 3, 7);
   }
+
   @Test
-  public void testGetX(){
+  public void testGetX() {
     Assert.assertEquals(move.getX(), 1);
   }
 
   @Test
-  public void testGetY(){
-    Assert.assertEquals(move.getY(),3);
+  public void testGetY() {
+    Assert.assertEquals(move.getY(), 3);
   }
 
   @Test
-  public void testGetPiecesCaught(){
-    Assert.assertEquals(move.getPiecesCaught(),7);
+  public void testGetPiecesCaught() {
+    Assert.assertEquals(move.getPiecesCaught(), 7);
   }
 
   @Test
-  public void testSetX(){
+  public void testSetX() {
     move.setX(5);
     Assert.assertEquals(move.getX(), 5);
   }
 
   @Test
-  public void testSetY(){
+  public void testSetY() {
     move.setY(5);
     Assert.assertEquals(move.getY(), 5);
   }
 
   @Test
-  public void testSetPiecesCaught(){
+  public void testSetPiecesCaught() {
     move.setPiecesCaught(65);
     Assert.assertEquals(move.getPiecesCaught(), 65);
   }

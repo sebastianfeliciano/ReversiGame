@@ -87,7 +87,7 @@ public class exampleBoardTests {
       Assert.assertTrue(expectedMoves.contains(validMove));
     }
   }
-  }
+}
 
 
 

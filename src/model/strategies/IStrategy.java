@@ -11,8 +11,8 @@ import model.ReadOnlyBoardModel;
  */
 public interface IStrategy {
 
-  /**
-   * Represents a certain move that an AIPlayer makes.
-   */
-  Optional<Move> selectMove(ReadOnlyBoardModel board, Player player);
+    /**
+     * Represents a certain move that an AIPlayer makes.
+     */
+    Optional<Move> selectMove(ReadOnlyBoardModel board, Player player);
 }

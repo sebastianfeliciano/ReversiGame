@@ -1,5 +1,7 @@
 package view;
 
+import controller.ModelStatusListener;
+import controller.PlayerActionListener;
 import controller.PlayerType;
 import model.Board;
 import model.HexShape;
@@ -23,7 +25,7 @@ import javax.swing.JPanel;
 /**
  * Draws out our board and hexagons.
  */
-public class DrawUtils extends JPanel implements ReversiView {
+public class DrawUtils extends JPanel implements ReversiView, PlayerActionListener, ModelStatusListener {
   protected static Board board = new Board(11);
   boolean isClicked = false;
   private HexShape firstClickedHex;
@@ -319,5 +321,40 @@ public class DrawUtils extends JPanel implements ReversiView {
   @Override
   public int getWindowHeight() {
     return Math.min(this.getHeight(), 650);
+  }
+
+  @Override
+  public void onGameStart() {
+
+  }
+
+  @Override
+  public void onGameEnd(PlayerType type) {
+
+  }
+
+  @Override
+  public void onPlayerChanged(PlayerType player) {
+
+  }
+
+  @Override
+  public void onInvalidMove() {
+
+  }
+
+  @Override
+  public void onBoardUpdate() {
+
+  }
+
+  @Override
+  public void onPlayerMove(int row, int column) {
+
+  }
+
+  @Override
+  public void onPass() {
+
   }
 }

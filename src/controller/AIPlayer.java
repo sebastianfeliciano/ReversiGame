@@ -24,7 +24,7 @@ public class AIPlayer extends Player implements IPlayer {
   /**
    * Makes a move for the AIPlayer.
    */
-  public void makeMove(int row, int column) {
+  public void makeMove() {
     Optional<Move> selectedMove = strategy.selectMove(this.board, this);
     if (selectedMove.isPresent()) {
       super.makeMove(selectedMove.get().getX(), selectedMove.get().getY());

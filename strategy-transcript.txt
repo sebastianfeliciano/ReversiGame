@@ -1,32 +1,4 @@
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
+Nov 25, 2023 10:11:30 AM model.strategies.GoForCornersStrategy selectMove
 INFO: Selecting move for player: Computer
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
-INFO: Selected move: 2, -1
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
-INFO: Selecting move for player: Computer
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
-INFO: Selected move: 2, -1
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
-INFO: Selecting move for player: Computer
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
-INFO: Selected move: 2, -1
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
-INFO: Selecting move for player: Computer
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
-INFO: Selected move: 2, -1
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
-INFO: Selecting move for player: Computer
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
-INFO: Selected move: 2, -1
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
-INFO: Selecting move for player: Computer
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
-INFO: Selected move: 2, -1
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
-INFO: Selecting move for player: Computer
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
-INFO: Selected move: 2, -1
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
-INFO: Selecting move for player: Computer
-Nov 16, 2023 9:00:02 PM model.strategies.GoForCornersStrategy selectMove
+Nov 25, 2023 10:11:30 AM model.strategies.GoForCornersStrategy selectMove
 INFO: Selected move: 2, -1

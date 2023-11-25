@@ -1,4 +1,4 @@
-package controller;
+package controller.players;
 
 import model.Board;
 
@@ -10,6 +10,7 @@ public class Player implements IPlayer {
   private final PlayerType type;
   final Board board;
   public boolean hasPassed;
+  public boolean currentTurnStatus;
 
   /**
    * Constructor for player with a name, a player type,
@@ -20,6 +21,7 @@ public class Player implements IPlayer {
     this.type = type;
     this.board = board;
     this.hasPassed = false;
+    this.currentTurnStatus = true;
   }
 
   /**

@@ -1,7 +1,6 @@
 package view;
 
-import controller.ModelStatusListener;
-import controller.PlayerType;
+import controller.players.PlayerType;
 import model.Board;
 import model.HexShape;
 import model.ReadOnlyBoardModel;
@@ -58,8 +57,8 @@ public class DrawUtils extends JPanel implements ReversiView {
           ;
           if (firstClickedHex != null && firstClickedHex.equals(newClickedHex)) {
             firstClickedHex = null;
-            System.out.println("Deselected: " + newClickedHex.getRow()
-                    + ", " + newClickedHex.getColumn());
+            System.out.println("Deselected: " + newClickedHex.getColumn()
+                    + ", " + newClickedHex.getRow());
           } else {
             firstClickedHex = newClickedHex;
           }
@@ -105,9 +104,7 @@ public class DrawUtils extends JPanel implements ReversiView {
             ActionEvent e) ->
             System.exit(0));
 
-    buttonPanel.setLayout(new
-
-            BorderLayout());
+    buttonPanel.setLayout(new BorderLayout());
     buttonPanel.add(quitButton, BorderLayout.EAST);
 
     JPanel bottomPanel = new JPanel(new BorderLayout());
@@ -122,10 +119,10 @@ public class DrawUtils extends JPanel implements ReversiView {
       public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
           if (firstClickedHex != null) {
-            playerAction.onPlayerMove(Integer.parseInt(firstClickedHex.getRow()),
-                    Integer.parseInt(firstClickedHex.getColumn()));
+            playerAction.onPlayerMove(Integer.parseInt(firstClickedHex.getColumn()),
+                    Integer.parseInt(firstClickedHex.getRow()));
             System.out.println("Chosen: "
-                    + firstClickedHex.getRow() + ", " + firstClickedHex.getColumn());
+                    + firstClickedHex.getColumn() + ", " + firstClickedHex.getRow());
           } else {
             System.out.println("No hex selected");
           }

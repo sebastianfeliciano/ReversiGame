@@ -1,7 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 
-import controller.PlayerType;
+import controller.players.PlayerType;
 import model.HexShape;
 
 /**

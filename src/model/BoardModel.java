@@ -1,6 +1,6 @@
 package model;
 
-import controller.PlayerType;
+import controller.players.PlayerType;
 
 /**
  * Represents an interface for the board that takes in void methods.

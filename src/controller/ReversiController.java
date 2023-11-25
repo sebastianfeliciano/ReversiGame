@@ -2,99 +2,64 @@ package controller;
 
 import javax.swing.*;
 
+import controller.players.Player;
+import controller.players.PlayerType;
 import model.Board;
 import view.DrawUtils;
-import view.ModelStatusInterface;
 import view.PlayerActionListener;
 
 public class ReversiController implements PlayerActionListener {
-  private Player player;
+  private final Player player;
   private Board board;
   private DrawUtils view;
   private JFrame frame;
+  JLabel scoreLabel;
 
-  public ReversiController(Player player, Board board, DrawUtils view, JFrame frame) {
+  public ReversiController(Player player, Board board, JFrame frame, JLabel scoreLabel) {
     this.player = player;
     this.board = board;
-    this.view = view;
     this.frame = frame;
-    this.view.setEventListener(this);
+    this.scoreLabel = scoreLabel;
 
   }
 
-  public void registerListeners(DrawUtils view) {
-
+  public void setView(DrawUtils view) {
+    this.view = view;
+    //this.view.setEventListener(this); // Uncomment this if needed
   }
 
-  //@Override
-  public void onGameStart() {
-
-  }
-
-  //@Override
-  public void onGameEnd(PlayerType type) {
-
-  }
-
-  //@Override
-  public void onPlayerChanged(PlayerType current) {
-    if (current == player.getType()) {
-      //view.updateBoard(current.getModel().getBoard());
-    }
-  }
-
-  //@Override
-  public void onInvalidMove() {
-
-  }
 
   @Override
   public void onPlayerMove(int row, int column) {
     if (!board.isPlayerTurn(player)) {
       return;
     }
-    // Validate the move
+
+
     if (!board.isValidMove(row, column, player.getType())) {
       JOptionPane.showMessageDialog(frame, "Invalid move, please try again.", "Invalid Move", JOptionPane.ERROR_MESSAGE);
       return;
     }
-    //Player will make move
+
     player.makeMove(row, column);
 
-    //Game State will switch the currentTurn
     board.switchTurns();
 
     view.updateBoard(board);
+    updateScore(scoreLabel);
+
+
     if (board.isGameOver()) {
       System.out.println("kjklk");
     }
+  }
+
+  public void updateScore(JLabel scoreLabel) {
+    scoreLabel.setText("Black: " + board.getScoreBlack() + " White: " + board.getScoreWhite());
   }
 
   @Override
   public void onPass() {
 
   }
-
-//  //@Override
-//  public void onBoardUpdate() {
-//
-//  }
-//
-//  @Override
-//  public void onPlayerMove(int row, int column) {
-////        try {
-////            player.placeKey(row, column);
-////        } catch (InvalidMoveException e) {
-////            handleInvalidMove(e);
-////        }
-//  }
-//
-//  @Override
-//  public void onPass() {
-////        try {
-////            player.setHasPassed();
-////        } catch (InvalidMoveException e) {
-////            handleInvalidmove(e);
-////        }
-//  }
 }

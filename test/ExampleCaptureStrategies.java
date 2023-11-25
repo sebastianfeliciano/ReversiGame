@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import controller.AIPlayer;
-import controller.Player;
-import controller.PlayerType;
+import controller.players.AIPlayer;
+import controller.players.Player;
+import controller.players.PlayerType;
 import model.Board;
 import model.Mock;
 import model.Move;

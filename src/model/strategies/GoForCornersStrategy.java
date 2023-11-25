@@ -1,6 +1,6 @@
 package model.strategies;
 
-import controller.Player;
+import controller.players.Player;
 import model.Move;
 import model.ReadOnlyBoardModel;
 

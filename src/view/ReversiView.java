@@ -1,6 +1,6 @@
 package view;
 
-import controller.PlayerType;
+import controller.players.PlayerType;
 import model.Board;
 import model.HexShape;
 

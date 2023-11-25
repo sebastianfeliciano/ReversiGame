@@ -7,8 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controller.Player;
-import controller.PlayerType;
+import controller.players.Player;
+import controller.players.PlayerType;
 import controller.ReversiController;
 import model.Board;
 import model.ReadOnlyBoardModel;
@@ -18,7 +18,8 @@ import view.DrawUtils;
  * Represents the GUI view.
  */
 public class Reversi {
-  static ReadOnlyBoardModel board = new Board(7);
+
+  static ReadOnlyBoardModel board = new Board(11);
   static JLabel l;
   /**
    * Entry point for GUI.
@@ -46,7 +47,8 @@ public class Reversi {
     frame1.pack();
     frame1.setLocationRelativeTo(null);
     frame1.setVisible(true);
-    ReversiController controller1 = new ReversiController(player1, (Board) board, view1, frame1);
+    ReversiController controller1 = new ReversiController(player1, (Board) board, frame1, score1);
+    controller1.setView(view1);
     view1.setEventListener(controller1);
 
 
@@ -64,7 +66,8 @@ public class Reversi {
     frame2.pack();
     frame2.setLocationRelativeTo(null);
     frame2.setVisible(true);
-    ReversiController controller2 = new ReversiController(player2, (Board) board, view2, frame2);
+    ReversiController controller2 = new ReversiController(player2, (Board) board, frame2, score2);
+    controller2.setView(view2);
     view2.setEventListener(controller2);
 
   }

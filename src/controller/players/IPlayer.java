@@ -1,4 +1,4 @@
-package controller;
+package controller.players;
 
 import java.io.IOException;
 

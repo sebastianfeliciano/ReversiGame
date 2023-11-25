@@ -1,7 +1,7 @@
 package model;
 
-import controller.Player;
-import controller.PlayerType;
+import controller.players.Player;
+import controller.players.PlayerType;
 
 import java.util.List;
 

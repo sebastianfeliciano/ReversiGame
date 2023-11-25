@@ -1,4 +1,4 @@
-package controller;
+package controller.players;
 
 /**
  * Represents the different game pieces in a game.

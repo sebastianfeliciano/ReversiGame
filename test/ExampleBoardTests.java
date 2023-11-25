@@ -1,4 +1,4 @@
-import controller.Player;
+import controller.players.Player;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.PlayerType;
+import controller.players.PlayerType;
 import model.Board;
 import model.Move;
 

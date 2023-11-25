@@ -7,10 +7,9 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.List;
 
-import controller.Player;
-import controller.PlayerType;
+import controller.players.Player;
+import controller.players.PlayerType;
 import model.Board;
-import view.TextualController;
 
 /**
  * Main entry point for players to play Reversi.

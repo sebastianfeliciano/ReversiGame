@@ -1,5 +1,5 @@
-import controller.AIPlayer;
-import controller.Player;
+import controller.players.AIPlayer;
+import controller.players.Player;
 import model.Mock;
 import model.ReadOnlyBoardModel;
 import model.strategies.GoForCornersStrategy;
@@ -10,7 +10,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.PlayerType;
+import controller.players.PlayerType;
 import model.Board;
 import model.Move;
 

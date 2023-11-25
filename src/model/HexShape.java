@@ -2,7 +2,7 @@ package model;
 
 import java.util.Objects;
 
-import controller.PlayerType;
+import controller.players.PlayerType;
 import view.PlayerButton;
 
 /**

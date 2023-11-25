@@ -3,9 +3,9 @@ import org.junit.Test;
 
 import java.util.Optional;
 
-import controller.AIPlayer;
-import controller.Player;
-import controller.PlayerType;
+import controller.players.AIPlayer;
+import controller.players.Player;
+import controller.players.PlayerType;
 import model.Board;
 import model.Move;
 import model.ReadOnlyBoardModel;

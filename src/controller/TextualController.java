@@ -1,9 +1,10 @@
-package view;
+package controller;
 
 import java.io.IOException;
 
 import model.Board;
 import model.HexShape;
+import view.ReversiTextualView;
 
 /**
  * The Textual Controller tracks and exports the board to the user so that
@@ -15,7 +16,7 @@ public class TextualController implements ReversiTextualView {
   private final Appendable output;
 
   /**
-   * view.TextualController constructor that only takes in the model which
+   * controller.TextualController constructor that only takes in the model which
    * is the first game state.
    */
   public TextualController(Board board) {
@@ -27,7 +28,7 @@ public class TextualController implements ReversiTextualView {
   }
 
   /**
-   * Constructor for view.TextualController.
+   * Constructor for controller.TextualController.
    */
   public TextualController(Board board, Appendable output) {
     if (board == null) {

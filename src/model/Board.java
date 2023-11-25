@@ -1,8 +1,8 @@
 package model;
 
 import controller.DirectionsEnum;
-import controller.Player;
-import controller.PlayerType;
+import controller.players.Player;
+import controller.players.PlayerType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,8 @@ import java.util.List;
  * Sets up a board for the controller to use.
  */
 public class Board implements ReadOnlyBoardModel, BoardModel {
-  private PlayerType currentTurn;
 
+  private PlayerType currentTurn;
   public int boardSize;
   public HexShape[][] cellsThatMakeTheBoard;
   private boolean whitePassed = false;
@@ -32,6 +32,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
    * because a valid hexagon cannot be created from either value.
    */
   public Board(int sizeOfBoard) {
+    this.currentTurn = PlayerType.BLACK;
     if (sizeOfBoard < 7 || (sizeOfBoard % 2 == 0)) {
       throw new IllegalStateException("The game must be a minimum of size 5 and cannot be even!");
     }
@@ -85,12 +86,12 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   }
 
 
-  public boolean isPlayerTurn(Player player) {
-    return player.getType() == currentTurn;
-  }
-
   public void switchTurns() {
     currentTurn = (currentTurn == PlayerType.BLACK) ? PlayerType.WHITE : PlayerType.BLACK;
+  }
+
+  public boolean isPlayerTurn(Player player) {
+    return currentTurn == player.getType();
   }
 
 

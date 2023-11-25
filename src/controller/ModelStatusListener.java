@@ -1,5 +1,7 @@
 package controller;
 
+import controller.players.PlayerType;
+
 public interface ModelStatusListener {
   void onGameStart();
 

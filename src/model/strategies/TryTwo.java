@@ -2,7 +2,7 @@ package model.strategies;
 
 import java.util.Optional;
 
-import controller.Player;
+import controller.players.Player;
 import model.Move;
 import model.ReadOnlyBoardModel;
 

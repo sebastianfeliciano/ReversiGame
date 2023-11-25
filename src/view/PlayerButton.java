@@ -3,12 +3,11 @@ package view;
 
 import javax.swing.JButton;
 
-import controller.PlayerType;
+import controller.players.PlayerType;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-import model.Board;
 import model.HexShape;
 
 /**

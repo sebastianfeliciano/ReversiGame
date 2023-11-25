@@ -1,12 +1,12 @@
-import controller.Player;
-import controller.PlayerType;
+import controller.players.Player;
+import controller.players.PlayerType;
 import model.Board;
 import model.HexShape;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import view.TextualController;
+import controller.TextualController;
 
 /**
  * Tests the method for read only methods for Board.

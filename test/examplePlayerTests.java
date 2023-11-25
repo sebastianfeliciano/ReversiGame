@@ -1,5 +1,5 @@
-import controller.Player;
-import controller.PlayerType;
+import controller.players.Player;
+import controller.players.PlayerType;
 import model.Board;
 import org.junit.Assert;
 import org.junit.Test;

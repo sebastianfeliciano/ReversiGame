@@ -1,6 +1,7 @@
 package controller;
 
 public interface ModelStatusListener {
+  
   void onGameStart();
 
   void onGameEnd(PlayerType type);

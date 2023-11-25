@@ -1,5 +1,4 @@
 
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
@@ -66,7 +65,6 @@ public class Reversi {
     frame2.setVisible(true);
     ReversiController controller2 = new ReversiController(player2, (Board) board, view2, frame2);
     view2.setEventListener(controller2);
-
   }
 
 }

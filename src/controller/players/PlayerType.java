@@ -1,4 +1,4 @@
-package controller;
+package controller.players;
 
 /**
  * Represents the different game pieces in a game.
@@ -19,7 +19,7 @@ public enum PlayerType {
    * Checks who the nextPlayer should be (opposite game piece) or the
    * Switch GamePiece.
    */
-  public PlayerType nextPlayer(){
+  public PlayerType nextPlayer() {
     {
       if (this == BLACK) {
         return WHITE;

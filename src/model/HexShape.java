@@ -2,8 +2,12 @@ package model;
 
 import java.util.Objects;
 
-import controller.PlayerType;
+import controller.players.PlayerType;
+import view.PlayerButton;
 
+/**
+ * Represents a certain hex cell in the board.
+ */
 public class HexShape {
 
   //The most common approach is to
@@ -25,8 +29,7 @@ public class HexShape {
     this.column = columnQ;
     this.row = rowY;
     this.currentPlayerType = currentPlayerType;
-    //s = -q-r
-    s = - columnQ - rowY;
+    s = -columnQ - rowY;
     if (columnQ + rowY + s != 0) {
       throw new IllegalArgumentException("The Coordinate does not Exist");
     }
@@ -37,12 +40,7 @@ public class HexShape {
    * Returns an empty player if the current player type is null.
    */
   public PlayerType getPlayerType() {
-    if (this.currentPlayerType == null){
-      return PlayerType.EMPTY;
-    }
-    else {
-      return this.currentPlayerType;
-    }
+    return Objects.requireNonNullElse(this.currentPlayerType, PlayerType.EMPTY);
   }
 
   /**
@@ -51,6 +49,24 @@ public class HexShape {
   @Override
   public int hashCode() {
     return Objects.hash(this.column, this.row);
+  }
+
+  /**
+   * Overrides the equals method.
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    HexShape hexShape = (HexShape) o;
+    return column == hexShape.column &&
+            row == hexShape.row;
   }
 
   /**
@@ -79,5 +95,12 @@ public class HexShape {
    */
   public PlayerType setPlayerType(PlayerType type) {
     return this.currentPlayerType = type;
+  }
+
+  /**
+   * Sets up a specific button in a board.
+   */
+  public void setButton(PlayerButton playerButton) {
+    //It is empty to set it up appropriately.
   }
 }

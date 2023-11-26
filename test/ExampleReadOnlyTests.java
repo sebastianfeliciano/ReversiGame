@@ -1,13 +1,17 @@
-import controller.Player;
+import controller.players.Player;
+import controller.players.PlayerType;
+import model.Board;
+import model.HexShape;
+
 import org.junit.Assert;
 import org.junit.Test;
 
-import controller.PlayerType;
-import model.Board;
-import model.HexShape;
-import view.TextualController;
+import controller.TextualController;
 
-public class exampleBoardTests {
+/**
+ * Tests the method for read only methods for Board.
+ */
+public class ExampleReadOnlyTests {
 
   Board board = new Board(11);
 
@@ -15,7 +19,6 @@ public class exampleBoardTests {
    * Tests a Board that is given an even number which
    * should not work.
    */
-
   @Test
   public void testingEvenBoardInvalid() {
     Assert.assertThrows(IllegalStateException.class, () -> new Board(12));
@@ -85,9 +88,7 @@ public class exampleBoardTests {
                     "   _ _ _ _ _ _ _ _ \n" +
                     "    _ _ _ _ _ _ _ \n" +
                     "     _ _ _ _ _ _ \n");
-
   }
-
 
   /**
    * Tests that the board constructor is not null,
@@ -120,15 +121,6 @@ public class exampleBoardTests {
     Assert.assertTrue(board1.isValidMove(-1, -1, PlayerType.WHITE));
   }
 
-  /**
-   * Tests that a piece is correctly placed in the board.
-   */
-  @Test
-  public void testPlacePiece() {
-    board.placePiece(3, 3, PlayerType.WHITE);
-    Assert.assertEquals(PlayerType.WHITE, board.
-            getCurrentHex(3, 3).getPlayerType());
-  }
 
   /**
    * Tests that a board is full when it's first started.
@@ -181,8 +173,8 @@ public class exampleBoardTests {
     Player player2 = new Player("s", PlayerType.BLACK, board);
     player1.setHasPassed();
     player2.setHasPassed();
-    Assert.assertTrue(player1.hasPassed());
-    Assert.assertTrue(player2.hasPassed());
+    Assert.assertTrue(player1.hasPassed);
+    Assert.assertTrue(player2.hasPassed);
   }
 
   /**
@@ -192,7 +184,7 @@ public class exampleBoardTests {
   public void testTrapped() {
     Board board = new Board();
 
-    HexShape hex = new HexShape(0,0, null);
+    HexShape hex = new HexShape(0, 0, null);
     hex.setPlayerType(PlayerType.EMPTY);
 
     Player player1 = new Player("e", PlayerType.WHITE, board);
@@ -202,114 +194,159 @@ public class exampleBoardTests {
   }
 
   /**
-   * Tests that two flips are being correctly made.
-   */
-    @Test
-    public void testingTwoFlips(){
-      Board board = new Board(7);
-      Player player1 = new Player("S", PlayerType.WHITE, board);
-      Player player2 = new Player("E", PlayerType.WHITE, board);
-      PlayerType playerOneType = PlayerType.BLACK; // Assuming Player One is BLACK
-      PlayerType playerTwoType = PlayerType.WHITE; // Assuming Player Two is WHITE
-
-      player1.placeKey(-1, -1); // Player One places piece at (-1,-1)
-      player2.hasPassed();       // Player Two passes
-      player1.placeKey(-2, 1);  // Player One places piece at (-2,1)
-
-      PlayerType hexAt42PlayerType = board.getCurrentHex(2, 4).getPlayerType();
-      if (hexAt42PlayerType == playerOneType) {
-        System.out.println("The hex at (4,2) matches Player One's type.");
-      } else {
-        System.out.println("The hex at (4,2) does NOT match Player One's type. It's " + hexAt42PlayerType);
-      }
-    }
-
-  /**
    * Tests that a board size is correct upon intialization.
    */
   @Test
-    public void testGetBoardSize() {
-      Board board1 = new Board(11);
-      Assert.assertEquals(11, board1.getBoardSize());
+  public void testGetBoardSize() {
+    Board board1 = new Board(11);
+    Assert.assertEquals(11, board1.getBoardSize());
 
-      Board board2 = new Board();
-      Assert.assertEquals(7, board2.getBoardSize());
+    Board board2 = new Board();
+    Assert.assertEquals(7, board2.getBoardSize());
 
-      Board board3 = new Board(15);
-      Assert.assertEquals(15, board3.getBoardSize());
+    Board board3 = new Board(15);
+    Assert.assertEquals(15, board3.getBoardSize());
 
-    }
+  }
 
   /**
    * Tests that the count of pieces after a move is correct.
    */
   @Test
-    public void testCountPiecesAfter1Move() {
-      Board board1 = new Board(7);
-      Player player1 = new Player("Player1", PlayerType.WHITE, board1);
-      Player player2 = new Player("Player2", PlayerType.BLACK, board1);
-      Assert.assertEquals(3, board1.countPieces(PlayerType.WHITE));
-      Assert.assertEquals(3, board1.countPieces(PlayerType.BLACK));
+  public void testCountPiecesAfter1Move() {
+    Board board1 = new Board(7);
+    Player player1 = new Player("Player1", PlayerType.WHITE, board1);
+    Player player2 = new Player("Player2", PlayerType.BLACK, board1);
+    Assert.assertEquals(3, board1.countPieces(PlayerType.WHITE));
+    Assert.assertEquals(3, board1.countPieces(PlayerType.BLACK));
 
-      player1.placeKey(-1,-1);
-      Assert.assertEquals(5, board1.countPieces(PlayerType.WHITE));
-      Assert.assertEquals(2, board1.countPieces(PlayerType.BLACK));
-    }
+    player1.placeKey(-1, -1);
+    Assert.assertEquals(5, board1.countPieces(PlayerType.WHITE));
+    Assert.assertEquals(2, board1.countPieces(PlayerType.BLACK));
+  }
 
   /**
    * Tests that upon intialization, a board is set with correct players.
    */
   @Test
-    public void testIsBoardFullWhenBoardIsInitialized() {
-      Board board1 = new Board();
-      Assert.assertFalse(board1.isBoardFull());
-    }
+  public void testIsBoardFullWhenBoardIsInitialized() {
+    Board board1 = new Board();
+    Assert.assertFalse(board1.isBoardFull());
+  }
 
   /**
    * Tests valid coordinates.
    */
   @Test
-    public void testValidCoordinates() {
-      Board board = new Board(7); // board size is now 7
+  public void testValidCoordinates() {
+    Board board = new Board(7); // board size is now 7
 
-      Assert.assertTrue(board.isValidCoordinate(0, 0));  // Top-left corner
-      Assert.assertTrue(board.isValidCoordinate(0, 6));  // Top-right corner
-      Assert.assertTrue(board.isValidCoordinate(6, 0));  // Bottom-left corner
-      Assert.assertTrue(board.isValidCoordinate(6, 6));  // Bottom-right corner
-      Assert.assertTrue(board.isValidCoordinate(3, 3));  // Center of the board
-    }
+    Assert.assertTrue(board.isValidCoordinate(0, 0));  // Top-left corner
+    Assert.assertTrue(board.isValidCoordinate(0, 6));  // Top-right corner
+    Assert.assertTrue(board.isValidCoordinate(6, 0));  // Bottom-left corner
+    Assert.assertTrue(board.isValidCoordinate(6, 6));  // Bottom-right corner
+    Assert.assertTrue(board.isValidCoordinate(3, 3));  // Center of the board
+  }
 
   /**
    * Tests that a board with invalid coordinates cannot be started.
    */
   @Test
-    public void testInvalidCoordinates() {
-      Board board = new Board(7); // board size is now 7
+  public void testInvalidCoordinates() {
+    Board board = new Board(7); // board size is now 7
 
-      Assert.assertFalse(board.isValidCoordinate(-1, 0));  // Negative q
-      Assert.assertFalse(board.isValidCoordinate(0, -1));  // Negative r
-      Assert.assertFalse(board.isValidCoordinate(-1, -1)); // Both q and r negative
-      Assert.assertFalse(board.isValidCoordinate(7, 0));   // q out of range (equal to board size)
-      Assert.assertFalse(board.isValidCoordinate(0, 7));   // r out of range (equal to board size)
-      Assert.assertFalse(board.isValidCoordinate(7, 7));   // Both q and r out of range
-      Assert.assertFalse(board.isValidCoordinate(10, 10)); // Both q and r way out of range
-    }
+    Assert.assertFalse(board.isValidCoordinate(-1, 0));  // Negative q
+    Assert.assertFalse(board.isValidCoordinate(0, -1));  // Negative r
+    Assert.assertFalse(board.isValidCoordinate(-1, -1)); // Both q and r negative
+    Assert.assertFalse(board.isValidCoordinate(7, 0));   // q out of range (equal to board size)
+    Assert.assertFalse(board.isValidCoordinate(0, 7));   // r out of range (equal to board size)
+    Assert.assertFalse(board.isValidCoordinate(7, 7));   // Both q and r out of range
+    Assert.assertFalse(board.isValidCoordinate(10, 10)); // Both q and r way out of range
+  }
 
   /**
    * Tests that a board is set as full when it has all the player type.
    */
   @Test
-    public void testIsBoardFullWhenBoardConsistsOfAllPlayerTypes() {
-      Board board1 = new Board();
-      for (HexShape[] row : board1.cellsThatMakeTheBoard) {
+  public void testIsBoardFullWhenBoardConsistsOfAllPlayerTypes() {
+    Board board1 = new Board();
+    for (HexShape[] row : board1.cellsThatMakeTheBoard) {
 
-        for (HexShape hexShape : row) {
-          if (hexShape == null){
-            continue;
-          }
-          hexShape.setPlayerType(PlayerType.WHITE);
+      for (HexShape hexShape : row) {
+        if (hexShape == null) {
+          continue;
+        }
+        hexShape.setPlayerType(PlayerType.WHITE);
+      }
+    }
+    Assert.assertTrue(board1.isBoardFull());
+  }
+
+  /**
+   * Tests that the score of a game correctly updates.
+   */
+  @Test
+  public void testGetScore() {
+    Board board = new Board();
+    Assert.assertEquals(
+            "Checking that the starting number of white pieces is 3",
+            board.getScoreWhite(), 3);
+
+    Assert.assertEquals(
+            "Checking that the starting number of black pieces is 3",
+            board.getScoreBlack(), 3);
+
+    Player player1 = new Player("S", PlayerType.WHITE, board);
+    Player player2 = new Player("E", PlayerType.WHITE, board);
+    PlayerType playerOneType = PlayerType.BLACK;
+    PlayerType playerTwoType = PlayerType.WHITE;
+
+    Assert.assertEquals(playerOneType.name(), "BLACK");
+    Assert.assertEquals(playerTwoType.name(), "WHITE");
+
+
+    player1.placeKey(-1, -1); // Player One places piece at (-1,-1)
+    player2.setHasPassed();       // Player Two passes
+    player1.placeKey(-2, 1);  // Player One places piece at (-2,1)
+
+    Assert.assertEquals(7, board.getScoreWhite());
+    Assert.assertEquals(1, board.getScoreBlack());
+  }
+
+  @Test
+  public void testCopy() {
+    Board original = new Board(7);
+    original.placePiece(3, 3, PlayerType.BLACK);
+    original.placePiece(4, 4, PlayerType.WHITE);
+    original.playerPass(PlayerType.WHITE);
+    original.playerPass(PlayerType.BLACK);
+
+    Board copied = original.deepCopy();
+
+    Assert.assertNotSame("Copied board should not be the same as original board",
+            original, copied);
+
+    Assert.assertEquals("Board sizes should be equal",
+            original.getBoardSize(), copied.getBoardSize());
+
+    Assert.assertEquals("White passed piece should be copied",
+            original.hasPlayerPassed(PlayerType.WHITE),
+            copied.hasPlayerPassed(PlayerType.WHITE));
+    Assert.assertEquals("Black passed piece should be copied",
+            original.hasPlayerPassed(PlayerType.BLACK), copied.hasPlayerPassed(PlayerType.BLACK));
+
+    for (int i = 0; i < original.getBoardSize(); i++) {
+      for (int j = 0; j < original.getBoardSize(); j++) {
+        HexShape originalHex = original.getCurrentHex(i, j);
+        HexShape copiedHex = copied.getCurrentHex(i, j);
+        if (originalHex != null) {
+          Assert.assertNotNull("Copied HexShape should not be null", copiedHex);
+          Assert.assertEquals("HexShape player types should be equal",
+                  originalHex.getPlayerType(), copiedHex.getPlayerType());
+        } else {
+          Assert.assertNull("Copied HexShape should be null", copiedHex);
         }
       }
-      Assert.assertTrue(board1.isBoardFull());
     }
+  }
 }

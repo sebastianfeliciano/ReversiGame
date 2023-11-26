@@ -1,3 +1,5 @@
+package controller;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -5,15 +7,14 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.List;
 
-import controller.Player;
-import controller.PlayerType;
+import controller.players.Player;
+import controller.players.PlayerType;
 import model.Board;
-import view.TextualController;
 
 /**
  * Main entry point for players to play Reversi.
  */
-public final class Main {
+public final class TextualEntry {
   /**
    * Main userInputs points for players to play Reversi.
    */
@@ -81,7 +82,7 @@ public final class Main {
             int x = new Random().nextInt(currentBoard.getBoardSize());
             int y = new Random().nextInt(currentBoard.getBoardSize());
             try {
-              player.placeKey(x, y);
+              //player.placeKey(x, y);
               validMoveMade = true;
             } catch (IllegalArgumentException e) {
               // Silently catch for the computer, it will keep trying random positions
@@ -104,7 +105,7 @@ public final class Main {
               String playerInput = scanner.nextLine().trim();
 
               if (playerInput.equalsIgnoreCase("pass")) {
-                currentBoard.playerPassed(player.getType());
+                currentBoard.playerPass(player.getType());
                 validMoveMade = true;
                 break;
               } else {
@@ -112,7 +113,7 @@ public final class Main {
                 int firstCoordinate = Integer.parseInt(split[0]);
                 int secondCoordinate = Integer.parseInt(split[1]);
 
-                player.placeKey(firstCoordinate, secondCoordinate);
+                //player.placeKey(firstCoordinate, secondCoordinate);
                 validMoveMade = true;
 
                 TextualController boardGenerator = new TextualController(currentBoard);

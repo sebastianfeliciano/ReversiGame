@@ -1,7 +1,9 @@
 package model;
 
-import controller.Directions;
-import controller.PlayerType;
+import controller.DirectionsEnum;
+import controller.players.Player;
+import controller.players.PlayerType;
+import view.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +11,24 @@ import java.util.List;
 /**
  * Sets up a board for the controller to use.
  */
-public class Board {
-  public int BOARD_SIZE;  //Default OOD Website Size
+public class Board implements ReadOnlyBoardModel, BoardModel{
+  private List<Observer> observers = new ArrayList<>();
+
+  public void addObserver(Observer o) {
+    observers.add(o);
+  }
+
+  public void removeObserver(Observer o) {
+    observers.remove(o);
+  }
+
+  public void notifyObservers() {
+    for (Observer observer : observers) {
+      observer.update();
+    }
+  }
+  private PlayerType currentTurn;
+  public int boardSize;
   public HexShape[][] cellsThatMakeTheBoard;
   private boolean whitePassed = false;
   private boolean blackPassed = false;
@@ -29,24 +47,25 @@ public class Board {
    * because a valid hexagon cannot be created from either value.
    */
   public Board(int sizeOfBoard) {
+    this.currentTurn = PlayerType.BLACK;
     if (sizeOfBoard < 7 || (sizeOfBoard % 2 == 0)) {
       throw new IllegalStateException("The game must be a minimum of size 5 and cannot be even!");
     }
 
-    BOARD_SIZE = sizeOfBoard;
-    cellsThatMakeTheBoard = new HexShape[BOARD_SIZE][BOARD_SIZE];
-    int midPoint = BOARD_SIZE / 2;
+    boardSize = sizeOfBoard;
+    cellsThatMakeTheBoard = new HexShape[boardSize][boardSize];
+    int midPoint = boardSize / 2;
 
-    for (int row = 0; row < BOARD_SIZE; row++) {
+    for (int row = 0; row < boardSize; row++) {
       int startQ;
       int endQ;
 
       if (row <= midPoint) {
         startQ = midPoint - row;
-        endQ = BOARD_SIZE;
+        endQ = boardSize;
       } else {
         startQ = 0;
-        endQ = BOARD_SIZE - row + midPoint;
+        endQ = boardSize - row + midPoint;
       }
 
       for (int column = startQ; column < endQ; column++) {
@@ -55,12 +74,18 @@ public class Board {
         cellsThatMakeTheBoard[row][column] = new HexShape(r, q, null);
       }
     }
-    this.getCurrentHex(this.BOARD_SIZE / 2, this.BOARD_SIZE / 2 + 1).setPlayerType(PlayerType.BLACK);
-    this.getCurrentHex(this.BOARD_SIZE / 2 + 1, this.BOARD_SIZE / 2).setPlayerType(PlayerType.WHITE);
-    this.getCurrentHex(this.BOARD_SIZE / 2, this.BOARD_SIZE / 2 - 1).setPlayerType(PlayerType.WHITE);
-    this.getCurrentHex(this.BOARD_SIZE / 2 + 1, this.BOARD_SIZE / 2 - 1).setPlayerType(PlayerType.BLACK);
-    this.getCurrentHex(this.BOARD_SIZE / 2 - 1, this.BOARD_SIZE / 2).setPlayerType(PlayerType.BLACK);
-    this.getCurrentHex(this.BOARD_SIZE / 2 - 1, this.BOARD_SIZE / 2 + 1).setPlayerType(PlayerType.WHITE);
+    this.getCurrentHex(this.boardSize / 2,
+            this.boardSize / 2 + 1).setPlayerType(PlayerType.BLACK);
+    this.getCurrentHex(this.boardSize / 2 + 1,
+            this.boardSize / 2).setPlayerType(PlayerType.WHITE);
+    this.getCurrentHex(this.boardSize / 2,
+            this.boardSize / 2 - 1).setPlayerType(PlayerType.WHITE);
+    this.getCurrentHex(this.boardSize / 2 + 1,
+            this.boardSize / 2 - 1).setPlayerType(PlayerType.BLACK);
+    this.getCurrentHex(this.boardSize / 2 - 1,
+            this.boardSize / 2).setPlayerType(PlayerType.BLACK);
+    this.getCurrentHex(this.boardSize / 2 - 1,
+            this.boardSize / 2 + 1).setPlayerType(PlayerType.WHITE);
 
   }
 
@@ -71,14 +96,37 @@ public class Board {
     return cellsThatMakeTheBoard[row][column];
   }
 
+  public ReadOnlyBoardModel getReadOnlyBoard() {
+    return this;
+  }
+
+
+  public void switchTurns() {
+    currentTurn = (currentTurn == PlayerType.BLACK) ? PlayerType.WHITE : PlayerType.BLACK;
+  }
+
+  public boolean isPlayerTurn(Player player) {
+    if (player == null){
+      throw new IllegalStateException("Player is null");
+    }
+    if (player.getType() == null){
+      throw new IllegalStateException("PlayerType is null");
+    }
+    if (currentTurn == null) {
+      throw new IllegalStateException("Current Turn is null");
+    }
+    return currentTurn == player.getType();
+  }
+
+
   /**
    * Flips a player type based on passed in coordinates passed
    * in by the player.
    * Breaks out of the loop if the player, opponent,
    * or direction is invalid.
-   *
    */
   public void flipPieces(int x, int y, PlayerType currentPlayer) {
+    notifyObservers();
     if (currentPlayer == null) {
       System.out.println("Current player is null!");
       return;
@@ -90,95 +138,96 @@ public class Board {
       return;
     }
 
-    for (Directions dir : Directions.values()) {
-      if (dir == null) {
-        System.out.println("Direction is null!");
-        continue;
-      }
-
+    for (DirectionsEnum dir : DirectionsEnum.values()) {
       int nextQ = x + dir.getQMove();
       int nextR = y + dir.getRMove();
 
-      HexShape currentHex = this.getCurrentHex(nextR, nextQ);
-      if (currentHex == null) {
+      // Skip if the next hex is not opponent's or out of bounds
+      if (!isValidCoordinate(nextQ, nextR)) {
+        continue;
+      }
+      HexShape neighborHex = getCurrentHex(nextR, nextQ);
+      if (neighborHex == null) {
         continue;
       }
 
-      PlayerType hexPlayer = currentHex.getPlayerType();
-      if (hexPlayer == null) {
+      if (neighborHex.getPlayerType() != opponent) {
         continue;
       }
 
       List<HexShape> piecesToFlip = new ArrayList<>();
 
-      while (isValidCoordinate(nextQ, nextR) && this.getCurrentHex(nextQ, nextR).getPlayerType().equals(opponent)) {
-        piecesToFlip.add(getCurrentHex(nextQ, nextR));
+      while (isValidCoordinate(nextQ, nextR)
+              && getCurrentHex(nextR, nextQ).getPlayerType() == opponent) {
+        piecesToFlip.add(getCurrentHex(nextR, nextQ));
         nextQ += dir.getQMove();
         nextR += dir.getRMove();
 
-        currentHex = this.getCurrentHex(nextQ, nextR);
-        if (currentHex == null) {
+        if (isValidCoordinate(nextQ, nextR)
+                && getCurrentHex(nextR, nextQ).getPlayerType() == currentPlayer) {
+          for (HexShape piece : piecesToFlip) {
+            piece.setPlayerType(currentPlayer);
+          }
           break;
-        }
-
-        hexPlayer = currentHex.getPlayerType();
-        if (hexPlayer == null) {
-          break;
-        }
-      }
-
-      if (isValidCoordinate(nextQ, nextR)) {
-        assert hexPlayer != null;
-        for (HexShape piece : piecesToFlip) {
-          piece.setPlayerType(currentPlayer);
         }
       }
     }
   }
+
 
   /**
    * Determines if a valid move is passed in,
    * based on coordinates, and a player type.
    */
   public boolean isValidMove(int x, int y, PlayerType playerType) {
-    // Convert (x, y) to (q, r) representation
-    if (x > this.getBoardSize()/2 || y > this.getBoardSize()/2
-            || x < -this.getBoardSize()/2 || y < -this.getBoardSize()/2){
-      return false;
-    }
-    int q = x + this.getBoardSize()/ 2; //Converts it onto the 2D Array Layout
-    int r = y + this.getBoardSize() / 2; //Converts it onto the 2D array
+    int q = x + this.getBoardSize() / 2;
+    int r = y + this.getBoardSize() / 2;
 
-    if (Math.abs(r) >= this.getBoardSize()) {
+    // Check if the coordinates are valid and the hex is empty
+    if (!isValidCoordinate(q, r) || getCurrentHex(r, q).getPlayerType() != PlayerType.EMPTY) {
       return false;
     }
 
-    if (!getCurrentHex(q, r).getPlayerType().equals(PlayerType.EMPTY)) {
-      return false;
-    }
+    PlayerType opponent = playerType.nextPlayer();
 
-    PlayerType currentPlayer = playerType;
-    PlayerType opponent = currentPlayer.nextPlayer();
-
-
-    for (Directions dir : Directions.values()) {
+    // Check each direction for a valid line of opponent's pieces
+    for (DirectionsEnum dir : DirectionsEnum.values()) {
       int nextQ = q + dir.getQMove();
       int nextR = r + dir.getRMove();
 
-      //opponent's piece next to the current position
-      if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ).getPlayerType().equals(opponent)) {
-        while (isValidCoordinate(nextQ, nextR) && !getCurrentHex(nextR, nextQ).getPlayerType().equals(PlayerType.EMPTY)) {
-          nextQ += dir.getQMove();
-          nextR += dir.getRMove();
+      // Skip if the next hex is not opponent's or out of bounds
+      if (!isValidCoordinate(nextQ, nextR)) {
+        continue;
+      }
+      HexShape neighborHex = getCurrentHex(nextR, nextQ);
+      if (neighborHex == null) {
+        continue;
+      }
 
-          if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ).getPlayerType().equals(currentPlayer)) {
-            return true;
-          }
-        }
+      if (neighborHex.getPlayerType() != opponent) {
+        continue;
+      }
+
+      // Move to the next hex in the same direction
+      nextQ += dir.getQMove();
+      nextR += dir.getRMove();
+
+      // Continue moving in the direction and check for current player's piece
+      while (isValidCoordinate(nextQ, nextR)
+              && getCurrentHex(nextR, nextQ).getPlayerType() == opponent) {
+        nextQ += dir.getQMove();
+        nextR += dir.getRMove();
+      }
+
+      // If a current player's piece is found, it's a valid move
+      if (isValidCoordinate(nextQ, nextR)
+              && getCurrentHex(nextR, nextQ).getPlayerType() == playerType) {
+        return true;
       }
     }
     return false;
   }
+
 
   /**
    * Determines is a valid coordinate was passed in
@@ -188,11 +237,13 @@ public class Board {
     return q >= 0 && q < this.getBoardSize() && r >= 0 && r < this.getBoardSize();
   }
 
+
   /**
    * Places a certain piece in the board, based on
    * row and column, and playerType.
    */
   public void placePiece(int q, int r, PlayerType type) {
+    notifyObservers();
     this.getCurrentHex(r, q).setPlayerType(type);
     whitePassed = false;
     blackPassed = false;
@@ -201,7 +252,7 @@ public class Board {
   /**
    * Changes the state of each player if they passed or not.
    */
-  public void playerPassed(PlayerType playerType) {
+  public void playerPass(PlayerType playerType) {
     if (playerType == PlayerType.WHITE) {
       whitePassed = true;
     } else if (playerType == PlayerType.BLACK) {
@@ -209,11 +260,29 @@ public class Board {
     }
   }
 
+  @Override
+  public int getScoreWhite() {
+    if (isGameOver()) {
+      return 0;
+    }
+    return countPieces(PlayerType.WHITE);
+  }
+
+  @Override
+  public int getScoreBlack() {
+    if (isGameOver()) {
+      return 0;
+    }
+    return countPieces(PlayerType.BLACK);
+  }
+
+
   /**
    * Returns the size of a board.
    */
+  @Override
   public int getBoardSize() {
-    return this.BOARD_SIZE;
+    return this.boardSize;
   }
 
   /**
@@ -222,7 +291,8 @@ public class Board {
    * players have skipped their turn.
    */
   public boolean isGameOver() {
-    return (isBoardFull() || bothPlayersPassed() || isPlayerTrapped(PlayerType.WHITE) || isPlayerTrapped(PlayerType.BLACK));
+    return (isBoardFull() || bothPlayersPassed() || isPlayerTrapped(PlayerType.WHITE)
+            || isPlayerTrapped(PlayerType.BLACK));
   }
 
   /**
@@ -236,11 +306,11 @@ public class Board {
    * Determines whether a player is trapped, and has no valid next move.
    */
   private boolean isPlayerTrapped(PlayerType player) {
-    for (int i = 0; i < BOARD_SIZE; i++) {
-      for (int j = 0; j < BOARD_SIZE; j++) {
+    for (int i = 0; i < boardSize; i++) {
+      for (int j = 0; j < boardSize; j++) {
         HexShape hex = cellsThatMakeTheBoard[i][j];
         if (hex != null && hex.getPlayerType() == player) {
-          if (isValidMove(i - BOARD_SIZE / 2, j - BOARD_SIZE / 2, player)) {
+          if (isValidMove(i - boardSize / 2, j - boardSize / 2, player)) {
             return true;
           }
         }
@@ -254,8 +324,8 @@ public class Board {
    * causing the game to be over.
    */
   public boolean isBoardFull() {
-    for (int i = 0; i < BOARD_SIZE; i++) {
-      for (int j = 0; j < BOARD_SIZE; j++) {
+    for (int i = 0; i < boardSize; i++) {
+      for (int j = 0; j < boardSize; j++) {
         HexShape hex = getCurrentHex(i, j);
         if (hex == null) {
           continue;
@@ -273,14 +343,21 @@ public class Board {
    */
   public int countPieces(PlayerType type) {
     int count = 0;
-    for (int i = 0; i < BOARD_SIZE; i++) {
-      for (int j = 0; j < BOARD_SIZE; j++) {
+    for (int i = 0; i < boardSize; i++) {
+      for (int j = 0; j < boardSize; j++) {
         if (getCurrentHex(i, j) != null && getCurrentHex(i, j).getPlayerType() == type) {
           count++;
         }
       }
     }
     return count;
+  }
+
+  /**
+   * Returns the midPoint of a board.
+   */
+  public int getMidPoint() {
+    return this.getBoardSize() / 2;
   }
 
   /**
@@ -294,4 +371,131 @@ public class Board {
     }
     return false;
   }
+
+  /**
+   * Makes a deep copy of the board that players can access.
+   */
+  public Board deepCopy() {
+    Board newBoard = new Board(this.boardSize);
+    for (int i = 0; i < boardSize; i++) {
+      for (int j = 0; j < boardSize; j++) {
+        if (this.cellsThatMakeTheBoard[i][j] != null) {
+          newBoard.cellsThatMakeTheBoard[i][j] = new HexShape(
+                  i, j, this.cellsThatMakeTheBoard[i][j].getPlayerType());
+        }
+      }
+    }
+    newBoard.whitePassed = this.whitePassed;
+    newBoard.blackPassed = this.blackPassed;
+    return newBoard;
+  }
+
+  /**
+   * Gets a valid list of moves that a player can play.
+   */
+  public List<Move> getValidMovesWithCaptures(Player player) {
+    List<Move> validMoves = new ArrayList<>();
+
+    for (int currentRow = 0; currentRow < getBoardSize(); currentRow++) {
+      int currentHexesMade;
+      if (currentRow <= getMidPoint()) {
+        currentHexesMade = getMidPoint() + currentRow + 1;
+      } else {
+        currentHexesMade = getBoardSize() - (currentRow - getMidPoint());
+      }
+      int spacesBefore = (getBoardSize() - currentHexesMade);
+      for (int h = 0; h < currentHexesMade; h++) {
+        HexShape currentHex;
+
+        if (currentRow <= getMidPoint()) {
+          currentHex = this.getCurrentHex(currentRow, h + spacesBefore);
+
+          if (isValidMove(Integer.parseInt(currentHex.getColumn()),
+                  Integer.parseInt(currentHex.getRow()), player.getType())) {
+
+            int piecesThatAreFlipped = calculateCaptures((Integer.parseInt(currentHex.getColumn())),
+                    Integer.parseInt(currentHex.getRow()), player.getType(), this);
+
+            validMoves.add(new Move((Integer.parseInt(currentHex.getColumn())),
+                    Integer.parseInt(currentHex.getRow()), piecesThatAreFlipped));
+          }
+
+        } else {
+          currentHex = this.getCurrentHex(currentRow, h);
+
+          if (isValidMove(Integer.parseInt(currentHex.getColumn()),
+                  Integer.parseInt(currentHex.getRow()), player.getType())) {
+
+            int piecesThatAreFlipped = calculateCaptures((Integer.parseInt(currentHex.getColumn())),
+                    Integer.parseInt(currentHex.getRow()), player.getType(), this);
+
+            validMoves.add(new Move((Integer.parseInt(currentHex.getColumn())),
+                    Integer.parseInt(currentHex.getRow()), piecesThatAreFlipped));
+          }
+        }
+      }
+
+    }
+    return validMoves;
+  }
+
+  /**
+   * Checks if a move is a corner move.
+   */
+  @Override
+  public boolean isCornerMove(Move move, int boardSize) {
+    int x = move.getX();
+    int y = move.getY();
+    return (x == 0 && y == 0) ||
+            (x == 0 && y == boardSize - 1) ||
+            (x == boardSize - 1 && y == 0) ||
+            (x == boardSize - 1 && y == boardSize - 1);
+  }
+
+
+  /**
+   * Calculates the amount of capture a move does.
+   */
+  public int calculateCaptures(int q, int r, PlayerType player, Board board) {
+    int x = q + board.getBoardSize() / 2;
+    int y = r + board.getBoardSize() / 2;
+    int count = 0;
+
+    PlayerType opponent = player.nextPlayer();
+
+    for (DirectionsEnum dir : DirectionsEnum.values()) {
+
+      int nextQ = x + dir.getQMove();
+      int nextR = y + dir.getRMove();
+
+      // Skip if the next hex is not opponent's or out of bounds
+      if (!isValidCoordinate(nextQ, nextR)) {
+        continue;
+      }
+      HexShape neighborHex = getCurrentHex(nextR, nextQ);
+      if (neighborHex == null) {
+        continue;
+      }
+
+      if (neighborHex.getPlayerType() != opponent) {
+        continue;
+      }
+      List<HexShape> piecesToFlip = new ArrayList<>();
+
+      while (isValidCoordinate(nextQ, nextR)
+              && getCurrentHex(nextR, nextQ).getPlayerType() == opponent) {
+        piecesToFlip.add(getCurrentHex(nextQ, nextR));
+        nextQ += dir.getQMove();
+        nextR += dir.getRMove();
+
+        if (isValidCoordinate(nextQ, nextR)
+                && getCurrentHex(nextR, nextQ).getPlayerType() == player) {
+          count += piecesToFlip.size();
+          break;
+        }
+      }
+    }
+    return count;
+  }
+
 }

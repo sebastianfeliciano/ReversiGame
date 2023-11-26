@@ -1,26 +1,37 @@
 package model;
 
-import controller.PlayerType;
 
+import controller.players.Player;
+import controller.players.PlayerType;
+
+import java.util.List;
+
+/**
+ * Creates a read only copy board.
+ */
 public interface ReadOnlyBoardModel {
-    /**
-     * what we need to add:
-     * - a way to copy the board / score / currentHex
-     * - visualizations
-     */
-    int getBoardSize();
 
-    boolean isGameOver();
+  int getScoreWhite();
 
-    boolean isBoardFull();
+  int getScoreBlack();
 
-    int countPieces(PlayerType type);
+  int getBoardSize();
 
-    boolean hasPlayerPassed(PlayerType type);
+  boolean isGameOver();
 
-    HexShape getCurrentHex(int row, int column);
+  boolean isBoardFull();
 
-    boolean isValidMove(int x, int y, PlayerType playerType);
+  int countPieces(PlayerType type);
 
-    boolean isValidCoordinate(int q, int r);
+  boolean hasPlayerPassed(PlayerType type);
+
+  HexShape getCurrentHex(int row, int column);
+
+  boolean isValidMove(int x, int y, PlayerType playerType);
+
+  boolean isValidCoordinate(int q, int r);
+
+  List<Move> getValidMovesWithCaptures(Player player);
+
+  boolean isCornerMove(Move move, int boardSize);
 }

@@ -12,6 +12,8 @@ import java.awt.Graphics;
  */
 public interface ReversiView {
 
+  void update();
+
   HexShape findHex(int mouseX, int mouseY);
 
   int getHexSize();

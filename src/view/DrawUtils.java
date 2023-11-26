@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 /**
  * Draws out our board and hexagons.
  */
-public class DrawUtils extends JPanel implements ReversiView {
+public class DrawUtils extends JPanel implements ReversiView, Observer {
   protected static Board board = new Board(11);
   boolean isClicked = false;
   private HexShape firstClickedHex;
@@ -35,11 +35,16 @@ public class DrawUtils extends JPanel implements ReversiView {
     this.playerAction = playerAction;
   }
 
+  @Override
+  public void update() {
+    repaint();
+  }
+
   public void updateBoard(ReadOnlyBoardModel newBoardModel) {
     if (newBoardModel instanceof Board) {
       board = (Board) newBoardModel;
     }
-
+    repaint();
   }
 
   /**

@@ -3,6 +3,7 @@ package model;
 import controller.DirectionsEnum;
 import controller.players.Player;
 import controller.players.PlayerType;
+import view.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,22 @@ import java.util.List;
 /**
  * Sets up a board for the controller to use.
  */
-public class Board implements ReadOnlyBoardModel, BoardModel {
+public class Board implements ReadOnlyBoardModel, BoardModel{
+  private List<Observer> observers = new ArrayList<>();
 
+  public void addObserver(Observer o) {
+    observers.add(o);
+  }
+
+  public void removeObserver(Observer o) {
+    observers.remove(o);
+  }
+
+  public void notifyObservers() {
+    for (Observer observer : observers) {
+      observer.update();
+    }
+  }
   private PlayerType currentTurn;
   public int boardSize;
   public HexShape[][] cellsThatMakeTheBoard;
@@ -91,10 +106,17 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   }
 
   public boolean isPlayerTurn(Player player) {
+    if (player == null){
+      throw new IllegalStateException("Player is null");
+    }
+    if (player.getType() == null){
+      throw new IllegalStateException("PlayerType is null");
+    }
+    if (currentTurn == null) {
+      throw new IllegalStateException("Current Turn is null");
+    }
     return currentTurn == player.getType();
   }
-
-
 
 
   /**
@@ -104,6 +126,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
    * or direction is invalid.
    */
   public void flipPieces(int x, int y, PlayerType currentPlayer) {
+    notifyObservers();
     if (currentPlayer == null) {
       System.out.println("Current player is null!");
       return;
@@ -220,6 +243,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
    * row and column, and playerType.
    */
   public void placePiece(int q, int r, PlayerType type) {
+    notifyObservers();
     this.getCurrentHex(r, q).setPlayerType(type);
     whitePassed = false;
     blackPassed = false;
@@ -472,20 +496,6 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
       }
     }
     return count;
-  }
-
-  public void placeKey(int x, int y, PlayerType playerType) {
-    int q = x + this.getBoardSize() / 2;
-    int r = y + this.getBoardSize() / 2;
-
-
-    if (!isValidMove(x, y, playerType)) {
-      throw new IllegalArgumentException("Not a Valid Move!");
-    }
-
-    placePiece(q, r, playerType);
-
-    flipPieces(q, r, playerType);
   }
 
 }

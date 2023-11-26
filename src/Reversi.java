@@ -1,5 +1,3 @@
-
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
@@ -7,11 +5,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.players.AIPlayer;
 import controller.players.Player;
 import controller.players.PlayerType;
 import controller.ReversiController;
 import model.Board;
 import model.ReadOnlyBoardModel;
+import model.strategies.CaptureStrategy;
+import model.strategies.GoForCornersStrategy;
+import model.strategies.IStrategy;
 import view.DrawUtils;
 
 /**
@@ -25,51 +27,46 @@ public class Reversi {
    * Entry point for GUI.
    */
   public static void main(String[] args) {
+    ReadOnlyBoardModel board = new Board(11);
 
-    Player player1 = new Player("Player 1", PlayerType.BLACK, (Board) board);
-    Player player2 = new Player("Player 2", PlayerType.WHITE, (Board) board);
+    Player humanPlayer = new Player("Player 1", PlayerType.BLACK, (Board) board);
+    AIPlayer aiPlayer = new AIPlayer("AI", PlayerType.WHITE, (Board) board, new CaptureStrategy());
 
-    DrawUtils view1 = new DrawUtils(board);
-    DrawUtils view2 = new DrawUtils(board);
-
-
-
+    // Setup for human player
     JFrame frame1 = new JFrame("Reversi - Player 1");
-    JLabel score1 = new JLabel("Black: " + board.getScoreBlack() + " White: " + board.getScoreWhite());
-    JLabel playerType = new JLabel("You are " + player1.getColor());
-    frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame1.setLayout(new BorderLayout());
-    frame1.add(view1, BorderLayout.CENTER);
-    frame1.add(score1, BorderLayout.NORTH);
-    JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-    bottomPanel.add(playerType);
-    frame1.add(bottomPanel, BorderLayout.SOUTH);
-    frame1.pack();
-    frame1.setLocationRelativeTo(null);
-    frame1.setVisible(true);
-    ReversiController controller1 = new ReversiController(player1, (Board) board, frame1, score1);
+    DrawUtils view1 = new DrawUtils(board);
+    ReversiController controller1 = new ReversiController(humanPlayer, (Board) board, frame1);
     controller1.setView(view1);
+    setupFrame(frame1, view1, "You are " + humanPlayer.getColor());
     view1.setEventListener(controller1);
 
-
-
+    // Setup for AI player
     JFrame frame2 = new JFrame("Reversi - Player 2");
-    JLabel player2Type = new JLabel("You are " + player2.getColor());
-    JLabel score2 = new JLabel("Black: " + board.getScoreBlack() + " White: " + board.getScoreWhite());
-    frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame2.setLayout(new BorderLayout());
-    frame2.add(view2, BorderLayout.CENTER);
-    frame2.add(score2, BorderLayout.NORTH);
-    JPanel bottom2Panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-    bottom2Panel.add(player2Type);
-    frame2.add(bottom2Panel, BorderLayout.SOUTH);
-    frame2.pack();
-    frame2.setLocationRelativeTo(null);
-    frame2.setVisible(true);
-    ReversiController controller2 = new ReversiController(player2, (Board) board, frame2, score2);
+    DrawUtils view2 = new DrawUtils(board);
+    ReversiController controller2 = new ReversiController(aiPlayer, (Board) board, frame2);
     controller2.setView(view2);
+    setupFrame(frame2, view2, "You are " + aiPlayer.getColor());
     view2.setEventListener(controller2);
 
+    ((Board) board).addObserver(view1);
+    ((Board) board).addObserver(view2);
+
   }
+
+  private static void setupFrame(JFrame frame, DrawUtils view, String playerTypeLabel) {
+    JLabel scoreLabel = new JLabel();
+    JLabel playerType = new JLabel(playerTypeLabel);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setLayout(new BorderLayout());
+    frame.add(view, BorderLayout.CENTER);
+    frame.add(scoreLabel, BorderLayout.NORTH);
+    JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    bottomPanel.add(playerType);
+    frame.add(bottomPanel, BorderLayout.SOUTH);
+    frame.pack();
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true);
+  }
+
 
 }

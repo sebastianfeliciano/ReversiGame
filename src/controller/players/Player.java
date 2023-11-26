@@ -72,9 +72,25 @@ public class Player implements IPlayer {
 
   public String getColor() {
     if (this.getType() == PlayerType.WHITE) {
-      return "White";
+      return whitePlayer();
     } else {
-      return "Black";
+      return blackPlayer();
     }
   }
+
+  public String whitePlayer(){
+    return "White";
+  }
+
+  public String blackPlayer(){
+    return "Black";
+  }
+
+  public String getOtherColor() {
+      if (this.getType() == PlayerType.WHITE) {
+        return blackPlayer();
+      } else {
+        return whitePlayer();
+      }
+    }
 }

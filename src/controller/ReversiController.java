@@ -33,16 +33,16 @@ public class ReversiController implements PlayerActionListener {
 
   @Override
   public void onPlayerMove(int row, int column) {
+    if (!board.isPlayerTurn(player)) {
+      JOptionPane.showMessageDialog(frame, "It is not your turn! It is " + player.getOtherColor() + "'s Turn.", "Invalid Move", JOptionPane.ERROR_MESSAGE);
+      return;
+    }
+
     if (player instanceof AIPlayer) {
       ((AIPlayer) player).makeMove();
       System.out.println("AI move completed."); // Debugging statement
       view.updateBoard(board);
       board.switchTurns();
-      return;
-    }
-
-    if (!board.isPlayerTurn(player)) {
-      JOptionPane.showMessageDialog(frame, "It is not your turn! It is " + player.getOtherColor() + "'s Turn.", "Invalid Move", JOptionPane.ERROR_MESSAGE);
       return;
     }
 

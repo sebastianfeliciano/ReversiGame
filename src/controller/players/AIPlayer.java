@@ -19,7 +19,6 @@ public class AIPlayer extends Player implements IPlayer {
     super("Computer", type, board);
     this.strategy = strategy;
     this.hasPassed = false;
-    this.currentTurnStatus = true;
   }
 
   /**

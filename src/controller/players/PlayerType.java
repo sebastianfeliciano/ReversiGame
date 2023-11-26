@@ -1,5 +1,7 @@
 package controller.players;
 
+import model.strategies.IStrategy;
+
 /**
  * Represents the different game pieces in a game.
  */
@@ -37,5 +39,9 @@ public enum PlayerType {
   @Override
   public String toString() {
     return String.valueOf(gamePiece);
+  }
+
+  public void setStrategy(IStrategy strategy) {
+
   }
 }

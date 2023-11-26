@@ -1,5 +1,7 @@
 package view;
 
+import controller.players.AIPlayer;
+import controller.players.Player;
 import controller.players.PlayerType;
 import model.Board;
 import model.HexShape;
@@ -28,8 +30,10 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
   boolean isClicked = false;
   private HexShape firstClickedHex;
   private HexShape hoveredHex;
-
   PlayerActionListener playerAction;
+  private Player humanPlayer;
+  private Player aiPlayer;
+
 
   public void setEventListener(PlayerActionListener playerAction) {
     this.playerAction = playerAction;
@@ -337,5 +341,13 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
   @Override
   public int getWindowHeight() {
     return Math.min(this.getHeight(), 650);
+  }
+
+  public Player getHuman() {
+    return humanPlayer;
+  }
+
+  public Player getAiPlayer() {
+    return aiPlayer;
   }
 }

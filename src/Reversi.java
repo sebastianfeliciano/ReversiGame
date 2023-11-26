@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.Command;
 import controller.players.AIPlayer;
 import controller.players.Player;
 import controller.players.PlayerType;
@@ -27,7 +28,10 @@ public class Reversi {
    * Entry point for GUI.
    */
   public static void main(String[] args) {
-    ReadOnlyBoardModel board = new Board(11);
+    Command commandLine = new Command();
+    commandLine.prompt();
+
+    ReadOnlyBoardModel board = new Board(commandLine.getBoardSize());
 
     Player humanPlayer = new Player("Player 1", PlayerType.BLACK, (Board) board);
     AIPlayer aiPlayer = new AIPlayer("AI", PlayerType.WHITE, (Board) board, new CaptureStrategy());
@@ -37,7 +41,7 @@ public class Reversi {
     DrawUtils view1 = new DrawUtils(board);
     ReversiController controller1 = new ReversiController(humanPlayer, (Board) board, frame1);
     controller1.setView(view1);
-    setupFrame(frame1, view1, "You are " + humanPlayer.getColor());
+    setupFrame(frame1, view1, "You are Player " + humanPlayer.getColor());
     view1.setEventListener(controller1);
 
     // Setup for AI player
@@ -45,7 +49,7 @@ public class Reversi {
     DrawUtils view2 = new DrawUtils(board);
     ReversiController controller2 = new ReversiController(aiPlayer, (Board) board, frame2);
     controller2.setView(view2);
-    setupFrame(frame2, view2, "You are " + aiPlayer.getColor());
+    setupFrame(frame2, view2, "You are Player " + aiPlayer.getColor());
     view2.setEventListener(controller2);
 
     ((Board) board).addObserver(view1);

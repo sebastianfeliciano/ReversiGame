@@ -1,11 +1,11 @@
-import controller.Player;
-import controller.PlayerType;
+import controller.players.Player;
+import controller.players.PlayerType;
 import model.Board;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import view.TextualController;
+import controller.TextualController;
 
 /**
  * Tests that tes the textual view.

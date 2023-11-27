@@ -1,12 +1,36 @@
-Nov 26, 2023 10:09:03 PM model.strategies.CaptureStrategy selectMove
+Nov 27, 2023 9:29:42 AM model.strategies.CaptureStrategy selectMove
 INFO: Selecting move for player: Computer
-Nov 26, 2023 10:09:03 PM model.strategies.CaptureStrategy selectMove
-INFO: Selected move: 1, -2
-Nov 26, 2023 10:09:03 PM model.strategies.CaptureStrategy selectMove
-INFO: Capturing 1 pieces!
-Nov 26, 2023 10:09:41 PM model.strategies.CaptureStrategy selectMove
-INFO: Selecting move for player: Computer
-Nov 26, 2023 10:09:41 PM model.strategies.CaptureStrategy selectMove
-INFO: Selected move: -1, -1
-Nov 26, 2023 10:09:41 PM model.strategies.CaptureStrategy selectMove
+Nov 27, 2023 9:29:42 AM model.strategies.CaptureStrategy selectMove
+INFO: Selected move: -2, -1
+Nov 27, 2023 9:29:42 AM model.strategies.CaptureStrategy selectMove
 INFO: Capturing 2 pieces!
+Nov 27, 2023 9:29:48 AM model.strategies.CaptureStrategy selectMove
+INFO: Selecting move for player: Computer
+Nov 27, 2023 9:29:48 AM model.strategies.CaptureStrategy selectMove
+INFO: Selected move: 2, -1
+Nov 27, 2023 9:29:48 AM model.strategies.CaptureStrategy selectMove
+INFO: Capturing 3 pieces!
+Nov 27, 2023 9:29:52 AM model.strategies.CaptureStrategy selectMove
+INFO: Selecting move for player: Computer
+Nov 27, 2023 9:29:52 AM model.strategies.CaptureStrategy selectMove
+INFO: Selected move: -1, 2
+Nov 27, 2023 9:29:52 AM model.strategies.CaptureStrategy selectMove
+INFO: Capturing 4 pieces!
+Nov 27, 2023 9:29:58 AM model.strategies.CaptureStrategy selectMove
+INFO: Selecting move for player: Computer
+Nov 27, 2023 9:29:58 AM model.strategies.CaptureStrategy selectMove
+INFO: Selected move: 1, -3
+Nov 27, 2023 9:29:58 AM model.strategies.CaptureStrategy selectMove
+INFO: Capturing 2 pieces!
+Nov 27, 2023 9:30:07 AM model.strategies.CaptureStrategy selectMove
+INFO: Selecting move for player: Computer
+Nov 27, 2023 9:30:07 AM model.strategies.CaptureStrategy selectMove
+INFO: Selected move: 3, -2
+Nov 27, 2023 9:30:07 AM model.strategies.CaptureStrategy selectMove
+INFO: Capturing 1 pieces!
+Nov 27, 2023 9:30:12 AM model.strategies.CaptureStrategy selectMove
+INFO: Selecting move for player: Computer
+Nov 27, 2023 9:30:12 AM model.strategies.CaptureStrategy selectMove
+INFO: Selected move: 3, -3
+Nov 27, 2023 9:30:12 AM model.strategies.CaptureStrategy selectMove
+INFO: Capturing 1 pieces!

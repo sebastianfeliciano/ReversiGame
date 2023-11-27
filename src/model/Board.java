@@ -214,7 +214,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel{
 
       // Continue moving in the direction and check for current player's piece
       while (isValidCoordinate(nextQ, nextR)
-              && getCurrentHex(nextR, nextQ).getPlayerType() == opponent) {
+              && getCurrentHex(nextR, nextQ).getPlayerType() == opponent && getCurrentHex(nextR, nextQ) != null) {
         nextQ += dir.getQMove();
         nextR += dir.getRMove();
       }

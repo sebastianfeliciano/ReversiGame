@@ -6,15 +6,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controller.Command;
-import controller.players.AIPlayer;
 import controller.players.Player;
-import controller.players.PlayerType;
 import controller.ReversiController;
 import model.Board;
 import model.ReadOnlyBoardModel;
-import model.strategies.CaptureStrategy;
-import model.strategies.GoForCornersStrategy;
-import model.strategies.IStrategy;
 import view.DrawUtils;
 
 /**
@@ -22,8 +17,6 @@ import view.DrawUtils;
  */
 public class Reversi {
 
-  static ReadOnlyBoardModel board = new Board(11);
-  static JLabel l;
   /**
    * Entry point for GUI.
    */
@@ -31,31 +24,31 @@ public class Reversi {
     Command commandLine = new Command();
     commandLine.prompt();
 
-    ReadOnlyBoardModel board = new Board(commandLine.getBoardSize());
-
-    Player humanPlayer = new Player("Player 1", PlayerType.BLACK, (Board) board);
-    AIPlayer aiPlayer = new AIPlayer("AI", PlayerType.WHITE, (Board) board, new CaptureStrategy());
-
-    // Setup for human player
-    JFrame frame1 = new JFrame("Reversi - Player 1");
+    ReadOnlyBoardModel board = commandLine.getBoard();
     DrawUtils view1 = new DrawUtils(board);
-    ReversiController controller1 = new ReversiController(humanPlayer, (Board) board, frame1);
+    DrawUtils view2 = new DrawUtils(board);
+
+    Player player1 = commandLine.getPlayer1();
+    Player player2 = commandLine.getPlayer2();
+
+
+    JFrame frame1 = new JFrame("Reversi - Player 1");
+    ReversiController controller1 = new ReversiController(player1, (Board) board, frame1);
     controller1.setView(view1);
-    setupFrame(frame1, view1, "You are Player " + humanPlayer.getColor());
+    setupFrame(frame1, view1, "You are Player " + player1.getColor());
     view1.setEventListener(controller1);
 
-    // Setup for AI player
     JFrame frame2 = new JFrame("Reversi - Player 2");
-    DrawUtils view2 = new DrawUtils(board);
-    ReversiController controller2 = new ReversiController(aiPlayer, (Board) board, frame2);
+    ReversiController controller2 = new ReversiController(player2, (Board) board, frame2);
     controller2.setView(view2);
-    setupFrame(frame2, view2, "You are Player " + aiPlayer.getColor());
+    setupFrame(frame2, view2, "You are Player " + player2.getColor());
     view2.setEventListener(controller2);
 
     ((Board) board).addObserver(view1);
     ((Board) board).addObserver(view2);
-
+    commandLine.close();
   }
+
 
   private static void setupFrame(JFrame frame, DrawUtils view, String playerTypeLabel) {
     JLabel scoreLabel = new JLabel();

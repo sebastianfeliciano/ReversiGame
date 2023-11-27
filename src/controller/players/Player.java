@@ -40,7 +40,16 @@ public class Player implements IPlayer {
    * The player passes their turns.
    */
   public void setHasPassed() {
-    this.hasPassed = !hasPassed;
+    this.hasPassed = true;
+  }
+
+  public void resetHasPassed() {
+    this.hasPassed = false;
+  }
+
+
+  public void setSpecificHasPassed(boolean booleanWord) {
+    this.hasPassed = booleanWord;
   }
 
   /**
@@ -91,4 +100,9 @@ public class Player implements IPlayer {
         return whitePlayer();
       }
     }
+
+  public boolean getHasPassed() {
+    return this.hasPassed;
+  }
+
 }

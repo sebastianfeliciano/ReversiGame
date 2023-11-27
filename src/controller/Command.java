@@ -8,84 +8,115 @@ import model.ReadOnlyBoardModel;
 import model.strategies.*;
 import view.DrawUtils;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
+
 public class Command {
-    Board board;
-    private int boardSize;
-    private PlayerType player1;
-    private PlayerType player2;
-    private IStrategy player1Strategy;
-    private IStrategy player2Strategy;
+  private Player player1;
+  private Player player2;
+  private int boardSize;
+  private ReadOnlyBoardModel board;
+  private Scanner scanner;
 
 
-    public void prompt() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the board size: ");
-        boardSize = scanner.nextInt();
-        System.out.println("Choose player 1 type (human/ai) " +
-                        "Type h for human " +
-                        "and ai for ai");
 
-        player1 = getPlayerType(scanner.next());
+  public Command() {
+     scanner = new Scanner(System.in);
+  }
 
+  public void prompt() {
+    setupBoard();
+    player1 = createPlayer(PlayerType.BLACK);
+    player2 = createPlayer(PlayerType.WHITE);
+  }
 
-        if (player1 == PlayerType.WHITE || player2 == PlayerType.WHITE) {
-            System.out.println("Choose a strategy (capture, corner, complete, try-two) ");
-            player1Strategy = (getStrategy(scanner.next()));
-            player2Strategy = (getStrategy(scanner.next()));
-        }
-
-        System.out.println("Choose player 2 type (human/ai) " +
-                "Type h for human " +
-                "and ai for ai");
-        player2 = getPlayerType(scanner.next());
-
-
-        if (player1 == PlayerType.WHITE && player2 == PlayerType.WHITE) {
-            throw new IllegalArgumentException("Cannot have two ai players");
-        }
+  private void setupBoard() {
+    System.out.println("Enter the board size: ");
+    try {
+      boardSize = scanner.nextInt();
+      scanner.nextLine();
+      this.board = new Board(boardSize);
+    } catch (InputMismatchException e) {
+      System.out.println("Invalid input. Please enter a number.");
+      scanner.nextLine();
+      setupBoard();
     }
+  }
 
-    private IStrategy getStrategy(String strategy) {
-        switch (strategy.toLowerCase()) {
-            case "capture":
-                new AIPlayer("ai", PlayerType.WHITE, board, new CaptureStrategy());
-            case "corner":
-                new AIPlayer("ai", PlayerType.WHITE, board, new GoForCornersStrategy());
-            case "complete":
-                new AIPlayer("ai", PlayerType.WHITE, board, new CompleteStrategyFromFallible());
-                //add one for try-two
-            default:
-                throw new IllegalArgumentException("Invalid strategy.");
-        }
-    }
+  private Player createPlayer(PlayerType playerType) {
+    System.out.println("Choose " + PlayerType.playerGameString(playerType) + " player type (human/ai)");
+    String playerTypeInput = scanner.nextLine();
 
-    public DrawUtils createGame() {
-        AIPlayer player1 = new AIPlayer("Player 1", this.player1, board, player1Strategy);
-        AIPlayer player2 = new AIPlayer("Player 2", this.player1, board, player2Strategy);
-        ReadOnlyBoardModel board = new Board(boardSize);
-        return new DrawUtils(board);
+    if (playerTypeInput.equalsIgnoreCase("ai")) {
+      IStrategy strategy = selectStrategy();
+      return new AIPlayer("AI Player", playerType, (Board) board, strategy);
+    } else {
+      return new Player("Human Player", playerType, (Board) board);
     }
+  }
 
-    private PlayerType getPlayerType(String type) {
-        if (type.equalsIgnoreCase("h")) {
-            return PlayerType.BLACK;
-        } else if (type.equalsIgnoreCase("ai")) {
-            return PlayerType.WHITE;
-        } else {
-            throw new IllegalArgumentException("Invalid player type" + type);
-        }
-    }
+  private IStrategy selectStrategy() {
+    System.out.println("Please choose a strategy for the AI: capture, corner, or two strategies");
+    String strategyInput = scanner.nextLine();
+    return getStrategy(strategyInput, (Board) board, scanner);
+  }
 
-    public int getBoardSize() {
-        return boardSize;
+  private IStrategy getStrategy(String strategy, Board board, Scanner scanner) {
+    switch (strategy.toLowerCase()) {
+      case "capture":
+        return new CaptureStrategy();
+      case "corner":
+        return new GoForCornersStrategy();
+      case "two strategies":
+        return getCompositeStrategy(scanner);
+      default:
+        throw new IllegalArgumentException("Invalid strategy: " + strategy);
     }
+  }
 
-    public PlayerType getPlayer1Type() {
-        return player1;
-    }
+  private IStrategy getCompositeStrategy(Scanner scanner) {
+    System.out.println("Choose the primary strategy (capture/corner):");
+    String primaryStrategyInput = scanner.nextLine();
+    IStrategy primaryStrategy = getSingleStrategy(primaryStrategyInput);
 
-    public PlayerType getPlayer2Type() {
-        return player2;
+    System.out.println("Choose the secondary strategy (capture/corner):");
+    String secondaryStrategyInput = scanner.nextLine();
+    IStrategy secondaryStrategy = getSingleStrategy(secondaryStrategyInput);
+
+    return new TryTwo(primaryStrategy, secondaryStrategy);
+  }
+
+  private IStrategy getSingleStrategy(String strategy) {
+    switch (strategy.toLowerCase()) {
+      case "capture":
+        return new CaptureStrategy();
+      case "corner":
+        return new GoForCornersStrategy();
+      default:
+        throw new IllegalArgumentException("Invalid strategy: " + strategy);
     }
+  }
+
+
+  public int getBoardSize() {
+    return boardSize;
+  }
+
+  public Player getPlayer1() {
+    return player1;
+  }
+
+  public Player getPlayer2() {
+    return player2;
+  }
+
+  public ReadOnlyBoardModel getBoard() {
+    return board;
+  }
+  public void close() {
+    if (scanner != null) {
+      scanner.close();
+    }
+  }
+
 }

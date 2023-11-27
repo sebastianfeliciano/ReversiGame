@@ -10,13 +10,13 @@ import model.ReadOnlyBoardModel;
  * Represents a class that allows multiple strategies.
  */
 public class TryTwo implements FallibleHexGameStrategy {
-  FallibleHexGameStrategy first;
-  FallibleHexGameStrategy second;
+  IStrategy first;
+  IStrategy second;
 
   /**
    * Represents a constructor for combining two strategies.
    */
-  public TryTwo(FallibleHexGameStrategy first, FallibleHexGameStrategy second) {
+  public TryTwo(IStrategy first, IStrategy second) {
     this.first = first;
     this.second = second;
   }

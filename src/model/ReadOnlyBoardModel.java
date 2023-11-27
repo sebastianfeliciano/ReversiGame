@@ -34,4 +34,6 @@ public interface ReadOnlyBoardModel {
   List<Move> getValidMovesWithCaptures(Player player);
 
   boolean isCornerMove(Move move, int boardSize);
+
+  int getMidPoint();
 }

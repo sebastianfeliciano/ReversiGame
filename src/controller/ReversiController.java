@@ -15,13 +15,13 @@ public class ReversiController implements PlayerActionListener {
   private DrawUtils view;
   private JFrame frame;
 
-  public ReversiController(Player player, Board board, JFrame frame) {
+  public ReversiController(Player player, Board board, DrawUtils view) {
     if (player == null) {
       throw new IllegalArgumentException("Player cannot be null");
     }
     this.player = player;
     this.board = board;
-    this.frame = frame;
+    this.view = view;
   }
 
 
@@ -33,7 +33,7 @@ public class ReversiController implements PlayerActionListener {
   @Override
   public void onPlayerMove(int row, int column) {
     if (!board.isPlayerTurn(player) || player.getHasPassed()) {
-      JOptionPane.showMessageDialog(frame, "It is not your turn! It is " + player.getOtherColor() + "'s Turn.", "Invalid Move", JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(view, "It is not your turn! It is " + player.getOtherColor() + "'s Turn.", "Invalid Move", JOptionPane.ERROR_MESSAGE);
       return;
     }
 
@@ -48,7 +48,7 @@ public class ReversiController implements PlayerActionListener {
 
 
     if (!board.isValidMove(row, column, player.getType())) {
-      JOptionPane.showMessageDialog(frame, "Invalid move, please try again.", "Invalid Move", JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(view, "Invalid move, please try again.", "Invalid Move", JOptionPane.ERROR_MESSAGE);
       return;
     }
     player.makeMove(row, column);

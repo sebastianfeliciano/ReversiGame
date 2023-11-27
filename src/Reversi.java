@@ -11,6 +11,7 @@ import controller.ReversiController;
 import model.Board;
 import model.ReadOnlyBoardModel;
 import view.DrawUtils;
+import view.FrameSetup;
 
 /**
  * Represents the GUI view.
@@ -21,6 +22,7 @@ public class Reversi {
    * Entry point for GUI.
    */
   public static void main(String[] args) {
+
     Command commandLine = new Command();
     commandLine.prompt();
 
@@ -33,15 +35,13 @@ public class Reversi {
 
 
     JFrame frame1 = new JFrame("Reversi - Player 1");
-    ReversiController controller1 = new ReversiController(player1, (Board) board, frame1);
-    controller1.setView(view1);
-    setupFrame(frame1, view1, "You are Player " + player1.getColor());
+    ReversiController controller1 = new ReversiController(player1, (Board) board, view1);
+    FrameSetup.setupFrame(frame1, view1, "You are Player " + player1.getColor());
     view1.setEventListener(controller1);
 
     JFrame frame2 = new JFrame("Reversi - Player 2");
-    ReversiController controller2 = new ReversiController(player2, (Board) board, frame2);
-    controller2.setView(view2);
-    setupFrame(frame2, view2, "You are Player " + player2.getColor());
+    ReversiController controller2 = new ReversiController(player2, (Board) board, view2);
+    FrameSetup.setupFrame(frame2, view2, "You are Player " + player2.getColor());
     view2.setEventListener(controller2);
 
     ((Board) board).addObserver(view1);
@@ -49,21 +49,6 @@ public class Reversi {
     commandLine.close();
   }
 
-
-  private static void setupFrame(JFrame frame, DrawUtils view, String playerTypeLabel) {
-    JLabel scoreLabel = new JLabel();
-    JLabel playerType = new JLabel(playerTypeLabel);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setLayout(new BorderLayout());
-    frame.add(view, BorderLayout.CENTER);
-    frame.add(scoreLabel, BorderLayout.NORTH);
-    JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-    bottomPanel.add(playerType);
-    frame.add(bottomPanel, BorderLayout.SOUTH);
-    frame.pack();
-    frame.setLocationRelativeTo(null);
-    frame.setVisible(true);
-  }
 
 
 }

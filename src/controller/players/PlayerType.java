@@ -41,7 +41,12 @@ public enum PlayerType {
     return String.valueOf(gamePiece);
   }
 
-  public void setStrategy(IStrategy strategy) {
-
+  public static String playerGameString(PlayerType type){
+    if(type == PlayerType.BLACK){
+      return "Player 1";
+    }
+    else {
+      return "Player 2";
+    }
   }
 }

@@ -19,14 +19,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /**
  * Draws out our board and hexagons.
  */
 public class DrawUtils extends JPanel implements ReversiView, Observer {
-  protected static Board board = new Board(11);
+  private Player currentPlayer;
+
+  private ReadOnlyBoardModel board;
   boolean isClicked = false;
   private HexShape firstClickedHex;
   private HexShape hoveredHex;
@@ -55,15 +56,17 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
    * Constructs a board to be made in the game.
    */
   public DrawUtils(ReadOnlyBoardModel board) {
+    this.board = board;
+
     JButton quitButton;
     JPanel buttonPanel;
     setPreferredSize(new Dimension(650, 650));
     setBackground(new Color(this.getWindowWidth() / 11, 34, 83));
+
     addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
         try {
           HexShape newClickedHex = findHex(e.getX(), e.getY());
-          ;
           if (firstClickedHex != null && firstClickedHex.equals(newClickedHex)) {
             firstClickedHex = null;
             System.out.println("Deselected: " + newClickedHex.getColumn()
@@ -88,41 +91,6 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
         }
       }
     });
-
-    buttonPanel = new
-
-            JPanel();
-    buttonPanel.setLayout(new
-
-            FlowLayout());
-
-    quitButton = new
-
-            JButton("Quit");
-    quitButton.addActionListener((
-            ActionEvent e) ->
-            System.exit(0));
-
-    add(quitButton, BorderLayout.WEST);
-
-
-    quitButton = new
-
-            JButton("Quit");
-    quitButton.addActionListener((
-            ActionEvent e) ->
-            System.exit(0));
-
-    buttonPanel.setLayout(new BorderLayout());
-    buttonPanel.add(quitButton, BorderLayout.EAST);
-
-    JPanel bottomPanel = new JPanel(new BorderLayout());
-    bottomPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-    setLayout(new BorderLayout());
-
-    add(bottomPanel, BorderLayout.SOUTH);
-
     addKeyListener(new KeyAdapter() {
       @Override
       public void keyPressed(KeyEvent e) {
@@ -141,6 +109,17 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
       }
     });
     setFocusable(true);
+    JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    //JButton passTurnButton = new JButton("Pass Turn");
+    //passTurnButton.addActionListener((ActionEvent e) -> playerAction.onPass());
+    //bottomPanel.add(passTurnButton);
+
+    quitButton = new JButton("Quit");
+    quitButton.addActionListener((ActionEvent e) -> System.exit(0));
+    bottomPanel.add(quitButton);
+
+    setLayout(new BorderLayout());
+    add(bottomPanel, BorderLayout.SOUTH);
   }
 
   /**
@@ -223,7 +202,7 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-    drawBoard(g, board);
+    drawBoard(g, (Board) board);
 
     if (isClicked) {
       isClicked = false;
@@ -349,5 +328,20 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
 
   public Player getAiPlayer() {
     return aiPlayer;
+  }
+
+  public void handleGameOver() {
+    if (board.isGameOver()) {
+      int black = board.getScoreBlack();
+      int white = board.getScoreWhite();
+      if (black > white) {
+        JOptionPane.showMessageDialog(this, "Black won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
+      }
+      if (white > black) {
+        JOptionPane.showMessageDialog(this, "White won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
+      }
+    }
   }
 }

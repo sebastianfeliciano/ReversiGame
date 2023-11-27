@@ -22,7 +22,6 @@ public class ReversiController implements PlayerActionListener {
     this.player = player;
     this.board = board;
     this.frame = frame;
-    System.out.println("Controller instance: " + this);
   }
 
 
@@ -33,10 +32,11 @@ public class ReversiController implements PlayerActionListener {
 
   @Override
   public void onPlayerMove(int row, int column) {
-    if (!board.isPlayerTurn(player)) {
+    if (!board.isPlayerTurn(player) || player.getHasPassed()) {
       JOptionPane.showMessageDialog(frame, "It is not your turn! It is " + player.getOtherColor() + "'s Turn.", "Invalid Move", JOptionPane.ERROR_MESSAGE);
       return;
     }
+
 
     if (player instanceof AIPlayer) {
       ((AIPlayer) player).makeMove();
@@ -51,15 +51,17 @@ public class ReversiController implements PlayerActionListener {
       JOptionPane.showMessageDialog(frame, "Invalid move, please try again.", "Invalid Move", JOptionPane.ERROR_MESSAGE);
       return;
     }
-
     player.makeMove(row, column);
     view.updateBoard(board);
     board.switchTurns();
+    player.resetHasPassed();
 
 
-//    if (board.isGameOver()) {
-//      handleGameOver(); // Implement this method to handle game over logic
-//    }
+
+
+    if (board.isGameOver()) {
+      view.handleGameOver();
+    }
   }
 
 
@@ -70,6 +72,25 @@ public class ReversiController implements PlayerActionListener {
 
   @Override
   public void onPass() {
-
+//    if (!board.isPlayerTurn(player)) {
+//      JOptionPane.showMessageDialog(frame, "It's not your turn!", "Cannot Pass", JOptionPane.ERROR_MESSAGE);
+//      return;
+//    }
+//
+//    if (player.getHasPassed()) {
+//      JOptionPane.showMessageDialog(frame, "You have already passed. Wait for your next turn.", "Cannot Pass", JOptionPane.ERROR_MESSAGE);
+//      return;
+//    }
+//
+//    player.setHasPassed();
+//    view.updateBoard(board);
+//    board.switchTurns();
+//
+//    // Assuming you have access to the other player, reset their hasPassed status
+//    // otherPlayer.resetHasPassed();
+//
+//    JOptionPane.showMessageDialog(frame, "You have passed your turn.", "Turn Passed", JOptionPane.PLAIN_MESSAGE);
+//  }
   }
+
 }

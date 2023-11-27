@@ -63,7 +63,7 @@ public final class TextualEntry {
     }
 
     for (Player player : players) {
-      player.setHasPassed();
+      //player.setHasPassed();
     }
 
     TextualController boardGenerator0 = new TextualController(currentBoard);

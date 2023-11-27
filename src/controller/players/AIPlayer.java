@@ -29,7 +29,7 @@ public class AIPlayer extends Player implements IPlayer {
     if (selectedMove.isPresent()) {
       super.makeMove(selectedMove.get().getX(), selectedMove.get().getY());
     } else {
-      this.setHasPassed();
+      //this.setHasPassed();
     }
   }
 

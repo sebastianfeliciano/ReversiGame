@@ -9,6 +9,7 @@ import controller.Command;
 import controller.players.Player;
 import controller.ReversiController;
 import model.Board;
+import model.BoardModel;
 import model.ReadOnlyBoardModel;
 import view.DrawUtils;
 import view.FrameSetup;
@@ -26,7 +27,8 @@ public class Reversi {
     Command commandLine = new Command();
     commandLine.prompt();
 
-    ReadOnlyBoardModel board = commandLine.getBoard();
+    BoardModel board = commandLine.getBoard();
+
     DrawUtils view1 = new DrawUtils(board);
     DrawUtils view2 = new DrawUtils(board);
 
@@ -44,8 +46,8 @@ public class Reversi {
     FrameSetup.setupFrame(frame2, view2, "You are Player " + player2.getColor());
     view2.setEventListener(controller2);
 
-    ((Board) board).addObserver(view1);
-    ((Board) board).addObserver(view2);
+    board.addObserver(view1);
+    board.addObserver(view2);
     commandLine.close();
   }
 

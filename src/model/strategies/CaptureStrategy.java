@@ -37,7 +37,7 @@ public class CaptureStrategy implements FallibleHexGameStrategy {
 
     if (validMoves.isEmpty()) {
       logger.info("No valid moves available. Passing turn.");
-      player.setHasPassed();
+      //player.setHasPassed();
       return Optional.empty();
     }
     Move bestMove = validMoves.get(0);

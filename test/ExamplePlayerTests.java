@@ -1,5 +1,5 @@
-import controller.Player;
-import controller.PlayerType;
+import controller.players.Player;
+import controller.players.PlayerType;
 import model.Board;
 import org.junit.Assert;
 import org.junit.Test;
@@ -53,7 +53,7 @@ public class ExamplePlayerTests {
     Board firstBoard = new Board();
     Player one = new Player("Sebastian", PlayerType.BLACK, firstBoard);
     Player two = new Player("Christian", PlayerType.WHITE, firstBoard);
-    one.setHasPassed();
+    //one.setHasPassed();
     Assert.assertTrue(one.hasPassed);
   }
 

@@ -14,6 +14,6 @@ public interface IPlayer {
    */
 
   void makeMove(int row, int column);
-  void setHasPassed();
+  //void setHasPassed();
 
 }

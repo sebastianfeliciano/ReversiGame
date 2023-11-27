@@ -4,7 +4,6 @@ import javax.swing.*;
 
 import controller.players.AIPlayer;
 import controller.players.Player;
-import controller.players.PlayerType;
 import model.Board;
 import view.DrawUtils;
 import view.PlayerActionListener;
@@ -37,7 +36,6 @@ public class ReversiController implements PlayerActionListener {
       return;
     }
 
-
     if (player instanceof AIPlayer) {
       ((AIPlayer) player).makeMove();
       System.out.println("AI move completed."); // Debugging statement
@@ -51,6 +49,7 @@ public class ReversiController implements PlayerActionListener {
       JOptionPane.showMessageDialog(view, "Invalid move, please try again.", "Invalid Move", JOptionPane.ERROR_MESSAGE);
       return;
     }
+
     player.makeMove(row, column);
     view.updateBoard(board);
     board.switchTurns();
@@ -61,12 +60,6 @@ public class ReversiController implements PlayerActionListener {
       view.handleGameOver();
     }
   }
-
-
-  public void updateScore(JLabel scoreLabel) {
-    scoreLabel.setText("Black: " + board.getScoreBlack() + " White: " + board.getScoreWhite());
-  }
-
 
   @Override
   public void onPass() {
@@ -89,6 +82,5 @@ public class ReversiController implements PlayerActionListener {
 
     JOptionPane.showMessageDialog(frame, "You have passed your turn.", "Turn Passed", JOptionPane.PLAIN_MESSAGE);
   }
-
 
 }

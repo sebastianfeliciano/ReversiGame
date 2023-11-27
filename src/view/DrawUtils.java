@@ -26,7 +26,6 @@ import javax.swing.*;
  */
 public class DrawUtils extends JPanel implements ReversiView, Observer {
   private Player currentPlayer;
-
   private ReadOnlyBoardModel board;
   boolean isClicked = false;
   private HexShape firstClickedHex;
@@ -50,6 +49,7 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
       board = newBoardModel;
     }
     repaint();
+    //playerAction.updateScore();
   }
 
   /**
@@ -59,6 +59,7 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
     this.board = board;
 
     JButton quitButton;
+    JButton scoreButtonWhite;
     JPanel buttonPanel;
     setPreferredSize(new Dimension(650, 650));
     setBackground(new Color(this.getWindowWidth() / 11, 34, 83));
@@ -73,6 +74,7 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
                     + ", " + newClickedHex.getRow());
           } else {
             firstClickedHex = newClickedHex;
+            triggerAi(Integer.parseInt(firstClickedHex.getRow()), Integer.parseInt(firstClickedHex.getColumn()));
           }
           repaint();
         } catch (Exception ignored) {
@@ -117,6 +119,9 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
     quitButton = new JButton("Quit");
     quitButton.addActionListener((ActionEvent e) -> System.exit(0));
     bottomPanel.add(quitButton);
+
+    scoreButtonWhite = new JButton("Score White: " + board.getScoreWhite());
+    bottomPanel.add(scoreButtonWhite);
 
     setLayout(new BorderLayout());
     add(bottomPanel, BorderLayout.SOUTH);
@@ -342,5 +347,9 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
 
       }
     }
+  }
+
+  public void triggerAi(int row, int column) {
+    playerAction.onPlayerMove(row, column);
   }
 }

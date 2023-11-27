@@ -4,6 +4,7 @@ import controller.players.AIPlayer;
 import controller.players.Player;
 import controller.players.PlayerType;
 import model.Board;
+import model.BoardModel;
 import model.ReadOnlyBoardModel;
 import model.strategies.*;
 import view.DrawUtils;
@@ -15,7 +16,7 @@ public class Command {
   private Player player1;
   private Player player2;
   private int boardSize;
-  private ReadOnlyBoardModel board;
+  private BoardModel board;
   private Scanner scanner;
 
 
@@ -110,9 +111,10 @@ public class Command {
     return player2;
   }
 
-  public ReadOnlyBoardModel getBoard() {
+  public BoardModel getBoard() {
     return board;
   }
+
   public void close() {
     if (scanner != null) {
       scanner.close();

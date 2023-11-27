@@ -53,7 +53,7 @@ public class ExamplePlayerTests {
     Board firstBoard = new Board();
     Player one = new Player("Sebastian", PlayerType.BLACK, firstBoard);
     Player two = new Player("Christian", PlayerType.WHITE, firstBoard);
-    one.setHasPassed();
+    //one.setHasPassed();
     Assert.assertTrue(one.hasPassed);
   }
 

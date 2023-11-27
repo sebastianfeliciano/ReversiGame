@@ -25,9 +25,9 @@ public class ReversiController implements PlayerActionListener {
   }
 
 
-  public void setView(DrawUtils view) {
-    this.view = view;
-  }
+//  public void setView(DrawUtils view) {
+//    this.view = view;
+//  }
 
 
   @Override
@@ -57,8 +57,6 @@ public class ReversiController implements PlayerActionListener {
     player.resetHasPassed();
 
 
-
-
     if (board.isGameOver()) {
       view.handleGameOver();
     }
@@ -72,25 +70,25 @@ public class ReversiController implements PlayerActionListener {
 
   @Override
   public void onPass() {
-//    if (!board.isPlayerTurn(player)) {
-//      JOptionPane.showMessageDialog(frame, "It's not your turn!", "Cannot Pass", JOptionPane.ERROR_MESSAGE);
-//      return;
-//    }
-//
-//    if (player.getHasPassed()) {
-//      JOptionPane.showMessageDialog(frame, "You have already passed. Wait for your next turn.", "Cannot Pass", JOptionPane.ERROR_MESSAGE);
-//      return;
-//    }
-//
-//    player.setHasPassed();
-//    view.updateBoard(board);
-//    board.switchTurns();
-//
-//    // Assuming you have access to the other player, reset their hasPassed status
-//    // otherPlayer.resetHasPassed();
-//
-//    JOptionPane.showMessageDialog(frame, "You have passed your turn.", "Turn Passed", JOptionPane.PLAIN_MESSAGE);
-//  }
+    if (!board.isPlayerTurn(player)) {
+      JOptionPane.showMessageDialog(frame, "It's not your turn!", "Cannot Pass", JOptionPane.ERROR_MESSAGE);
+      return;
+    }
+
+    if (player.getHasPassed()) {
+      JOptionPane.showMessageDialog(frame, "You have already passed. Wait for your next turn.", "Cannot Pass", JOptionPane.ERROR_MESSAGE);
+      return;
+    }
+
+    //player.setHasPassed();
+    view.updateBoard(board);
+    board.switchTurns();
+
+    // Assuming you have access to the other player, reset their hasPassed status
+    // otherPlayer.resetHasPassed();
+
+    JOptionPane.showMessageDialog(frame, "You have passed your turn.", "Turn Passed", JOptionPane.PLAIN_MESSAGE);
   }
+
 
 }

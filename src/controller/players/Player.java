@@ -39,9 +39,9 @@ public class Player implements IPlayer {
   /**
    * The player passes their turns.
    */
-  public void setHasPassed() {
-    this.hasPassed = true;
-  }
+//  public void setHasPassed() {
+//    this.hasPassed = true;
+//  }
 
   public void resetHasPassed() {
     this.hasPassed = false;

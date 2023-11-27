@@ -14,6 +14,7 @@ import java.util.List;
 public class Board implements ReadOnlyBoardModel, BoardModel{
   private List<Observer> observers = new ArrayList<>();
 
+  @Override
   public void addObserver(Observer o) {
     observers.add(o);
   }
@@ -214,13 +215,13 @@ public class Board implements ReadOnlyBoardModel, BoardModel{
 
       // Continue moving in the direction and check for current player's piece
       while (isValidCoordinate(nextQ, nextR)
-              && getCurrentHex(nextR, nextQ).getPlayerType() == opponent && getCurrentHex(nextR, nextQ) != null) {
+              && getCurrentHex(nextR, nextQ) != null && getCurrentHex(nextR, nextQ).getPlayerType() == opponent) {
         nextQ += dir.getQMove();
         nextR += dir.getRMove();
       }
 
       // If a current player's piece is found, it's a valid move
-      if (isValidCoordinate(nextQ, nextR)
+      if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ) != null
               && getCurrentHex(nextR, nextQ).getPlayerType() == playerType) {
         return true;
       }
@@ -488,10 +489,12 @@ public class Board implements ReadOnlyBoardModel, BoardModel{
         nextQ += dir.getQMove();
         nextR += dir.getRMove();
 
-        if (isValidCoordinate(nextQ, nextR)
-                && getCurrentHex(nextR, nextQ).getPlayerType() == player) {
-          count += piecesToFlip.size();
-          break;
+        if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ) != null) {
+          HexShape currentHex = getCurrentHex(nextR, nextQ);
+          if (currentHex.getPlayerType() == player) {
+            count += piecesToFlip.size();
+            break;
+          }
         }
       }
     }

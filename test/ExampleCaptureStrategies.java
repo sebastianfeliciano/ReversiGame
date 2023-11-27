@@ -1,3 +1,4 @@
+import model.Mock;
 import org.junit.Assert;
 import org.testng.annotations.Test;
 
@@ -9,7 +10,6 @@ import controller.players.AIPlayer;
 import controller.players.Player;
 import controller.players.PlayerType;
 import model.Board;
-import model.Mock;
 import model.Move;
 import model.ReadOnlyBoardModel;
 import model.strategies.CaptureStrategy;
@@ -97,7 +97,7 @@ public class ExampleCaptureStrategies {
     CaptureStrategy ct = new CaptureStrategy();
     StringBuilder sb = new StringBuilder();
     Mock mock = new Mock(board1, valid, sb);
-    player1.setHasPassed();
+    //player1.setHasPassed();
     mock.hasPlayerPassed(player1.getType());
     System.out.println(sb);
   }

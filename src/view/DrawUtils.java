@@ -47,7 +47,7 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
 
   public void updateBoard(ReadOnlyBoardModel newBoardModel) {
     if (newBoardModel instanceof Board) {
-      board = (Board) newBoardModel;
+      board = newBoardModel;
     }
     repaint();
   }
@@ -110,9 +110,9 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
     });
     setFocusable(true);
     JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    //JButton passTurnButton = new JButton("Pass Turn");
-    //passTurnButton.addActionListener((ActionEvent e) -> playerAction.onPass());
-    //bottomPanel.add(passTurnButton);
+    JButton passTurnButton = new JButton("Pass Turn");
+    passTurnButton.addActionListener((ActionEvent e) -> playerAction.onPass());
+    bottomPanel.add(passTurnButton);
 
     quitButton = new JButton("Quit");
     quitButton.addActionListener((ActionEvent e) -> System.exit(0));
@@ -336,7 +336,6 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
       int white = board.getScoreWhite();
       if (black > white) {
         JOptionPane.showMessageDialog(this, "Black won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-
       }
       if (white > black) {
         JOptionPane.showMessageDialog(this, "White won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);

@@ -38,7 +38,7 @@ public class GoForCornersStrategy implements FallibleHexGameStrategy {
     List<Move> validMoves = board.getValidMovesWithCaptures(player);
     if (validMoves.isEmpty()) {
       logger.info("No valid moves available. Passing turn.");
-      player.setHasPassed();
+      //player.setHasPassed();
       return Optional.empty();
     }
 

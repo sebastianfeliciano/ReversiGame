@@ -9,137 +9,110 @@ import model.strategies.CaptureStrategy;
 import model.strategies.GoForCornersStrategy;
 import model.strategies.IStrategy;
 import model.strategies.TryTwo;
-
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 /**
  * A command class for the command line to work.
  */
+
 public class Command {
   private Player player1;
   private Player player2;
   private int boardSize;
   private ReadOnlyBoardModel board;
-  private Scanner scanner;
-
 
   /**
-   * Initializes the scanner for the command line.
+   * Initializes the command line arguments.
    */
-  public Command() {
-    scanner = new Scanner(System.in);
+  public Command(String[] args) {
+    parseArguments(args);
   }
 
-  /**
-   * Created the prompt and makes the game.
-   */
-  public void prompt() {
-    setupBoard();
-    player1 = createPlayer(PlayerType.BLACK);
-    player2 = createPlayer(PlayerType.WHITE);
-  }
+  private void parseArguments(String[] args) {
+    if (args.length < 2) {
+      throw new IllegalArgumentException("Insufficient arguments. Expected at least board size and player 1 type or strategy.");
+    }
 
-  /**
-   * Sets up the board, to be played upon.
-   */
-  private void setupBoard() {
-    System.out.println("Enter the board size: ");
-    try {
-      boardSize = scanner.nextInt();
-      scanner.nextLine();
-      if ((boardSize >= 5) && (boardSize % 2 == 0)) {
-        System.out.println("Invalid input. The Board size must be greater than or equal to " +
-                "5 and not even!");
-        scanner.nextLine();
-        setupBoard();
+    this.boardSize = Integer.parseInt(args[0]);
+    this.board = new Board(boardSize);
+
+    String player1Type;
+    String player1Strategy = null;
+    String player2Type = "ai";
+    String player2Strategy = null;
+
+    if (isStrategy(args[1])) {
+      player1Type = "ai";
+      player1Strategy = args[1];
+    } else {
+      player1Type = args[1];
+    }
+
+    if (args.length > 2) {
+      if (!isStrategy(args[1])) {
+        if (isStrategy(args[2])) {
+          player2Type = "ai";
+          player2Strategy = args[2];
+        } else {
+          player2Type = args[2];
+        }
+      } else {
+        player2Strategy = args[2];
       }
-      this.board = new Board(boardSize);
-    } catch (InputMismatchException e) {
-      System.out.println("Invalid input. The Board size must be greater than or equal to " +
-              "5 and not even!");
-      scanner.nextLine();
-      setupBoard();
+    }
+
+    if (player1Type.equalsIgnoreCase("ai") && args.length > 3 && !isStrategy(args[1])) {
+      player1Strategy = args[3];
+    }
+
+    player1 = createPlayer(PlayerType.BLACK, player1Type, player1Strategy);
+    player2 = createPlayer(PlayerType.WHITE, player2Type, player2Strategy);
+  }
+
+  private boolean isStrategy(String input) {
+    switch (input.toLowerCase()) {
+      case "capture":
+      case "corner":
+      case "capture corner":
+      case "corner capture":
+      case "capture capture":
+      case "corner corner":
+        return true;
+      default:
+        return false;
     }
   }
 
-  /**
-   * Creates a single player for the game, depending on human or ai.
-   */
-  private Player createPlayer(PlayerType playerType) {
-    System.out.println("Choose "
-            + PlayerType.playerGameString(playerType) + " player type (human/ai)");
-    String playerTypeInput = scanner.nextLine();
-    if (playerTypeInput.equalsIgnoreCase("ai")) {
-      IStrategy strategy = selectStrategy();
+
+
+
+
+
+
+
+  private Player createPlayer(PlayerType playerType, String playerTypeStr, String strategyStr) {
+    if (playerTypeStr.equalsIgnoreCase("ai")) {
+      IStrategy strategy = getStrategy(strategyStr);
       return new AIPlayer("AI Player", playerType, board, strategy);
     } else {
       return new Player("Human Player", playerType, board);
     }
   }
 
-  /**
-   * Selected a strategy for the ai.
-   */
-  private IStrategy selectStrategy() {
-    System.out.println("Please choose a strategy for the AI: capture, corner, or two strategies");
-    String strategyInput = scanner.nextLine();
-    return getStrategy(strategyInput, (Board) board, scanner);
-  }
-
-  /**
-   * Gets the strategy inputted and matches to the ai.
-   */
-  private IStrategy getStrategy(String strategy, Board board, Scanner scanner) {
-    while (true) {
-      switch (strategy.toLowerCase()) {
-        case "capture":
-          return new CaptureStrategy();
-        case "corner":
-          return new GoForCornersStrategy();
-        case "two strategies":
-          return getCompositeStrategy(scanner);
-        default:
-          System.out.println("Invalid strategy: "
-                  + strategy + ". Please choose capture, corner, or two strategies.");
-          strategy = scanner.nextLine();
-      }
+  private IStrategy getStrategy(String strategyStr) {
+    switch (strategyStr.toLowerCase()) {
+      case "capture":
+      case "capture capture":
+        return new CaptureStrategy();
+      case "corner":
+      case "corner corner":
+        return new GoForCornersStrategy();
+      case "capture corner":
+        return new TryTwo(new CaptureStrategy(), new GoForCornersStrategy());
+      case "corner capture":
+        return new TryTwo(new GoForCornersStrategy(), new CaptureStrategy());
+      default:
+        throw new IllegalArgumentException("Invalid strategy: " + strategyStr);
     }
   }
-
-  /**
-   * Gets the CompositeStrategy that is chosen by Two Strategies and combines two strategies.
-   */
-  private IStrategy getCompositeStrategy(Scanner scanner) {
-    System.out.println("Choose the primary strategy (capture/corner):");
-    String primaryStrategyInput = scanner.nextLine();
-    IStrategy primaryStrategy = getSingleStrategy(primaryStrategyInput);
-
-    System.out.println("Choose the secondary strategy (capture/corner):");
-    String secondaryStrategyInput = scanner.nextLine();
-    IStrategy secondaryStrategy = getSingleStrategy(secondaryStrategyInput);
-
-    return new TryTwo(primaryStrategy, secondaryStrategy);
-  }
-
-  /**
-   * Gets all the possibly singular strategies.
-   */
-  private IStrategy getSingleStrategy(String strategy) {
-    while (true) {
-      switch (strategy.toLowerCase()) {
-        case "capture":
-          return new CaptureStrategy();
-        case "corner":
-          return new GoForCornersStrategy();
-        default:
-          System.out.println("Invalid strategy: "
-                  + strategy + ". Please choose capture or corner.");
-          strategy = scanner.nextLine();
-      }
-    }
-  }
-
 
   /**
    * Returns the boardSize that is inputted.
@@ -167,15 +140,6 @@ public class Command {
    */
   public Board getBoard() {
     return board.getRegularBoard();
-  }
-
-  /**
-   * Closes further input for the scanner.
-   */
-  public void close() {
-    if (scanner != null) {
-      scanner.close();
-    }
   }
 
 }

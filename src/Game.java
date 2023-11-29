@@ -10,7 +10,7 @@ import model.Board;
  * Representing the game playing so that each controller can update one by one,
  * this is important for two AIs.
  */
-public class Game {
+public class Game implements GameMocked {
   private Timer timer;
   private final ReversiController controller1;
   private final ReversiController controller2;

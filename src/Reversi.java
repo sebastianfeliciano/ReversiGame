@@ -21,8 +21,7 @@ public class Reversi {
    */
   public static void main(String[] args) {
 
-    Command commandLine = new Command();
-    commandLine.prompt();
+    Command commandLine = new Command(args);
 
     Board board = commandLine.getBoard();
 
@@ -53,6 +52,5 @@ public class Reversi {
 
     Game model = new Game(controller1, controller2, board);
     model.start();
-    commandLine.close();
   }
 }

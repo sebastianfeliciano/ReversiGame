@@ -39,7 +39,7 @@ public class ExampleMockView {
 
     player.setMoveHandler(controller1);
 
-    controller1.onPlayerMove(-3,0);
+    controller1.onPlayerMove(-3, 0);
     Assert.assertTrue(view.getLog().contains("Invalid Move Pop Up"));
   }
 
@@ -48,49 +48,106 @@ public class ExampleMockView {
   public void testShowThatIPassedTurnMessage() {
     ReadOnlyBoardModel board = new Board(7);
     Player player = new Player("Human", PlayerType.BLACK, board);
+    Player player2 = new Player("Human", PlayerType.WHITE, board);
 
     Board boardReg = board.getRegularBoard();
     MockViewClass view = new MockViewClass(board);
+    view.setScoreLabel(new JLabel("Dummy Score"));
 
     MockController controller1 = new MockController(player, boardReg, view);
+    MockController controller12 = new MockController(player2, boardReg, view);
 
     player.setMoveHandler(controller1);
+    player2.setMoveHandler(controller12);
 
-    controller1.onPlayerMove(-3,0);
-    Assert.assertTrue(view.getLog().contains("Invalid Move Pop Up"));
+    controller1.onPass();
+
+    Assert.assertTrue(view.getLog().contains("I passed turn Pop Up."));
 
   }
 
   @Test
   public void testItIsNowYourTurnMessage() {
+    ReadOnlyBoardModel board = new Board(7);
+    Player player = new Player("Human", PlayerType.BLACK, board);
+    Player player2 = new Player("Human", PlayerType.WHITE, board);
+
+    Board boardReg = board.getRegularBoard();
+    MockViewClass view = new MockViewClass(board);
+    view.setScoreLabel(new JLabel("Dummy score"));
+
+    MockController controller1 = new MockController(player, boardReg, view);
+    MockController controller2 = new MockController(player2, boardReg, view);
+
+    player.setMoveHandler(controller1);
+    player2.setMoveHandler(controller2);
+
+    controller1.onPlayerMove(-1, -1);
+
+    Assert.assertTrue(view.getLog().contains("It is now my turn"));
 
   }
 
   @Test
-  public void testGetGameOverHandleState() {
+  public void testResetGameOverHandledAndGetGameOverHandleState() {
+    ReadOnlyBoardModel board = new Board(7);
+    Player player = new Player("Human", PlayerType.BLACK, board);
+    Player player2 = new Player("Human", PlayerType.WHITE, board);
 
-  }
+    Board boardReg = board.getRegularBoard();
+    MockViewClass view = new MockViewClass(board);
+    view.setScoreLabel(new JLabel("Dummy Score"));
 
+    MockController controller1 = new MockController(player, boardReg, view);
+    MockController controller12 = new MockController(player2, boardReg, view);
+    view.resetGameOverHandled();
+    Assert.assertTrue(view.getLog().contains("Resetting Game Over Handling."));
 
-  @Test
-  public void testResetGameOverHandled() {
+    Assert.assertFalse(view.getGameOverHandleState());
+
+    view.getGameOverHandleState();
+    Assert.assertTrue(view.getLog().contains("Getting Game Over Handle State."));
 
   }
 
 
   @Test
   public void testItIsNotYourTurnMessage() {
+    ReadOnlyBoardModel board = new Board(7);
+    Player player = new Player("Human", PlayerType.BLACK, board);
+    Player player2 = new Player("Human", PlayerType.WHITE, board);
+    Board boardReg = board.getRegularBoard();
+    MockViewClass view = new MockViewClass(board);
+    view.setScoreLabel(new JLabel("Dummy Score"));
+    MockController controller1 = new MockController(player, boardReg, view);
+    MockController controller12 = new MockController(player2, boardReg, view);
+    player.setMoveHandler(controller1);
+    player2.setMoveHandler(controller12);
+    controller12.onPass();
+    Assert.assertTrue(view.getLog().contains("It is not your turn pop up."));
   }
 
 
   @Test
   public void testUpdateScore() {
+    ReadOnlyBoardModel board = new Board(7);
+    Player player = new Player("Human", PlayerType.BLACK, board);
+    Board boardReg = board.getRegularBoard();
+    MockViewClass view = new MockViewClass(board);
+    view.setScoreLabel(new JLabel("Dummy score"));
+    MockController controller1 = new MockController(player, boardReg, view);
+    controller1.update();
+    Assert.assertTrue(view.getLog().contains("Updated Score."));
 
   }
 
-  @Test
-  public void testSetScoreLabel() {
 
+  @Test
+  public void testSettingScore() {
+    ReadOnlyBoardModel board = new Board(7);
+    MockViewClass view = new MockViewClass(board);
+    view.setScoreLabel(new JLabel("Dummy score"));
+    Assert.assertTrue(view.getLog().contains("Setting Score."));
   }
 
 

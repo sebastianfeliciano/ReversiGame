@@ -34,9 +34,9 @@ public class Command {
     this.boardSize = Integer.parseInt(args[0]);
     this.board = new Board(boardSize);
 
-    String player1Type;
+    String player1Type = "human";
     String player1Strategy = null;
-    String player2Type = "ai";
+    String player2Type = "human";
     String player2Strategy = null;
 
     if (isStrategy(args[1])) {

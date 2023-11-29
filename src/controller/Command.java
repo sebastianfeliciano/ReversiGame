@@ -16,7 +16,7 @@ public class Command {
   private Player player1;
   private Player player2;
   private int boardSize;
-  private BoardModel board;
+  private ReadOnlyBoardModel board;
   private Scanner scanner;
 
 
@@ -50,9 +50,9 @@ public class Command {
 
     if (playerTypeInput.equalsIgnoreCase("ai")) {
       IStrategy strategy = selectStrategy();
-      return new AIPlayer("AI Player", playerType, (Board) board, strategy);
+      return new AIPlayer("AI Player", playerType, board, strategy);
     } else {
-      return new Player("Human Player", playerType, (Board) board);
+      return new Player("Human Player", playerType, board);
     }
   }
 
@@ -111,8 +111,8 @@ public class Command {
     return player2;
   }
 
-  public BoardModel getBoard() {
-    return board;
+  public Board getBoard() {
+    return board.getRegularBoard();
   }
 
   public void close() {

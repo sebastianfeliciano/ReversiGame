@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Sets up a board for the controller to use.
  */
-public class Board implements ReadOnlyBoardModel, BoardModel{
+public class Board implements ReadOnlyBoardModel, BoardModel {
   private List<Observer> observers = new ArrayList<>();
 
   @Override
@@ -19,15 +19,12 @@ public class Board implements ReadOnlyBoardModel, BoardModel{
     observers.add(o);
   }
 
-  public void removeObserver(Observer o) {
-    observers.remove(o);
-  }
-
   public void notifyObservers() {
     for (Observer observer : observers) {
       observer.update();
     }
   }
+
   private PlayerType currentTurn;
   public int boardSize;
   public HexShape[][] cellsThatMakeTheBoard;
@@ -104,13 +101,14 @@ public class Board implements ReadOnlyBoardModel, BoardModel{
 
   public void switchTurns() {
     currentTurn = (currentTurn == PlayerType.BLACK) ? PlayerType.WHITE : PlayerType.BLACK;
+    notifyObservers();
   }
 
   public boolean isPlayerTurn(Player player) {
-    if (player == null){
+    if (player == null) {
       throw new IllegalStateException("Player is null");
     }
-    if (player.getType() == null){
+    if (player.getType() == null) {
       throw new IllegalStateException("PlayerType is null");
     }
     if (currentTurn == null) {
@@ -127,7 +125,6 @@ public class Board implements ReadOnlyBoardModel, BoardModel{
    * or direction is invalid.
    */
   public void flipPieces(int x, int y, PlayerType currentPlayer) {
-    notifyObservers();
     if (currentPlayer == null) {
       System.out.println("Current player is null!");
       return;
@@ -158,13 +155,13 @@ public class Board implements ReadOnlyBoardModel, BoardModel{
 
       List<HexShape> piecesToFlip = new ArrayList<>();
 
-      while (isValidCoordinate(nextQ, nextR)
+      while (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ) != null
               && getCurrentHex(nextR, nextQ).getPlayerType() == opponent) {
         piecesToFlip.add(getCurrentHex(nextR, nextQ));
         nextQ += dir.getQMove();
         nextR += dir.getRMove();
 
-        if (isValidCoordinate(nextQ, nextR)
+        if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ) != null
                 && getCurrentHex(nextR, nextQ).getPlayerType() == currentPlayer) {
           for (HexShape piece : piecesToFlip) {
             piece.setPlayerType(currentPlayer);
@@ -244,7 +241,6 @@ public class Board implements ReadOnlyBoardModel, BoardModel{
    * row and column, and playerType.
    */
   public void placePiece(int q, int r, PlayerType type) {
-    notifyObservers();
     this.getCurrentHex(r, q).setPlayerType(type);
     whitePassed = false;
     blackPassed = false;
@@ -264,7 +260,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel{
   @Override
   public int getScoreWhite() {
     if (isGameOver()) {
-      return 0;
+      return 3;
     }
     return countPieces(PlayerType.WHITE);
   }
@@ -272,7 +268,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel{
   @Override
   public int getScoreBlack() {
     if (isGameOver()) {
-      return 0;
+      return 3;
     }
     return countPieces(PlayerType.BLACK);
   }
@@ -292,9 +288,12 @@ public class Board implements ReadOnlyBoardModel, BoardModel{
    * players have skipped their turn.
    */
   public boolean isGameOver() {
-    return (isBoardFull() || bothPlayersPassed() || isPlayerTrapped(PlayerType.WHITE)
-            || isPlayerTrapped(PlayerType.BLACK));
+    return (isBoardFull() || bothPlayersPassed());
   }
+
+
+  //(isPlayerTrapped(PlayerType.WHITE)
+  //            && isPlayerTrapped(PlayerType.BLACK))
 
   /**
    * Determines if both players have skipped their turns.
@@ -351,6 +350,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel{
         }
       }
     }
+    notifyObservers();
     return count;
   }
 
@@ -359,6 +359,16 @@ public class Board implements ReadOnlyBoardModel, BoardModel{
    */
   public int getMidPoint() {
     return this.getBoardSize() / 2;
+  }
+
+  @Override
+  public Board getRegularBoard() {
+    return this;
+  }
+
+  @Override
+  public PlayerType getCurrentTurn() {
+    return this.currentTurn;
   }
 
   /**
@@ -483,7 +493,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel{
       }
       List<HexShape> piecesToFlip = new ArrayList<>();
 
-      while (isValidCoordinate(nextQ, nextR)
+      while (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ) != null
               && getCurrentHex(nextR, nextQ).getPlayerType() == opponent) {
         piecesToFlip.add(getCurrentHex(nextQ, nextR));
         nextQ += dir.getQMove();
@@ -499,6 +509,15 @@ public class Board implements ReadOnlyBoardModel, BoardModel{
       }
     }
     return count;
+  }
+
+  public void resetWhitePassed() {
+    whitePassed = false;
+  }
+
+  // Method to reset the passed state for black player
+  public void resetBlackPassed() {
+    blackPassed = false;
   }
 
 

@@ -1,6 +1,7 @@
 package controller.players;
 
-import model.Board;
+import controller.MoveHandler;
+import model.ReadOnlyBoardModel;
 
 /**
  * Represents a single player in a reversi game.
@@ -8,14 +9,15 @@ import model.Board;
 public class Player implements IPlayer {
   private final String name;
   private final PlayerType type;
-  final Board board;
+  final ReadOnlyBoardModel board;
   public boolean hasPassed;
+  private MoveHandler moveHandler;
 
   /**
    * Constructor for player with a name, a player type,
    * and a board.
    */
-  public Player(String name, PlayerType type, Board board) {
+  public Player(String name, PlayerType type, ReadOnlyBoardModel board) {
     this.name = name;
     this.type = type;
     this.board = board;
@@ -47,6 +49,10 @@ public class Player implements IPlayer {
     this.hasPassed = false;
   }
 
+  public void setHasPassed() {
+    this.hasPassed = true;
+  }
+
 
   public void setSpecificHasPassed(boolean booleanWord) {
     this.hasPassed = booleanWord;
@@ -55,26 +61,18 @@ public class Player implements IPlayer {
   /**
    * Places a valid move on the board.
    */
-  public void makeMove(int row, int column) {
-    placeKey(row, column);
+//  public void makeMove(int row, int column) {
+//    placeKey(row, column);
+//  }
+
+  public void setMoveHandler(MoveHandler moveHandler) {
+    this.moveHandler = moveHandler;
   }
 
-
-  /**
-   * Allows the user to play a textual version of the game.
-   */
-  public void placeKey(int x, int y) {
-    if (!board.isValidMove(x, y, this.getType())) {
-      throw new IllegalArgumentException("Not a Valid Move!");
+  public void makeMove(int row, int column) {
+    if (moveHandler != null) {
+      moveHandler.handleMove(this, row, column);
     }
-    if (x > board.getBoardSize() / 2 || x < -board.getBoardSize()
-            || y > board.getBoardSize() / 2 || y < -board.getBoardSize()) {
-      throw new IllegalArgumentException("Not a Valid Move!");
-    }
-    int q = x + board.getBoardSize() / 2;
-    int r = y + board.getBoardSize() / 2;
-    board.placePiece(q, r, this.getType());
-    board.flipPieces(q, r, this.getType());
   }
 
   public String getColor() {

@@ -36,4 +36,8 @@ public interface ReadOnlyBoardModel {
   boolean isCornerMove(Move move, int boardSize);
 
   int getMidPoint();
+
+  Board getRegularBoard();
+
+  PlayerType getCurrentTurn();
 }

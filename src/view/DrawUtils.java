@@ -24,8 +24,9 @@ import javax.swing.*;
 /**
  * Draws out our board and hexagons.
  */
-public class DrawUtils extends JPanel implements ReversiView, Observer {
+public class DrawUtils extends JPanel implements ReversiView {
   private Player currentPlayer;
+
   private ReadOnlyBoardModel board;
   boolean isClicked = false;
   private HexShape firstClickedHex;
@@ -42,14 +43,18 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
   @Override
   public void update() {
     repaint();
+
+    if (board instanceof Board) {
+      handleGameOver();
+    }
   }
 
   public void updateBoard(ReadOnlyBoardModel newBoardModel) {
+
     if (newBoardModel instanceof Board) {
       board = newBoardModel;
     }
     repaint();
-    //playerAction.updateScore();
   }
 
   /**
@@ -57,10 +62,8 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
    */
   public DrawUtils(ReadOnlyBoardModel board) {
     this.board = board;
-
     JButton quitButton;
-    JButton scoreButtonWhite;
-    JPanel buttonPanel;
+
     setPreferredSize(new Dimension(650, 650));
     setBackground(new Color(this.getWindowWidth() / 11, 34, 83));
 
@@ -74,7 +77,6 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
                     + ", " + newClickedHex.getRow());
           } else {
             firstClickedHex = newClickedHex;
-            triggerAi(Integer.parseInt(firstClickedHex.getRow()), Integer.parseInt(firstClickedHex.getColumn()));
           }
           repaint();
         } catch (Exception ignored) {
@@ -120,11 +122,12 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
     quitButton.addActionListener((ActionEvent e) -> System.exit(0));
     bottomPanel.add(quitButton);
 
-    scoreButtonWhite = new JButton("Score White: " + board.getScoreWhite());
-    bottomPanel.add(scoreButtonWhite);
-
     setLayout(new BorderLayout());
     add(bottomPanel, BorderLayout.SOUTH);
+  }
+
+  private void triggerAi(int i, int i1) {
+   // playerAction.onPlayerMove(i, i1);
   }
 
   /**
@@ -336,20 +339,35 @@ public class DrawUtils extends JPanel implements ReversiView, Observer {
   }
 
   public void handleGameOver() {
-    if (board.isGameOver()) {
-      int black = board.getScoreBlack();
-      int white = board.getScoreWhite();
-      if (black > white) {
-        JOptionPane.showMessageDialog(this, "Black won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-      }
-      if (white > black) {
-        JOptionPane.showMessageDialog(this, "White won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-
-      }
+    int blackScore = board.getScoreBlack();
+    int whiteScore = board.getScoreWhite();
+    String message;
+    if (blackScore > whiteScore) {
+      message = "Black won with a score of " + blackScore + " to " + whiteScore + "!";
+    } else if (whiteScore > blackScore) {
+      message = "White won with a score of " + whiteScore + " to " + blackScore + "!";
+    } else {
+      message = "It's a draw! Both players scored " + blackScore + ".";
     }
+    JOptionPane.showMessageDialog(this, message, "Game Over", JOptionPane.INFORMATION_MESSAGE);
   }
 
-  public void triggerAi(int row, int column) {
-    playerAction.onPlayerMove(row, column);
+
+  public void showInvalidMoveMessage() {
+    JOptionPane.showMessageDialog(this, "Invalid move, please try again.", "Invalid Move", JOptionPane.ERROR_MESSAGE);
+  }
+
+  public void showThatIPassedTurnMessage() {
+    JOptionPane.showMessageDialog(this, "You have passed your turn.", "Turn Passed", JOptionPane.PLAIN_MESSAGE);
+    this.requestFocusInWindow();
+  }
+
+  public void ItIsNowYourTurnMessage() {
+    JOptionPane.showMessageDialog(this, "It's your turn.", "Your Turn", JOptionPane.INFORMATION_MESSAGE);
+    this.requestFocusInWindow();
+  }
+
+  public void itIsNotYourTurnMessage() {
+    JOptionPane.showMessageDialog(this, "It is not your turn Yet!", "Invalid Move", JOptionPane.ERROR_MESSAGE);
   }
 }

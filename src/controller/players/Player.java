@@ -51,6 +51,7 @@ public class Player implements IPlayer {
 
   public void setHasPassed() {
     this.hasPassed = true;
+    board.getRegularBoard().checkGameOver();
   }
 
 

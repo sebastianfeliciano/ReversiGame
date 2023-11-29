@@ -1,16 +1,10 @@
 package controller;
 
-import java.util.Optional;
-
-import javax.swing.*;
-
 import controller.players.AIPlayer;
 import controller.players.Player;
 import controller.players.PlayerType;
-import controller.players.TurnAIPopUp;
 import model.Board;
 import view.DrawUtils;
-import view.FrameSetup;
 import view.Observer;
 import view.PlayerActionListener;
 
@@ -30,6 +24,7 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
     this.board = board;
     this.view = view;
     board.addObserver(this);
+    view.resetGameOverHandled();
   }
 
   public void placeKey(int x, int y) {
@@ -80,15 +75,15 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
 //    if (player instanceof AIPlayer) {
 //      ((AIPlayer) player).makeMove();
 //    } else {
-      // For human players, validate and make the move
-      if (board.isValidMove(row, column, player.getType())) {
-        this.placeKey(row, column);
-        player.resetHasPassed();
-        resetOpponentPassedState();
-      } else {
-        view.showInvalidMoveMessage();
-        return;
-      }
+    // For human players, validate and make the move
+    if (board.isValidMove(row, column, player.getType())) {
+      this.placeKey(row, column);
+      player.resetHasPassed();
+      resetOpponentPassedState();
+    } else {
+      view.showInvalidMoveMessage();
+      return;
+    }
     checkAndUpdateGameState();
   }
 
@@ -106,28 +101,39 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
       return;
     }
     board.playerPass(player.getType());
+    if (!(player instanceof AIPlayer)) {
+      view.showThatIPassedTurnMessage();
+    }
     player.setHasPassed();
-    view.showThatIPassedTurnMessage();
     checkAndUpdateGameState();
   }
 
   @Override
   public void update() {
-    if (isUpdating || board.isGameOver()) {
+    System.out.println("Update called for player: " + player.getColor());
+    if (isUpdating) {
       return;
     }
     try {
       isUpdating = true;
+      if (board.isGameOver() && !view.getGameOverHandleState()) {
+        view.handleGameOver();
+        return;
+      }
+      updateScoreInView();
       if (board.isGameOver()) {
         view.handleGameOver();
       } else {
         if (board.isPlayerTurn(player)) {
-          if (player instanceof AIPlayer) {
-            ((AIPlayer) player).makeMove();
-            board.notifyObservers();
-            checkAndUpdateGameState();
-          } else {
-            if (!turnMessageDisplayed) {
+          if (!turnMessageDisplayed) {
+            if (player instanceof AIPlayer) {
+              ((AIPlayer) player).makeMove();
+              if (player.getHasPassed()) {
+                onPass();
+              }
+              board.notifyObservers();
+              checkAndUpdateGameState();
+            } else {
               view.ItIsNowYourTurnMessage();
               turnMessageDisplayed = true;
             }
@@ -141,6 +147,17 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
     } finally {
       isUpdating = false;
     }
+  }
+
+  private void updateScoreInView() {
+    int blackScore = board.getScoreBlack();
+    int whiteScore = board.getScoreWhite();
+    view.updateScore(blackScore, whiteScore);
+  }
+
+  @Override
+  public void onGameOver() {
+    view.handleGameOver();
   }
 
 
@@ -175,4 +192,5 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
   public void handleMove(Player player, int row, int column) {
     this.placeKey(row, column);
   }
+
 }

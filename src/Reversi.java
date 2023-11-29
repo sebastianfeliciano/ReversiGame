@@ -39,14 +39,16 @@ public class Reversi implements GameObserver {
     JFrame frame1 = new JFrame("Reversi - Player 1");
     ReversiController controller1 = new ReversiController(player1, board, view1);
     player1.setMoveHandler(controller1);
-    FrameSetup.setupFrame(frame1, view1, "You are Player " + player1.getColor(), score);
+    JLabel frame1Setup = FrameSetup.setupFrame(frame1, view1, "You are Player " + player1.getColor(), score);
     view1.setEventListener(controller1);
+    view1.setScoreLabel(frame1Setup);
 
     JFrame frame2 = new JFrame("Reversi - Player 2");
     ReversiController controller2 = new ReversiController(player2, board, view2);
     player2.setMoveHandler(controller2);
-    FrameSetup.setupFrame(frame2, view2, "You are Player " + player2.getColor(), score);
+    JLabel frame2Setup = FrameSetup.setupFrame(frame2, view2, "You are Player " + player2.getColor(), score);
     view2.setEventListener(controller2);
+    view2.setScoreLabel(frame2Setup);
 
     Game model = new Game(controller1, controller2, board);
     model.start();

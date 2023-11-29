@@ -12,6 +12,8 @@ import java.util.List;
  * Sets up a board for the controller to use.
  */
 public class Board implements ReadOnlyBoardModel, BoardModel {
+  private boolean isGameOver = false;
+
   private List<Observer> observers = new ArrayList<>();
 
   @Override
@@ -244,6 +246,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     this.getCurrentHex(r, q).setPlayerType(type);
     whitePassed = false;
     blackPassed = false;
+    checkGameOver();
   }
 
   /**
@@ -260,7 +263,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   @Override
   public int getScoreWhite() {
     if (isGameOver()) {
-      return 3;
+      return countPieces(PlayerType.WHITE);
     }
     return countPieces(PlayerType.WHITE);
   }
@@ -268,7 +271,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   @Override
   public int getScoreBlack() {
     if (isGameOver()) {
-      return 3;
+      return countPieces(PlayerType.BLACK);
     }
     return countPieces(PlayerType.BLACK);
   }
@@ -290,10 +293,6 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   public boolean isGameOver() {
     return (isBoardFull() || bothPlayersPassed());
   }
-
-
-  //(isPlayerTrapped(PlayerType.WHITE)
-  //            && isPlayerTrapped(PlayerType.BLACK))
 
   /**
    * Determines if both players have skipped their turns.
@@ -518,6 +517,20 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   // Method to reset the passed state for black player
   public void resetBlackPassed() {
     blackPassed = false;
+  }
+
+  public void checkGameOver() {
+    // Logic to determine if the game is over
+    if (isGameOver()) {
+      isGameOver = true;
+      notifyObserversGameOver();
+    }
+  }
+
+  public void notifyObserversGameOver() {
+    for (Observer observer : observers) {
+      observer.onGameOver();
+    }
   }
 
 

@@ -63,7 +63,6 @@ public class ExampleMockView {
     controller1.onPass();
 
     Assert.assertTrue(view.getLog().contains("I passed turn Pop Up."));
-
   }
 
   @Test
@@ -85,7 +84,6 @@ public class ExampleMockView {
     controller1.onPlayerMove(-1, -1);
 
     Assert.assertTrue(view.getLog().contains("It is now my turn"));
-
   }
 
   @Test
@@ -107,7 +105,6 @@ public class ExampleMockView {
 
     view.getGameOverHandleState();
     Assert.assertTrue(view.getLog().contains("Getting Game Over Handle State."));
-
   }
 
 
@@ -138,7 +135,6 @@ public class ExampleMockView {
     MockController controller1 = new MockController(player, boardReg, view);
     controller1.update();
     Assert.assertTrue(view.getLog().contains("Updated Score."));
-
   }
 
 
@@ -149,6 +145,4 @@ public class ExampleMockView {
     view.setScoreLabel(new JLabel("Dummy score"));
     Assert.assertTrue(view.getLog().contains("Setting Score."));
   }
-
-
 }

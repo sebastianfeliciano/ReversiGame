@@ -268,7 +268,7 @@ The **DrawUtils** class is responsible for drawing the hexagonal board. It uses 
   - Improved our view so that the board size is more flexible, and can be changed in the command line.
   - Users can input a different board size in the run configuration. 
 
-- Assigning Controllers to Each Player P
+- Assigning Controllers to Each Player 
   - Each player gets assigned a controller that's associated with a view as well
   - the controllers receive input from players, processes it, and then updates the game state accordingly.
 
@@ -283,3 +283,12 @@ The **DrawUtils** class is responsible for drawing the hexagonal board. It uses 
       - score 
       - whether players tied / who won
     - updating AI moving to be automatic
+
+  - ### Configuring the Game
+    - Our Reversi Game allows different combinations of players 
+    - for example (7 human capture) or (7 capture capture)
+      - 7 -> boardSize, human -> player1type = human capture -> strategy and AIPlayer
+      - To chain, you would just do two strategies back to back
+      - For example (7 capture corner capture corner) --> this creates a boardSize of and two AIPlayers with chained strategies
+  - ###### Conditions
+    - If a user decides to do a chained strategy with two of the same strategies, it will just call the one strategy as its strategy

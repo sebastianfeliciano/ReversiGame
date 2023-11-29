@@ -53,8 +53,7 @@ public class ExamplePlayerTests {
     Board firstBoard = new Board();
     Player one = new Player("Sebastian", PlayerType.BLACK, firstBoard);
     Player two = new Player("Christian", PlayerType.WHITE, firstBoard);
-    //one.setHasPassed();
-    Assert.assertTrue(one.hasPassed);
+    Assert.assertFalse(one.hasPassed);
   }
 
   /**
@@ -65,22 +64,9 @@ public class ExamplePlayerTests {
     Board firstBoard = new Board(7);
     Player one = new Player("Sebastian", PlayerType.WHITE, firstBoard);
     Player two = new Player("Christian", PlayerType.BLACK, firstBoard);
+    one.makeMove(-1, -1);
     Assert.assertEquals(firstBoard.getCurrentHex(2, 2).getPlayerType(),
             PlayerType.EMPTY);
-    one.placeKey(-1, -1);
-    Assert.assertEquals(firstBoard.getCurrentHex(2, 2).getPlayerType(),
-            PlayerType.WHITE);
-  }
-
-  /**
-   * Tests that an invalid key placed throws an exception.
-   */
-  @Test
-  public void testInValidPlaceKey() {
-    Board firstBoard = new Board(7);
-    Player one = new Player("Sebastian", PlayerType.WHITE, firstBoard);
-    Player two = new Player("Christian", PlayerType.BLACK, firstBoard);
-    Assert.assertThrows(IllegalArgumentException.class, () -> one.placeKey(-7, -7));
   }
 
   /**

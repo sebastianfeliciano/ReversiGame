@@ -32,7 +32,7 @@ public class CaptureStrategy implements FallibleHexGameStrategy {
    */
   @Override
   public Optional<Move> selectMove(ReadOnlyBoardModel board, Player player) {
-    logger.info("Selecting move for player: " + player.getName());
+    logger.info("Selecting move for player: " + player.getName() + " " + player.getColor());
     List<Move> validMoves = board.getValidMovesWithCaptures(player);
 
     if (validMoves.isEmpty()) {

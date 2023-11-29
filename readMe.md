@@ -196,3 +196,33 @@ The **DrawUtils** class is responsible for drawing the hexagonal board. It uses 
 **Custom Rendering:** The paintComponent method is overridden to customize the appearance of the buttons based on the player type (e.g., black or white player).
    
 **Hex Association:** Each PlayerButton is linked to a HexShape, allowing it to represent the state of a particular hex on the board.
+
+
+
+# Changes for Part 3
+
+- ### **Added the Following interfaces**
+- Observer
+- PlayerActionListener
+- MoveHandler
+- ModelStatusListener
+- Features
+- TurnAIPopUp
+- ### **Added the Following Classes**
+- Command
+- MockController
+- ReversiController
+- FrameSetup
+- Game
+
+## Improvements made from Previous Submission
+
+- **Fixed The Players Constructor**
+  - Now takes in a ReadOnly Board, since a player can only play on a readOnly version.
+- **Fixed makeMove(row, column)**
+  - This makes the move for the Player that tells the controller what to do.
+  - The player cannot make the move, it now tells the controller what it wants to do, following MVC.
+
+## New Additions Made
+  - Observer Pattern
+    - The Observer 

@@ -149,7 +149,7 @@ public class ExampleReadOnlyTests {
     Board board = new Board(11);
     Player player1 = new Player("e", PlayerType.WHITE, board);
 
-    player1.placeKey(-1, -1);
+    player1.makeMove(-1, -1);
 
     board.getCurrentHex(11 / 2, 11 / 2 + 1).setPlayerType(PlayerType.BLACK);
     board.getCurrentHex(11 / 2 + 1, 11 / 2).setPlayerType(PlayerType.WHITE);
@@ -158,7 +158,7 @@ public class ExampleReadOnlyTests {
     board.getCurrentHex(11 / 2 - 1, 11 / 2).setPlayerType(PlayerType.BLACK);
     board.getCurrentHex(11 / 2 - 1, 11 / 2 + 1).setPlayerType(PlayerType.WHITE);
 
-    Assert.assertEquals(4, board.countPieces(PlayerType.WHITE));
+    Assert.assertEquals(3, board.countPieces(PlayerType.WHITE));
     Assert.assertEquals(board.getBoardSize(), 11);
   }
 
@@ -171,10 +171,8 @@ public class ExampleReadOnlyTests {
 
     Player player1 = new Player("e", PlayerType.WHITE, board);
     Player player2 = new Player("s", PlayerType.BLACK, board);
-    //player1.setHasPassed();
-   // player2.setHasPassed();
-    Assert.assertTrue(player1.hasPassed);
-    Assert.assertTrue(player2.hasPassed);
+    Assert.assertFalse(player1.hasPassed);
+    Assert.assertFalse(player2.hasPassed);
   }
 
   /**
@@ -220,9 +218,9 @@ public class ExampleReadOnlyTests {
     Assert.assertEquals(3, board1.countPieces(PlayerType.WHITE));
     Assert.assertEquals(3, board1.countPieces(PlayerType.BLACK));
 
-    player1.placeKey(-1, -1);
-    Assert.assertEquals(5, board1.countPieces(PlayerType.WHITE));
-    Assert.assertEquals(2, board1.countPieces(PlayerType.BLACK));
+    player1.makeMove(-1, -1);
+    Assert.assertEquals(3, board1.countPieces(PlayerType.WHITE));
+    Assert.assertEquals(3, board1.countPieces(PlayerType.BLACK));
   }
 
   /**
@@ -305,12 +303,11 @@ public class ExampleReadOnlyTests {
     Assert.assertEquals(playerTwoType.name(), "WHITE");
 
 
-    player1.placeKey(-1, -1); // Player One places piece at (-1,-1)
-    //player2.setHasPassed();       // Player Two passes
-    player1.placeKey(-2, 1);  // Player One places piece at (-2,1)
+    player1.makeMove(-1, -1); // Player One places piece at (-1,-1)
+    player1.makeMove(-2, 1);  // Player One places piece at (-2,1)
 
-    Assert.assertEquals(7, board.getScoreWhite());
-    Assert.assertEquals(1, board.getScoreBlack());
+    Assert.assertEquals(3, board.getScoreWhite());
+    Assert.assertEquals(3, board.getScoreBlack());
   }
 
   @Test

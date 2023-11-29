@@ -1,7 +1,5 @@
 package controller.players;
 
-import model.strategies.IStrategy;
-
 /**
  * Represents the different game pieces in a game.
  */
@@ -41,11 +39,14 @@ public enum PlayerType {
     return String.valueOf(gamePiece);
   }
 
-  public static String playerGameString(PlayerType type){
-    if(type == PlayerType.BLACK){
+  /**
+   * Returns the string value of a gamePiece. Player 1 or
+   * Player 2.
+   */
+  public static String playerGameString(PlayerType type) {
+    if (type == PlayerType.BLACK) {
       return "Player 1";
-    }
-    else {
+    } else {
       return "Player 2";
     }
   }

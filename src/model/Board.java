@@ -21,6 +21,9 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     observers.add(o);
   }
 
+  /**
+   * Notifies the observers of any changes, the Observer pattern.
+   */
   public void notifyObservers() {
     for (Observer observer : observers) {
       observer.update();
@@ -48,7 +51,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
    */
   public Board(int sizeOfBoard) {
     this.currentTurn = PlayerType.BLACK;
-    if (sizeOfBoard < 7 || (sizeOfBoard % 2 == 0)) {
+    if (sizeOfBoard < 5 || (sizeOfBoard % 2 == 0)) {
       throw new IllegalStateException("The game must be a minimum of size 5 and cannot be even!");
     }
 
@@ -106,6 +109,9 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     notifyObservers();
   }
 
+  /**
+   * Checks if it is the current player's turn.
+   */
   public boolean isPlayerTurn(Player player) {
     if (player == null) {
       throw new IllegalStateException("Player is null");
@@ -214,7 +220,8 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
 
       // Continue moving in the direction and check for current player's piece
       while (isValidCoordinate(nextQ, nextR)
-              && getCurrentHex(nextR, nextQ) != null && getCurrentHex(nextR, nextQ).getPlayerType() == opponent) {
+              && getCurrentHex(nextR, nextQ) != null
+              && getCurrentHex(nextR, nextQ).getPlayerType() == opponent) {
         nextQ += dir.getQMove();
         nextR += dir.getRMove();
       }
@@ -510,23 +517,34 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     return count;
   }
 
+  /**
+   * Resets the white Passed boolean.
+   */
   public void resetWhitePassed() {
     whitePassed = false;
   }
 
-  // Method to reset the passed state for black player
+  /**
+   * Resets the black Passed boolean.
+   */
   public void resetBlackPassed() {
     blackPassed = false;
   }
 
+
+  /**
+   * Checks to see if the game is over to notify observers.
+   */
   public void checkGameOver() {
-    // Logic to determine if the game is over
     if (isGameOver()) {
       isGameOver = true;
       notifyObserversGameOver();
     }
   }
 
+  /**
+   * Notifies observers that the game is over.
+   */
   public void notifyObserversGameOver() {
     for (Observer observer : observers) {
       observer.onGameOver();

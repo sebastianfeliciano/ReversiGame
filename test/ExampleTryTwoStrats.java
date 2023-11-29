@@ -23,10 +23,10 @@ public class ExampleTryTwoStrats {
     Board mockBoard = new Board(7);
     Player player1 = new Player("Player 2", PlayerType.WHITE, mockBoard);
     AIPlayer player2 = new AIPlayer("Player 1", PlayerType.BLACK, mockBoard, easy);
-    player1.placeKey(-1, -1);
+    player1.makeMove(-1, -1);
     ReadOnlyBoardModel copy = mockBoard.getReadOnlyBoard();
     Optional<Move> selectedMove = easy.selectMove(copy, player2);
-    Optional<Move> expectedMove = Optional.of(new Move(-1, -2, 2));
+    Optional<Move> expectedMove = Optional.of(new Move(1, -2, 2));
     Assert.assertEquals(selectedMove.get().getX(), expectedMove.get().getX());
   }
 
@@ -36,10 +36,10 @@ public class ExampleTryTwoStrats {
     Board mockBoard = new Board(7);
     Player player1 = new Player("Player 2", PlayerType.WHITE, mockBoard);
     AIPlayer player2 = new AIPlayer("Player 1", PlayerType.BLACK, mockBoard, easy);
-    player1.placeKey(-1, -1);
+    player1.makeMove(-1, -1);
     ReadOnlyBoardModel copy = mockBoard.getReadOnlyBoard();
     Optional<Move> selectedMove = easy.selectMove(copy, player2);
-    Optional<Move> expectedMove = Optional.of(new Move(1, -2, 2));
+    Optional<Move> expectedMove = Optional.of(new Move(2, -1, 2));
     Assert.assertEquals(selectedMove.get().getX(), expectedMove.get().getX());
   }
 
@@ -49,10 +49,10 @@ public class ExampleTryTwoStrats {
     Board mockBoard = new Board(7);
     Player player1 = new Player("Player 2", PlayerType.WHITE, mockBoard);
     AIPlayer player2 = new AIPlayer("Player 1", PlayerType.BLACK, mockBoard, easy);
-    player1.placeKey(-1, -1);
+    player1.makeMove(-1, -1);
     ReadOnlyBoardModel copy = mockBoard.getReadOnlyBoard();
     Optional<Move> selectedMove = easy.selectMove(copy, player2);
-    Optional<Move> expectedMove = Optional.of(new Move(-1, -2, 2));
+    Optional<Move> expectedMove = Optional.of(new Move(1, -2, 2));
     Assert.assertEquals(selectedMove.get().getX(), expectedMove.get().getX());
   }
 

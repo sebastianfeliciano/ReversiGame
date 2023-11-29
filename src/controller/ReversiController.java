@@ -8,6 +8,10 @@ import view.DrawUtils;
 import view.Observer;
 import view.PlayerActionListener;
 
+/**
+ * The main controller for a player to interact with a board through the view.
+ * Adhering to OOD principles.
+ */
 public class ReversiController implements PlayerActionListener, Observer, MoveHandler {
   private final Player player;
   private Board board;
@@ -16,6 +20,10 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
   private boolean isUpdating = false;
 
 
+  /**
+   * The constructor, that sets up the observers and make sure the game isn't over when started.
+   * A controller consists of a player, board, and view.
+   */
   public ReversiController(Player player, Board board, DrawUtils view) {
     if (player == null) {
       throw new IllegalArgumentException("Player cannot be null");
@@ -27,7 +35,7 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
     view.resetGameOverHandled();
   }
 
-  public void placeKey(int x, int y) {
+  private void placeKey(int x, int y) {
     if (!board.isValidMove(x, y, player.getType())) {
       view.showInvalidMoveMessage();
       return;
@@ -43,39 +51,11 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
     board.flipPieces(q, r, player.getType());
   }
 
-
-//  @Override
-//  public void onPlayerMove(int row, int column) {
-//
-//    if (handleTurn() && !board.isGameOver()) {
-//      return;
-//    }
-//
-//    // Player makes a move
-//    if (player instanceof AIPlayer) {
-//      ((AIPlayer) player).makeMove();
-//      this.placeKey(row, column);
-//    } else if (board.isValidMove(row, column, player.getType())) {
-//      this.placeKey(row, column);
-//      player.resetHasPassed();
-//      resetOpponentPassedState();
-//      checkAndUpdateGameState();
-//    } else {
-//      view.showInvalidMoveMessage();
-//    }
-//  }
-
   @Override
   public void onPlayerMove(int row, int column) {
     if (handleTurn() || board.isGameOver()) {
       return;
     }
-
-    // If AI Player, execute its move
-//    if (player instanceof AIPlayer) {
-//      ((AIPlayer) player).makeMove();
-//    } else {
-    // For human players, validate and make the move
     if (board.isValidMove(row, column, player.getType())) {
       this.placeKey(row, column);
       player.resetHasPassed();
@@ -110,7 +90,6 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
 
   @Override
   public void update() {
-    System.out.println("Update called for player: " + player.getColor());
     if (isUpdating) {
       return;
     }
@@ -134,7 +113,7 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
               board.notifyObservers();
               checkAndUpdateGameState();
             } else {
-              view.ItIsNowYourTurnMessage();
+              view.itIsNowYourTurnMessage();
               turnMessageDisplayed = true;
             }
           }
@@ -185,7 +164,7 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
     }
 
     board.switchTurns();
-    turnMessageDisplayed = false; // Reset turn message display
+    turnMessageDisplayed = false;
   }
 
   @Override

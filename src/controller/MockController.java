@@ -1,62 +1,78 @@
 package controller;
 
+import controller.players.Player;
 import controller.players.PlayerType;
 import model.Board;
+import view.DrawUtils;
 
-public class MockController implements PlayerActionListener, ModelStatusListener {
-    ReversiController controller;
-    Board board;
-    StringBuilder log = new StringBuilder();
+public class MockController extends ReversiController implements Features
+        //, ModelStatusListener
+        {
+  ReversiController controller;
+  Board board;
+  private StringBuilder log;
 
-    @Override
-    public void onPlayerMove(int row, int column) {
-        log.append("Player moved to row: ").append(row).append(", column: ").append(column).append("\n");
-    }
 
-    @Override
-    public void onPass() {
-        if (board.hasPlayerPassed(PlayerType.WHITE)) {
-            log.append("Player passed. \n");
-        }
-    }
+  /**
+   * The constructor, that sets up the observers and make sure the game isn't over when started.
+   * A controller consists of a player, board, and view.
+   *
+   * @param player
+   * @param board
+   * @param view
+   */
+  public MockController(Player player, Board board, DrawUtils view) {
+    super(player, board, view);
+    this.log = new StringBuilder();
+  }
 
-//    @Override
-//    public void updateScore() {
-//        log.append("Score White").append(board.getScoreWhite());
+  @Override
+  public void onPlayerMove(int row, int column) {
+    this.getLog()
+            .append("Player moved to row: ")
+            .append(row).append(", column: ").append(column).append("\n").toString();
+    super.onPlayerMove(row, column);
+  }
+
+  @Override
+  public void onPass() {
+    this.getLog().append("Player passed. \n").toString();
+    super.onPass();
+  }
+
+  public StringBuilder getLog() {
+    return this.log;
+  }
+
+
+//  @Override
+//  public void onGameEnd(PlayerType type) {
+//    if (board.isGameOver()) {
+//      log.append("Game over!");
 //    }
+//  }
+//
+//  @Override
+//  public void onPlayerChanged(PlayerType player) {
+//    log.append("Player ").append(player).append("changed.");
+//  }
+//
+//  @Override
+//  public void onInvalidMove() {
+//    if (board.isValidMove(11, 11, PlayerType.WHITE)) {
+//      log.append("Invalid move");
+//      super.;
+//    }
+//  }
+//
+//  @Override
+//  public void onBoardUpdate() {
+//    log.append("Board updated");
+//    super.update();
+//  }
 
-    public String getLog() {
-        return log.toString();
-    }
+  public String toString(){
+    return this.getLog().toString();
+  }
 
-    @Override
-    public void onGameStart() {
-        if (!board.isGameOver()) {
-            log.append("Game started.");
-        }
-    }
-
-    @Override
-    public void onGameEnd(PlayerType type) {
-        if (board.isGameOver()) {
-            log.append("Game over!");
-        }
-    }
-
-    @Override
-    public void onPlayerChanged(PlayerType player) {
-        log.append("Player ").append(player).append("changed.");
-    }
-
-    @Override
-    public void onInvalidMove() {
-        if (board.isValidMove(11, 11, PlayerType.WHITE)) {
-            log.append("Invalid move");
-        }
-    }
-
-    @Override
-    public void onBoardUpdate() {
-        log.append("Board updated");
-    }
 }

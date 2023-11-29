@@ -6,14 +6,24 @@ import model.Board;
 import model.HexShape;
 import model.ReadOnlyBoardModel;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Polygon;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  * Draws out our board and hexagons.
@@ -33,6 +43,9 @@ public class DrawUtils extends JPanel implements ReversiView {
   private boolean isGameOverHandled = false;
 
 
+  /**
+   * Sets the player action for the view. Allowing the view to recognize the
+   */
   public void setEventListener(PlayerActionListener playerAction) {
     this.playerAction = playerAction;
   }
@@ -46,8 +59,10 @@ public class DrawUtils extends JPanel implements ReversiView {
     }
   }
 
+  /**
+   * Updates the board of the ReadOnlyBoardModel to reflect the changes on the normal board.
+   */
   public void updateBoard(ReadOnlyBoardModel newBoardModel) {
-
     if (newBoardModel instanceof Board) {
       board = newBoardModel;
     }
@@ -105,6 +120,7 @@ public class DrawUtils extends JPanel implements ReversiView {
             System.out.println("No hex selected");
           }
         } else if (e.getKeyCode() == KeyEvent.VK_P) {
+          playerAction.onPass();
           System.out.println("Pass");
         }
       }
@@ -124,7 +140,7 @@ public class DrawUtils extends JPanel implements ReversiView {
   }
 
   private void triggerAi(int i, int i1) {
-   // playerAction.onPlayerMove(i, i1);
+    // playerAction.onPlayerMove(i, i1);
   }
 
   /**
@@ -190,7 +206,7 @@ public class DrawUtils extends JPanel implements ReversiView {
     if (xDistance > hexSize * Math.sqrt(3) / 2) {
       return false;
     }
-    return (!(yDistance > ((double) (hexSize * 3) / 2) / 2));
+    return (yDistance <= ((double) (hexSize * 3) / 2) / 2);
   }
 
   /**
@@ -327,18 +343,10 @@ public class DrawUtils extends JPanel implements ReversiView {
     return Math.min(this.getHeight(), 650);
   }
 
-  public Player getHuman() {
-    return humanPlayer;
-  }
-
-  public Player getAiPlayer() {
-    return aiPlayer;
-  }
-
-
-
+  /**
+   * Handles the state of the view, when the game is over.
+   */
   public void handleGameOver() {
-    System.out.println("Game IS OVER for ");
     if (!isGameOverHandled) {
       isGameOverHandled = true;
       int blackScore = board.getScoreBlack();
@@ -361,38 +369,64 @@ public class DrawUtils extends JPanel implements ReversiView {
 
   }
 
-
+  /**
+   * Signals to the user that they cannot move.
+   */
   public void showInvalidMoveMessage() {
-    JOptionPane.showMessageDialog(this, "Invalid move, please try again.", "Invalid Move", JOptionPane.ERROR_MESSAGE);
+    JOptionPane.showMessageDialog(this, "Invalid move, please try again.",
+            "Invalid Move", JOptionPane.ERROR_MESSAGE);
   }
 
+  /**
+   * Signals to the user that passed their turn.
+   */
   public void showThatIPassedTurnMessage() {
-    JOptionPane.showMessageDialog(this, "You have passed your turn.", "Turn Passed", JOptionPane.PLAIN_MESSAGE);
+    JOptionPane.showMessageDialog(this, "You have passed your turn.",
+            "Turn Passed", JOptionPane.PLAIN_MESSAGE);
     this.requestFocusInWindow();
   }
 
-  public void ItIsNowYourTurnMessage() {
-    System.out.println("ItIsNowYourTurnMessage called");
-    JOptionPane.showMessageDialog(this, "It's your turn.", "Your Turn", JOptionPane.INFORMATION_MESSAGE);
+  /**
+   * Signals to the user it is now their turn.
+   */
+  public void itIsNowYourTurnMessage() {
+    JOptionPane.showMessageDialog(this, "It's your turn.",
+            "Your Turn", JOptionPane.INFORMATION_MESSAGE);
     this.requestFocusInWindow();
   }
 
+  /**
+   * Checks if the Game Over was handled.
+   */
   public boolean getGameOverHandleState() {
     return isGameOverHandled;
   }
 
-    public void resetGameOverHandled() {
+  /**
+   * Resets the Game Over boolean.
+   */
+  public void resetGameOverHandled() {
     isGameOverHandled = false;
   }
 
+  /**
+   * Tells the player it is not their turn.
+   */
   public void itIsNotYourTurnMessage() {
-    JOptionPane.showMessageDialog(this, "It is not your turn Yet!", "Invalid Move", JOptionPane.ERROR_MESSAGE);
+    JOptionPane.showMessageDialog(this, "It is not your turn Yet!",
+            "Invalid Move", JOptionPane.ERROR_MESSAGE);
   }
 
+  /**
+   * Updates the score on the frame.
+   */
   public void updateScore(int blackScore, int whiteScore) {
-      scoreLabel.setText("Black: " + blackScore + " White: " + whiteScore);
+    scoreLabel.setText("Black: " + blackScore + " White: " + whiteScore);
   }
 
+  /**
+   * Setter for the score label.
+   */
   public void setScoreLabel(JLabel scoreLabel) {
     this.scoreLabel = scoreLabel;
   }

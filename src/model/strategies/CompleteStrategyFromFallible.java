@@ -24,7 +24,6 @@ public class CompleteStrategyFromFallible
     if (firstMove.isPresent()) {
       return firstMove;
     }
-    throw new IllegalStateException
-            ("There are no possible moves chosen by this strategy!");
+    throw new IllegalStateException("There are no possible moves chosen by this strategy!");
   }
 }

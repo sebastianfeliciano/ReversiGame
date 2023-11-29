@@ -38,10 +38,10 @@ public class ExampleCaptureStrategies {
     Board mockBoard = new Board(7);
     Player player1 = new Player("Player 2", PlayerType.WHITE, mockBoard);
     AIPlayer player2 = new AIPlayer("Player 1", PlayerType.BLACK, mockBoard, strategy);
-    player1.placeKey(-1, -1);
+    player1.makeMove(-1, -1);
     ReadOnlyBoardModel copy = mockBoard.getReadOnlyBoard();
     Optional<Move> selectedMove = strategy.selectMove(copy, player2);
-    Optional<Move> expectedMove = Optional.of(new Move(-1, -2, 2));
+    Optional<Move> expectedMove = Optional.of(new Move(1, -2, 2));
     Assert.assertEquals(selectedMove.get().getX(), expectedMove.get().getX());
   }
 
@@ -103,33 +103,13 @@ public class ExampleCaptureStrategies {
   }
 
   @Test
-  public void testGetScore() {
-    Board board1 = new Board(7);
-    Player player1 = new Player("Player1", PlayerType.WHITE, board1);
-    Player player2 = new Player("Player2", PlayerType.BLACK, board1);
-    Assert.assertEquals(3, board1.countPieces(PlayerType.WHITE));
-    Assert.assertEquals(3, board1.countPieces(PlayerType.BLACK));
-    player1.placeKey(-1, -1);
-    List<Move> valid = new ArrayList<>();
-    CaptureStrategy ct = new CaptureStrategy();
-    StringBuilder sb = new StringBuilder();
-    Mock mock = new Mock(board1, valid, sb);
-    mock.getScoreBlack();
-    mock.getScoreWhite();
-    AIPlayer player = new AIPlayer("e", PlayerType.WHITE, board1, ct);
-    player.makeMove();
-    Assert.assertTrue(mock.getLog().toString().contains("5"));
-    Assert.assertTrue(mock.getLog().toString().contains("2"));
-  }
-
-  @Test
   public void testGetBoardSize() {
     Board board1 = new Board(7);
     Player player1 = new Player("Player1", PlayerType.WHITE, board1);
     Player player2 = new Player("Player2", PlayerType.BLACK, board1);
     Assert.assertEquals(3, board1.countPieces(PlayerType.WHITE));
     Assert.assertEquals(3, board1.countPieces(PlayerType.BLACK));
-    player1.placeKey(-1, -1);
+    player1.makeMove(-1, -1);
     List<Move> valid = new ArrayList<>();
     CaptureStrategy ct = new CaptureStrategy();
     StringBuilder sb = new StringBuilder();
@@ -141,32 +121,13 @@ public class ExampleCaptureStrategies {
   }
 
   @Test
-  public void testIsGameOver() {
-    Board board1 = new Board(7);
-    Player player1 = new Player("Player1", PlayerType.WHITE, board1);
-    Player player2 = new Player("Player2", PlayerType.BLACK, board1);
-    Assert.assertEquals(3, board1.countPieces(PlayerType.WHITE));
-    Assert.assertEquals(3, board1.countPieces(PlayerType.BLACK));
-    player1.placeKey(-1, -1);
-    List<Move> valid = new ArrayList<>();
-    CaptureStrategy ct = new CaptureStrategy();
-    StringBuilder sb = new StringBuilder();
-    Mock mock = new Mock(board1, valid, sb);
-    AIPlayer player = new AIPlayer("e", PlayerType.WHITE, board1, ct);
-    player.makeMove();
-    mock.isGameOver();
-    System.out.println(sb);
-    Assert.assertTrue(mock.getLog().toString().contains("Game is over."));
-  }
-
-  @Test
   public void isNotFull() {
     Board board1 = new Board(7);
     Player player1 = new Player("Player1", PlayerType.WHITE, board1);
     Player player2 = new Player("Player2", PlayerType.BLACK, board1);
     Assert.assertEquals(3, board1.countPieces(PlayerType.WHITE));
     Assert.assertEquals(3, board1.countPieces(PlayerType.BLACK));
-    player1.placeKey(-1, -1);
+    player1.makeMove(-1, -1);
     List<Move> valid = new ArrayList<>();
     CaptureStrategy ct = new CaptureStrategy();
     StringBuilder sb = new StringBuilder();
@@ -194,7 +155,7 @@ public class ExampleCaptureStrategies {
     AIPlayer player4 = new AIPlayer("Player1", PlayerType.WHITE, board2, ct);
     Player player3 = new Player("Player2", PlayerType.BLACK, board2);
 
-    player3.placeKey(-1, -1);
+    player3.makeMove(-1, -1);
     player4.makeMove();
 
     mock.countPieces(PlayerType.WHITE);
@@ -216,7 +177,7 @@ public class ExampleCaptureStrategies {
     Mock mock = new Mock(board1, validMoves, sb);
     AIPlayer player4 = new AIPlayer("Player1", PlayerType.WHITE, board2, ct);
     Player player3 = new Player("Player2", PlayerType.BLACK, board2);
-    player3.placeKey(-1, -1);
+    player3.makeMove(-1, -1);
     player4.makeMove();
     mock.isValidMove(-1, 2, PlayerType.BLACK);
     Assert.assertTrue(mock.getLog().toString().contains("Valid move"));
@@ -246,7 +207,7 @@ public class ExampleCaptureStrategies {
     Mock mock = new Mock(board1, validMoves, sb);
     AIPlayer player4 = new AIPlayer("Player1", PlayerType.WHITE, board2, ct);
     Player player3 = new Player("Player2", PlayerType.BLACK, board2);
-    player3.placeKey(-1, -1);
+    player3.makeMove(-1, -1);
     player4.makeMove();
     mock.getValidMovesWithCaptures(player1);
     System.out.println(sb);

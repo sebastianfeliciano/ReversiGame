@@ -2,7 +2,6 @@ package controller.players;
 
 import java.util.Optional;
 
-import model.Board;
 import model.ReadOnlyBoardModel;
 import model.strategies.IStrategy;
 import model.Move;
@@ -29,14 +28,17 @@ public class AIPlayer extends Player implements IPlayer, TurnAIPopUp {
     Optional<Move> selectedMove = strategy.selectMove(this.board, this);
     if (selectedMove.isPresent()) {
       super.makeMove(selectedMove.get().getX(), selectedMove.get().getY());
-
     } else {
       this.setHasPassed();
     }
   }
 
+
+  /**
+   * Tells the AI, to make the move.
+   */
   @Override
-  public void ItIsNowYourTurnMessage() {
+  public void itIsNowYourTurnMessage() {
     this.makeMove();
   }
 }

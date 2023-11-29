@@ -38,44 +38,42 @@ public class Player implements IPlayer {
     return type;
   }
 
-  /**
-   * The player passes their turns.
-   */
-//  public void setHasPassed() {
-//    this.hasPassed = true;
-//  }
 
+  /**
+   * Resets the has passed boolean for each turn.
+   */
   public void resetHasPassed() {
     this.hasPassed = false;
   }
 
+
+  /**
+   * Sets the player to pass and checks if the game is over.
+   */
   public void setHasPassed() {
     this.hasPassed = true;
     board.getRegularBoard().checkGameOver();
   }
 
-
-  public void setSpecificHasPassed(boolean booleanWord) {
-    this.hasPassed = booleanWord;
-  }
-
   /**
-   * Places a valid move on the board.
+   * A Set Move Handler, that sets the move for the Player.
    */
-//  public void makeMove(int row, int column) {
-//    placeKey(row, column);
-//  }
-
   public void setMoveHandler(MoveHandler moveHandler) {
     this.moveHandler = moveHandler;
   }
 
+  /**
+   * This makes the move for the Player that tells the controller what to do.
+   */
   public void makeMove(int row, int column) {
     if (moveHandler != null) {
       moveHandler.handleMove(this, row, column);
     }
   }
 
+  /**
+   * Returns "White" or "Black" for score purposes and acknowledgment.
+   */
   public String getColor() {
     if (this.getType() == PlayerType.WHITE) {
       return whitePlayer();
@@ -84,22 +82,24 @@ public class Player implements IPlayer {
     }
   }
 
-  public String whitePlayer(){
+  /**
+   * Returns "White" for a white Player.
+   */
+  public String whitePlayer() {
     return "White";
   }
 
-  public String blackPlayer(){
+  /**
+   * Returns "Black" for a black Player.
+   */
+  public String blackPlayer() {
     return "Black";
   }
 
-  public String getOtherColor() {
-      if (this.getType() == PlayerType.WHITE) {
-        return blackPlayer();
-      } else {
-        return whitePlayer();
-      }
-    }
-
+  /**
+   * Returns the boolean field of the player to see
+   * if they passed or not.
+   */
   public boolean getHasPassed() {
     return this.hasPassed;
   }

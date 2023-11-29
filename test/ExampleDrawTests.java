@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import view.DrawUtils;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import java.awt.Color;
 import java.awt.Dimension;

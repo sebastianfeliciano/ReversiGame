@@ -52,7 +52,7 @@ public class ExampleTextualView {
     Board board = new Board(11);
     TextualController controller = new TextualController(board);
     Player player1 = new Player("name", PlayerType.WHITE, board);
-    player1.placeKey(-1, -1);
+    player1.makeMove(-1, -1);
     Assert.assertEquals(controller.toString(),
             "     _ _ _ _ _ _ \n" +
                     "    _ _ _ _ _ _ _ \n" +
@@ -78,8 +78,8 @@ public class ExampleTextualView {
     TextualController controller = new TextualController(board);
     Player player1 = new Player("player1", PlayerType.WHITE, board);
     Player player2 = new Player("player2", PlayerType.BLACK, board);
-    player1.placeKey(-1, -1);
-    player2.placeKey(1, -2);
+    player1.makeMove(-1, -1);
+    player2.makeMove(1, -2);
 
     Assert.assertEquals(
             "     _ _ _ _ _ _ \n" +

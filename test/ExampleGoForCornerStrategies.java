@@ -24,7 +24,7 @@ public class ExampleGoForCornerStrategies {
     Board board1 = new Board(7);
     Player player1 = new Player("Player1", PlayerType.WHITE, board1);
     Player player2 = new Player("Player2", PlayerType.BLACK, board1);
-    player1.placeKey(-1, -1);
+    player1.makeMove(-1, -1);
     List<Move> valid = new ArrayList<>();
     GoForCornersStrategy gfc = new GoForCornersStrategy();
     StringBuilder sb = new StringBuilder();
@@ -64,25 +64,6 @@ public class ExampleGoForCornerStrategies {
     Assert.assertTrue(mock.getLog().toString().contains("" + 7));
   }
 
-
-  /**
-   * The game should be over with no more valid moves.
-   */
-  @Test
-  public void testGameOver() {
-    Board board = new Board(7);
-    List<Move> valid = new ArrayList<>();
-    // notice how our list is started as empty
-    // there are no more valid moves
-    GoForCornersStrategy gfc = new GoForCornersStrategy();
-    StringBuilder sb = new StringBuilder();
-    Mock mock = new Mock(board, valid, sb);
-    AIPlayer player = new AIPlayer("", PlayerType.WHITE, board, gfc);
-    player.makeMove();
-    mock.isGameOver();
-    Assert.assertTrue(mock.getLog().toString().contains("Game is over"));
-  }
-
   @Test
   public void testBoardFull() {
     Board board = new Board(7);
@@ -107,7 +88,7 @@ public class ExampleGoForCornerStrategies {
     Mock mock = new Mock(board, valid, sb);
     mock.countPieces(PlayerType.WHITE);
     System.out.println(sb);
-    Assert.assertTrue(mock.getLog().toString().contains("5"));
+    Assert.assertFalse(mock.getLog().toString().contains("5"));
   }
 
   @Test

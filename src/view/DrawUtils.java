@@ -28,7 +28,7 @@ import javax.swing.SwingUtilities;
 /**
  * Draws out our board and hexagons.
  */
-public class DrawUtils extends JPanel implements ReversiView {
+public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocker {
   private Player currentPlayer;
 
   private ReadOnlyBoardModel board;

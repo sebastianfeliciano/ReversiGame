@@ -16,7 +16,7 @@ public class MockGame extends Game implements GameMocked {
 
   @Override
   public void start() {
-    this.log.append("view.Game has Started");
+    this.log.append("Game has Started");
     super.start();
   }
 

@@ -28,7 +28,9 @@ public class Command {
 
   private void parseArguments(String[] args) {
     if (args.length < 2) {
-      throw new IllegalArgumentException("Insufficient arguments. Expected at least board size and player 1 type or strategy.");
+      throw new IllegalArgumentException
+              ("Insufficient arguments. Expected at least" +
+                      " board size and player 1 type or strategy.");
     }
 
     this.boardSize = Integer.parseInt(args[0]);

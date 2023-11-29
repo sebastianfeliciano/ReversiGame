@@ -1,12 +1,11 @@
 package view;
+import javax.swing.JLabel;
 
-import java.awt.*;
-
-import javax.swing.*;
-
+/**
+ * Interface that helps test the mocked view.
+ */
 public interface DrawInterfaceMocker {
   void handleGameOver();
-
 
   /**
    * Signals to the user that they cannot move.

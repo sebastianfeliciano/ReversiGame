@@ -16,7 +16,7 @@ import view.DrawUtils;
 public class ExampleMockController {
 
   @Test
-  public void testOnPass(){
+  public void testOnPass() {
     ReadOnlyBoardModel board = new Board(7);
     Player player = new Player("Human", PlayerType.BLACK, board);
     DrawUtils view = new DrawUtils(board);
@@ -31,7 +31,7 @@ public class ExampleMockController {
 
 
   @Test
-  public void testOnPlayerMove(){
+  public void testOnPlayerMove() {
     ReadOnlyBoardModel board = new Board(7);
     Player player = new Player("Human", PlayerType.BLACK, board);
     DrawUtils view = new DrawUtils(board);

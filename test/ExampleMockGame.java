@@ -1,7 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 
 import controller.MockController;
 import controller.players.Player;
@@ -11,10 +11,13 @@ import model.ReadOnlyBoardModel;
 import view.DrawUtils;
 import view.MockGame;
 
+/**
+ * Testing class for the mocked version of the game.
+ */
 public class ExampleMockGame {
 
   @Test
-  public void testStartGame(){
+  public void testStartGame() {
     ReadOnlyBoardModel board = new Board(7);
 
     Player player = new Player("Human", PlayerType.BLACK, board);
@@ -36,5 +39,5 @@ public class ExampleMockGame {
     game.start();
 
     Assert.assertTrue(game.getLog().contains("Game has Started"));
-    }
+  }
 }

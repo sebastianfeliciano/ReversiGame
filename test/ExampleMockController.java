@@ -22,7 +22,8 @@ public class ExampleMockController {
     DrawUtils view = new DrawUtils(board);
     JLabel score = new JLabel("Dummy Score");
     view.setScoreLabel(score);
-    MockController controller1 = new MockController(player, (Board) board, view);
+    Board boardReg = board.getRegularBoard();
+    MockController controller1 = new MockController(player, boardReg, view);
     player.setMoveHandler(controller1);
     controller1.onPass();
     Assert.assertTrue(controller1.getLog().toString().contains("Player passed"));
@@ -36,7 +37,8 @@ public class ExampleMockController {
     DrawUtils view = new DrawUtils(board);
     JLabel score = new JLabel("Dummy Score");
     view.setScoreLabel(score);
-    MockController controller1 = new MockController(player, (Board) board, view);
+    Board boardReg = board.getRegularBoard();
+    MockController controller1 = new MockController(player, boardReg, view);
     player.setMoveHandler(controller1);
     controller1.onPlayerMove(-1,-1);
     Assert.assertTrue(controller1.getLog().toString().contains("Player moved to row"));

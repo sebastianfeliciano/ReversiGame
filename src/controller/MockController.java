@@ -4,6 +4,9 @@ import controller.players.Player;
 import model.Board;
 import view.DrawUtils;
 
+/**
+ * Mocks the controller for testing.
+ */
 public class MockController extends ReversiController implements Features {
   private StringBuilder log;
 

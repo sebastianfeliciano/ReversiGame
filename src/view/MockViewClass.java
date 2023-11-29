@@ -1,9 +1,11 @@
 package view;
 
-import javax.swing.*;
-
+import javax.swing.JLabel;
 import model.ReadOnlyBoardModel;
 
+ /**
+ * Mocks the view class for testing.
+ */
 public class MockViewClass extends DrawUtils implements DrawInterfaceMocker {
   private final StringBuilder log;
 

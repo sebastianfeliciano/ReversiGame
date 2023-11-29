@@ -1,18 +1,12 @@
 package view;
 
-import controller.players.AIPlayer;
 import controller.players.Player;
 import controller.players.PlayerType;
 import model.Board;
 import model.HexShape;
 import model.ReadOnlyBoardModel;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Polygon;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -32,8 +26,11 @@ public class DrawUtils extends JPanel implements ReversiView {
   private HexShape firstClickedHex;
   private HexShape hoveredHex;
   PlayerActionListener playerAction;
+  JLabel scoreLabel;
   private Player humanPlayer;
   private Player aiPlayer;
+
+  private boolean isGameOverHandled = false;
 
 
   public void setEventListener(PlayerActionListener playerAction) {
@@ -338,18 +335,30 @@ public class DrawUtils extends JPanel implements ReversiView {
     return aiPlayer;
   }
 
+
+
   public void handleGameOver() {
-    int blackScore = board.getScoreBlack();
-    int whiteScore = board.getScoreWhite();
-    String message;
-    if (blackScore > whiteScore) {
-      message = "Black won with a score of " + blackScore + " to " + whiteScore + "!";
-    } else if (whiteScore > blackScore) {
-      message = "White won with a score of " + whiteScore + " to " + blackScore + "!";
-    } else {
-      message = "It's a draw! Both players scored " + blackScore + ".";
+    System.out.println("Game IS OVER for ");
+    if (!isGameOverHandled) {
+      isGameOverHandled = true;
+      int blackScore = board.getScoreBlack();
+      int whiteScore = board.getScoreWhite();
+      String message;
+      if (blackScore > whiteScore) {
+        message = "Black won with a score of " + blackScore + " to " + whiteScore + "!";
+      } else if (whiteScore > blackScore) {
+        message = "White won with a score of " + whiteScore + " to " + blackScore + "!";
+      } else {
+        message = "It's a draw! Both players scored " + blackScore + ".";
+      }
+      JOptionPane.showMessageDialog(this, message, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+      Window window = SwingUtilities.getWindowAncestor(this);
+      if (window != null) {
+        window.dispose();
+      }
+
     }
-    JOptionPane.showMessageDialog(this, message, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
   }
 
 
@@ -363,11 +372,28 @@ public class DrawUtils extends JPanel implements ReversiView {
   }
 
   public void ItIsNowYourTurnMessage() {
+    System.out.println("ItIsNowYourTurnMessage called");
     JOptionPane.showMessageDialog(this, "It's your turn.", "Your Turn", JOptionPane.INFORMATION_MESSAGE);
     this.requestFocusInWindow();
   }
 
+  public boolean getGameOverHandleState() {
+    return isGameOverHandled;
+  }
+
+    public void resetGameOverHandled() {
+    isGameOverHandled = false;
+  }
+
   public void itIsNotYourTurnMessage() {
     JOptionPane.showMessageDialog(this, "It is not your turn Yet!", "Invalid Move", JOptionPane.ERROR_MESSAGE);
+  }
+
+  public void updateScore(int blackScore, int whiteScore) {
+      scoreLabel.setText("Black: " + blackScore + " White: " + whiteScore);
+  }
+
+  public void setScoreLabel(JLabel scoreLabel) {
+    this.scoreLabel = scoreLabel;
   }
 }

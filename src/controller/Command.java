@@ -47,7 +47,6 @@ public class Command {
   private Player createPlayer(PlayerType playerType) {
     System.out.println("Choose " + PlayerType.playerGameString(playerType) + " player type (human/ai)");
     String playerTypeInput = scanner.nextLine();
-
     if (playerTypeInput.equalsIgnoreCase("ai")) {
       IStrategy strategy = selectStrategy();
       return new AIPlayer("AI Player", playerType, board, strategy);

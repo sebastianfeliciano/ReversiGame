@@ -1,4 +1,4 @@
-import javax.swing.*;
+package view;
 
 import controller.ReversiController;
 import model.Board;
@@ -16,7 +16,7 @@ public class MockGame extends Game implements GameMocked {
 
   @Override
   public void start() {
-    this.log.append("Game has Started");
+    this.log.append("view.Game has Started");
     super.start();
   }
 

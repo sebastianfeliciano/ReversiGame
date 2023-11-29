@@ -4,12 +4,12 @@ import org.junit.Test;
 import javax.swing.*;
 
 import controller.MockController;
-import controller.ReversiController;
 import controller.players.Player;
 import controller.players.PlayerType;
 import model.Board;
 import model.ReadOnlyBoardModel;
 import view.DrawUtils;
+import view.MockGame;
 
 public class ExampleMockGame {
 
@@ -36,6 +36,5 @@ public class ExampleMockGame {
     game.start();
 
     Assert.assertTrue(game.getLog().contains("Game has Started"));
-
     }
 }

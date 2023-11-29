@@ -57,9 +57,9 @@ public class Mock extends Board
   @Override
   public boolean isGameOver() {
     if (board.isGameOver()) {
-      log.append("Game is over.");
+      log.append("view.Game is over.");
     } else {
-      log.append("Game is still running.");
+      log.append("view.Game is still running.");
     }
     return board.isGameOver();
   }

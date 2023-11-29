@@ -7,6 +7,7 @@ import controller.ReversiController;
 import model.Board;
 import view.DrawUtils;
 import view.FrameSetup;
+import view.Game;
 
 /**
  * Represents the GUI view.

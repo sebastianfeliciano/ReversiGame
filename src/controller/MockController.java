@@ -48,7 +48,7 @@ public class MockController extends ReversiController implements Features
 //  @Override
 //  public void onGameEnd(PlayerType type) {
 //    if (board.isGameOver()) {
-//      log.append("Game over!");
+//      log.append("view.Game over!");
 //    }
 //  }
 //

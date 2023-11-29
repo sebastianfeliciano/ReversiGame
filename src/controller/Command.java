@@ -81,13 +81,6 @@ public class Command {
     }
   }
 
-
-
-
-
-
-
-
   private Player createPlayer(PlayerType playerType, String playerTypeStr, String strategyStr) {
     if (playerTypeStr.equalsIgnoreCase("ai")) {
       IStrategy strategy = getStrategy(strategyStr);
@@ -141,5 +134,4 @@ public class Command {
   public Board getBoard() {
     return board.getRegularBoard();
   }
-
 }

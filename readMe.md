@@ -4,7 +4,7 @@
 
 - Flexible board size : The board is initialized with a default size of 7, but can be adjusted to custom odd sizes, greater than or equal to 5.
 - Piece flipping : Players can flip opponent pieces based on game rules.
-- Game Over : The game has conditions in place to determine if the board is full, both players have passed their turns, or if a player is trapped. 
+- view.Game Over : The game has conditions in place to determine if the board is full, both players have passed their turns, or if a player is trapped. 
 - Piece count : Players can get the count of their pieces on the board. 
 - Hexagonal coordinate system : The game board uses a hexagonal coordinate system represented by rows and columns (q,r)
 
@@ -175,8 +175,8 @@ _**Efficiency:**_
 
 Using the Mock class makes testing more efficient as it avoids the overhead of setting up and tearing down actual game boards for each test.
 
-## Drawing The Game Out
-### DrawUtils Class: The Core of Game Rendering
+## Drawing The view.Game Out
+### DrawUtils Class: The Core of view.Game Rendering
 _Hexagonal Board Rendering:_ 
 
 The **DrawUtils** class is responsible for drawing the hexagonal board. It uses a Board object to determine the layout and size of the board and calculates the positions of hexagons based on the board's dimensions.
@@ -213,7 +213,7 @@ The **DrawUtils** class is responsible for drawing the hexagonal board. It uses 
 - MockController
 - ReversiController
 - FrameSetup
-- Game
+- view.Game
 
 ## Improvements made from Previous Submission
 
@@ -224,5 +224,62 @@ The **DrawUtils** class is responsible for drawing the hexagonal board. It uses 
   - The player cannot make the move, it now tells the controller what it wants to do, following MVC.
 
 ## New Additions Made
-  - Observer Pattern
-    - The Observer 
+- ###### Observer Pattern / Notifiers
+  - Notifiers for updating the score, popups to indicate whose turn it is, whether the player has passed,
+    as well as the game class for updating AIs.
+  - When a player makes a move, the notifier informs the score updater in the drawUtils class to update, as well as whose turn it is
+  and whether the player has passed. 
+  - view.Game Over Handling: When the game finishes, and no more valid moves are left, the view displays a message
+    indicating the winner or a draw. And also notifies the view that the game is over as well.
+
+
+- #### Mocks
+  - Added both the view.MockGame and MockController classes for testing to stimulate certain behaviors. 
+  - ###### view.MockGame :
+    - extension of the view.Game class, captures information about the game's progress, for example when it starts, by updating the log.
+    The Constructor takes in three parameters (ReversiController1, ReversiController2, and Board) which initialize the log and update it when the game starts.
+    - MockController:
+      - Extends the ReversiController class, replicates the purpose of a regular game controller but with specific inputs for testing.
+      - Overrides onPlayerMove and appends a log entry indicating the row and column to which the player moved.
+      - Tests both onPass and onPlayerMove to test that functionality works, and returns a log for testing 
+
+- Games class Updating AI:
+  - The view.Game class represents a game where two controllers work together to update the game state. 
+    - It uses a timer to update the controllers at a fixed time interval. 
+    - The start method initiates the updating mechanism, and the stop method stops the timer when the game is over.
+  - The view.MockGame class represents extends the game class, and uses its same functionality.
+  - Overrides the start method to append a log entry when the game begins.
+  - GetLog method for testing that it updates when onGameStart is called.
+  - Used for testing and debugging purposes. 
+
+- Improving Passing Method
+  - Adding notifiers and debugging so that when a player passes their turn, it accurately notifies the other player to go, or automatically sets the Ai
+    to make its turn. 
+  - If the AI player passes their turn, the passing method then notifies the human player that it is their turn to go.
+
+- DrawUtils Buttons:
+  - Buttons let the user both pass their turn, and quit the game.
+
+- Command line:
+  - Lets the user input a board size, player type / strategy, player type / strategy
+  - when running the reversi game, a user can input arguments in the run configurations 
+
+- Board Size :
+  - Improved our view so that the board size is more flexible, and can be changed in the command line.
+  - Users can input a different board size in the run configuration. 
+
+- Assigning Controllers to Each Player P
+  - Each player gets assigned a controller that's associated with a view as well
+  - the controllers receive input from players, processes it, and then updates the game state accordingly.
+
+- Model-View Controller
+  - The board, view, and controller all work together following the MVC pattern to update the view to reflect the changes.
+
+- Listeners/Features
+  - Event-driven classes to respond to specific commands and events to trigger updates in the game.
+    - switching turns
+    - passing
+    - game-over messages
+      - score 
+      - whether players tied / who won
+    - updating AI moving to be automatic

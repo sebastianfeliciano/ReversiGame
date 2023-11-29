@@ -550,6 +550,4 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
       observer.onGameOver();
     }
   }
-
-
 }

@@ -290,5 +290,8 @@ The **DrawUtils** class is responsible for drawing the hexagonal board. It uses 
       - 7 -> boardSize, human -> player1type = human capture -> strategy and AIPlayer
       - To chain, you would just do two strategies back to back
       - For example (7 capture corner capture corner) --> this creates a boardSize of and two AIPlayers with chained strategies
+  - RUN THIS TO SEE -> java -jar Reversi.jar 7 human human
+  - or
+  - java -jar Reversi.jar 7 capture capture
   - ###### Conditions
     - If a user decides to do a chained strategy with two of the same strategies, it will just call the one strategy as its strategy

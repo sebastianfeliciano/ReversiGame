@@ -9,6 +9,7 @@ import model.strategies.CaptureStrategy;
 import model.strategies.GoForCornersStrategy;
 import model.strategies.IStrategy;
 import model.strategies.TryTwo;
+
 /**
  * A command class for the command line to work.
  */
@@ -26,48 +27,54 @@ public class Command {
     parseArguments(args);
   }
 
+
   private void parseArguments(String[] args) {
     if (args.length < 2) {
       throw new IllegalArgumentException(
-      "Insufficient arguments. Expected at least" +
-              " board size and player 1 type or strategy.");
+              "Insufficient arguments. Expected at least" +
+                      " board size and player 1 type or strategy.");
     }
 
     this.boardSize = Integer.parseInt(args[0]);
     this.board = new Board(boardSize);
 
-    String player1Type = "human";
-    String player1Strategy = null;
-    String player2Type = "human";
-    String player2Strategy = null;
+    player1 = findThePlayer(args, 1);
+    player2 = findThePlayer(args, 2);
+  }
 
-    if (isStrategy(args[1])) {
-      player1Type = "ai";
-      player1Strategy = args[1];
-    } else {
-      player1Type = args[1];
+  private Player findThePlayer(String[] args, int playerNumber) {
+    String playerType = "human";
+    String strategy = null;
+    int index = -1;
+
+    if (playerNumber == 1) {
+      index = 1;
+      if (args.length > 3 && isStrategy(args[3])) {
+        strategy = args[3];
+      }
+    } else if (playerNumber == 2 && args.length > 2) {
+      index = 2;
     }
 
-    if (args.length > 2) {
-      if (!isStrategy(args[1])) {
-        if (isStrategy(args[2])) {
-          player2Type = "ai";
-          player2Strategy = args[2];
-        } else {
-          player2Type = args[2];
+    if (index != -1) {
+      if (isStrategy(args[index])) {
+        playerType = "ai";
+        if (strategy == null) {
+          strategy = args[index];
         }
       } else {
-        player2Strategy = args[2];
+        playerType = args[index];
       }
     }
 
-    if (player1Type.equalsIgnoreCase("ai") && args.length > 3 && !isStrategy(args[1])) {
-      player1Strategy = args[3];
+    PlayerType pType = PlayerType.BLACK;
+    if (playerNumber == 2) {
+      pType = PlayerType.WHITE;
     }
 
-    player1 = createPlayer(PlayerType.BLACK, player1Type, player1Strategy);
-    player2 = createPlayer(PlayerType.WHITE, player2Type, player2Strategy);
+    return createPlayer(pType, playerType, strategy);
   }
+
 
   private boolean isStrategy(String input) {
     switch (input.toLowerCase()) {

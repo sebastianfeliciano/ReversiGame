@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 import controller.ReversiController;
+import controller.players.AIPlayer;
 import model.Board;
 
 /**
@@ -31,23 +32,33 @@ public class Game implements GameMocked {
    * Starts the game updating mechanism.
    */
   public void start() {
-    int delay = 1000;
-    ActionListener listener = new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
-        if (!board.isGameOver()) {
+//    int delay = 1000;
+//    timer = new Timer(delay, new ActionListener() {
+//      @Override
+//      public void actionPerformed(ActionEvent evt) {
+//        if (controller1.getPlayer() instanceof AIPlayer) {
+//          controller1.update();
+//        }
+//        if(controller2.getPlayer() instanceof AIPlayer) {
+//          controller2.update();
+//        }
+//        else {
+//          stop();
+//        }
+
+        while (!board.isGameOver()) {
           controller1.update();
           controller2.update();
-        } else {
+        }
           stop();
         }
-      }
-    };
-    timer = new Timer(delay, listener);
-    timer.start();
-  }
+//      }
+//    });
+//    timer.start();
+
 
   /**
-   * Stops the timer for the game, for AI's.
+   * Stops the timer for the game.
    */
   public void stop() {
     if (timer != null) {

@@ -33,6 +33,7 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
     this.view = view;
     board.addObserver(this);
     view.resetGameOverHandled();
+    //view.setEventListener(this);
   }
 
   /**
@@ -128,8 +129,10 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
               board.notifyObservers();
               checkAndUpdateGameState();
             } else {
-              turnMessageDisplayed = true;
-              view.itIsNowYourTurnMessage();
+              if (!(player instanceof AIPlayer)) {
+                turnMessageDisplayed = true;
+                view.itIsNowYourTurnMessage();
+              }
             }
           }
         } else {
@@ -191,6 +194,10 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
   @Override
   public void handleMove(Player player, int row, int column) {
     this.placeKey(row, column);
+  }
+
+  public Player getPlayer(){
+    return this.player;
   }
 
 }

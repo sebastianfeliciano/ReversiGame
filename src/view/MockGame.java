@@ -17,12 +17,18 @@ public class MockGame extends Game implements GameMocked {
     this.log = new StringBuilder();
   }
 
+  /**
+   * Tells the game that it started.
+   */
   @Override
   public void start() {
     this.log.append("Game has Started");
     super.start();
   }
 
+  /**
+   * Returns the log to a string.
+   */
   public String getLog() {
     return this.log.toString();
   }

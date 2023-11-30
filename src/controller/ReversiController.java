@@ -35,6 +35,9 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
     view.resetGameOverHandled();
   }
 
+  /**
+   * Places the piece on the board.
+   */
   private void placeKey(int x, int y) {
     if (!board.isValidMove(x, y, player.getType())) {
       view.showInvalidMoveMessage();
@@ -51,6 +54,9 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
     board.flipPieces(q, r, player.getType());
   }
 
+  /**
+   * Controller, moves for the player onto the board.
+   */
   @Override
   public void onPlayerMove(int row, int column) {
     if (handleTurn() || board.isGameOver()) {
@@ -67,6 +73,9 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
     checkAndUpdateGameState();
   }
 
+  /**
+   * Resets the opponent's passed state, so it doesn't keep if one have passed.
+   */
   private void resetOpponentPassedState() {
     if (player.getType() == PlayerType.WHITE) {
       board.resetBlackPassed();
@@ -75,6 +84,9 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
     }
   }
 
+  /**
+   * The Controller signals that the player has passed and sends messages.
+   */
   @Override
   public void onPass() {
     if (handleTurn()) {
@@ -88,6 +100,9 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
     checkAndUpdateGameState();
   }
 
+  /**
+   * Updates the controller.
+   */
   @Override
   public void update() {
     if (isUpdating) {
@@ -128,12 +143,18 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
     }
   }
 
+  /**
+   * Updates the score in the view.
+   */
   private void updateScoreInView() {
     int blackScore = board.getScoreBlack();
     int whiteScore = board.getScoreWhite();
     view.updateScore(blackScore, whiteScore);
   }
 
+  /**
+   * Tells the view to do something, when the game is over.
+   */
   @Override
   public void onGameOver() {
     view.handleGameOver();

@@ -27,7 +27,9 @@ public class Command {
     parseArguments(args);
   }
 
-
+  /**
+   * Parses the arguments for the game to start.
+   */
   private void parseArguments(String[] args) {
     if (args.length < 2) {
       throw new IllegalArgumentException(
@@ -42,6 +44,9 @@ public class Command {
     player2 = findThePlayer(args, 2);
   }
 
+  /**
+   * Determines, the player made.
+   */
   private Player findThePlayer(String[] args, int playerNumber) {
     String playerType = "human";
     String strategy = null;
@@ -76,6 +81,9 @@ public class Command {
   }
 
 
+  /**
+   * Checks to see if a strategy was correctly, made.
+   */
   private boolean isStrategy(String input) {
     switch (input.toLowerCase()) {
       case "capture":
@@ -90,6 +98,9 @@ public class Command {
     }
   }
 
+  /**
+   * Creates a player.
+   */
   private Player createPlayer(PlayerType playerType, String playerTypeStr, String strategyStr) {
     if (playerTypeStr.equalsIgnoreCase("ai")) {
       IStrategy strategy = getStrategy(strategyStr);
@@ -99,6 +110,9 @@ public class Command {
     }
   }
 
+  /**
+   * Makes the Strategy based on the string passed.
+   */
   private IStrategy getStrategy(String strategyStr) {
     switch (strategyStr.toLowerCase()) {
       case "capture":

@@ -128,8 +128,8 @@ public class ReversiController implements PlayerActionListener, Observer, MoveHa
               board.notifyObservers();
               checkAndUpdateGameState();
             } else {
-              view.itIsNowYourTurnMessage();
               turnMessageDisplayed = true;
+              view.itIsNowYourTurnMessage();
             }
           }
         } else {

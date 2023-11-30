@@ -356,7 +356,6 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
         }
       }
     }
-    notifyObservers();
     return count;
   }
 

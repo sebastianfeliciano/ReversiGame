@@ -2,7 +2,7 @@ package model.strategies;
 
 import java.util.Optional;
 
-import controller.players.Player;
+import controller.players.IPlayer;
 import model.Move;
 import model.ReadOnlyBoardModel;
 
@@ -11,5 +11,5 @@ import model.ReadOnlyBoardModel;
  */
 public interface InfallibleHexGameStrategy extends IStrategy {
   Optional<Move> selectMove(ReadOnlyBoardModel boardModel,
-                            Player player) throws IllegalStateException;
+                            IPlayer player) throws IllegalStateException;
 }

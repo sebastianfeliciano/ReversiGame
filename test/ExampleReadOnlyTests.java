@@ -1,6 +1,7 @@
 import controller.players.Player;
 import controller.players.PlayerType;
 import model.Board;
+import model.BoardModel;
 import model.HexShape;
 
 import org.junit.Assert;
@@ -12,6 +13,7 @@ import controller.TextualController;
  * Tests the method for read only methods for Board.
  */
 public class ExampleReadOnlyTests {
+
 
   Board board = new Board(11);
 
@@ -149,7 +151,7 @@ public class ExampleReadOnlyTests {
     Board board = new Board(11);
     Player player1 = new Player("e", PlayerType.WHITE, board);
 
-    player1.makeMove(-1, -1);
+    player1.makeMove();
 
     board.getCurrentHex(11 / 2, 11 / 2 + 1).setPlayerType(PlayerType.BLACK);
     board.getCurrentHex(11 / 2 + 1, 11 / 2).setPlayerType(PlayerType.WHITE);
@@ -218,7 +220,7 @@ public class ExampleReadOnlyTests {
     Assert.assertEquals(3, board1.countPieces(PlayerType.WHITE));
     Assert.assertEquals(3, board1.countPieces(PlayerType.BLACK));
 
-    player1.makeMove(-1, -1);
+    player1.makeMove();
     Assert.assertEquals(3, board1.countPieces(PlayerType.WHITE));
     Assert.assertEquals(3, board1.countPieces(PlayerType.BLACK));
   }
@@ -303,8 +305,8 @@ public class ExampleReadOnlyTests {
     Assert.assertEquals(playerTwoType.name(), "WHITE");
 
 
-    player1.makeMove(-1, -1); // Player One places piece at (-1,-1)
-    player1.makeMove(-2, 1);  // Player One places piece at (-2,1)
+    player1.makeMove(); // Player One places piece at (-1,-1)
+    player1.makeMove();  // Player One places piece at (-2,1)
 
     Assert.assertEquals(3, board.getScoreWhite());
     Assert.assertEquals(3, board.getScoreBlack());
@@ -312,13 +314,13 @@ public class ExampleReadOnlyTests {
 
   @Test
   public void testCopy() {
-    Board original = new Board(7);
+    BoardModel original = new Board(7);
     original.placePiece(3, 3, PlayerType.BLACK);
     original.placePiece(4, 4, PlayerType.WHITE);
     original.playerPass(PlayerType.WHITE);
     original.playerPass(PlayerType.BLACK);
 
-    Board copied = original.deepCopy();
+    BoardModel copied = original.deepCopy();
 
     Assert.assertNotSame("Copied board should not be the same as original board",
             original, copied);
@@ -346,4 +348,5 @@ public class ExampleReadOnlyTests {
       }
     }
   }
+
 }

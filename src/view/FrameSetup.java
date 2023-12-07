@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
@@ -18,12 +19,12 @@ public class FrameSetup {
    * Constructor for the setting up of the frame. It returns a JLabel, so we can
    * access the score for score updating purposes.
    */
-  public static JLabel setupFrame(JFrame frame, DrawUtils view,
+  public static JLabel setupFrame(JFrame frame, ReversiView view,
                                   String playerTypeLabel, String score) {
     JLabel playerType = new JLabel(playerTypeLabel);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setLayout(new BorderLayout());
-    frame.add(view, BorderLayout.CENTER);
+    frame.add((Component) view, BorderLayout.CENTER);
     JLabel scoreLabel = new JLabel(score);
     frame.add(scoreLabel, BorderLayout.NORTH);
     JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));

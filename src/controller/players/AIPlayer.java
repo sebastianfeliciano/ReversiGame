@@ -2,6 +2,7 @@ package controller.players;
 
 import java.util.Optional;
 
+import controller.ReversiController;
 import model.ReadOnlyBoardModel;
 import model.strategies.IStrategy;
 import model.Move;
@@ -11,6 +12,7 @@ import model.Move;
  */
 public class AIPlayer extends Player implements IPlayer, TurnAIPopUp {
   private final IStrategy strategy;
+  protected ReversiController controller1;
 
   /**
    * Constructor for an AIPlayer.
@@ -21,15 +23,29 @@ public class AIPlayer extends Player implements IPlayer, TurnAIPopUp {
     this.hasPassed = false;
   }
 
+  public void setMoveHandler(ReversiController controller1) {
+    this.controller1 = controller1;
+  }
+
   /**
-   * Makes a move for the AIPlayer.
+   * Makes a move for the Player.
    */
   public void makeMove() {
     Optional<Move> selectedMove = strategy.selectMove(this.board, this);
     if (selectedMove.isPresent()) {
-      super.makeMove(selectedMove.get().getX(), selectedMove.get().getY());
+      this.makeMove(selectedMove.get().getX(), selectedMove.get().getY());
     } else {
       this.setHasPassed();
+    }
+  }
+
+  /**
+   * Make move helper, that tells the controller to handle the move since,
+   * the controller does the move, not the player.
+   */
+  public void makeMove(int row, int column) {
+    if (controller1 != null) {
+      controller1.handleMove(this, row, column);
     }
   }
 

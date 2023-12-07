@@ -1,6 +1,6 @@
 package model.strategies;
 
-import controller.players.Player;
+import controller.players.IPlayer;
 import model.Move;
 import model.ReadOnlyBoardModel;
 
@@ -32,7 +32,7 @@ public class GoForCornersStrategy implements FallibleHexGameStrategy {
    * Selects a certain move for the AIPlayer to make based on the board.
    */
   @Override
-  public Optional<Move> selectMove(ReadOnlyBoardModel board, Player player) {
+  public Optional<Move> selectMove(ReadOnlyBoardModel board, IPlayer player) {
     logger.info("Selecting move for player: " + player.getName() + " " + player.getColor());
     List<Move> cornerMoves = new ArrayList<>();
     List<Move> validMoves = board.getValidMovesWithCaptures(player);

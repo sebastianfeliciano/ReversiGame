@@ -1,7 +1,8 @@
 package model;
 
 import controller.DirectionsEnum;
-import controller.players.Player;
+import controller.players.IPlayer;
+
 import controller.players.PlayerType;
 import view.Observer;
 
@@ -19,6 +20,11 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   @Override
   public void addObserver(Observer o) {
     observers.add(o);
+  }
+
+  @Override
+  public int getRadius() {
+    return this.boardSize - 1;
   }
 
   /**
@@ -112,7 +118,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   /**
    * Checks if it is the current player's turn.
    */
-  public boolean isPlayerTurn(Player player) {
+  public boolean isPlayerTurn(IPlayer player) {
     if (player == null) {
       throw new IllegalStateException("Player is null");
     }
@@ -235,6 +241,30 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     return false;
   }
 
+  @Override
+  public void initializeBoard() {
+    this.getCurrentHex(this.boardSize / 2,
+            this.boardSize / 2 + 1).setPlayerType(PlayerType.BLACK);
+    this.getCurrentHex(this.boardSize / 2 + 1,
+            this.boardSize / 2).setPlayerType(PlayerType.WHITE);
+    this.getCurrentHex(this.boardSize / 2,
+            this.boardSize / 2 - 1).setPlayerType(PlayerType.WHITE);
+    this.getCurrentHex(this.boardSize / 2 + 1,
+            this.boardSize / 2 - 1).setPlayerType(PlayerType.BLACK);
+    this.getCurrentHex(this.boardSize / 2 - 1,
+            this.boardSize / 2).setPlayerType(PlayerType.BLACK);
+    this.getCurrentHex(this.boardSize / 2 - 1,
+            this.boardSize / 2 + 1).setPlayerType(PlayerType.WHITE);
+
+  }
+
+  @Override
+  public void ensureValidRadius(int size) {
+    if (size < 5 || (size % 2 == 0)) {
+      throw new IllegalStateException("The game must be a minimum of size 5 and cannot be even!");
+    }
+  }
+
 
   /**
    * Determines is a valid coordinate was passed in
@@ -269,17 +299,11 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
 
   @Override
   public int getScoreWhite() {
-    if (isGameOver()) {
-      return countPieces(PlayerType.WHITE);
-    }
     return countPieces(PlayerType.WHITE);
   }
 
   @Override
   public int getScoreBlack() {
-    if (isGameOver()) {
-      return countPieces(PlayerType.BLACK);
-    }
     return countPieces(PlayerType.BLACK);
   }
 
@@ -292,13 +316,19 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     return this.boardSize;
   }
 
+
+  public boolean conditionalAllTypesCaptured() {
+    return (this.countPieces(PlayerType.WHITE) == 0 || this.countPieces(PlayerType.BLACK) == 0);
+  }
+
   /**
    * Determines whether a game is over
    * based on if the board is full, or if both
    * players have skipped their turn.
    */
   public boolean isGameOver() {
-    return (isBoardFull() || bothPlayersPassed());
+
+    return (isBoardFull() || bothPlayersPassed() || conditionalAllTypesCaptured());
   }
 
   /**
@@ -391,7 +421,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   /**
    * Makes a deep copy of the board that players can access.
    */
-  public Board deepCopy() {
+  public BoardModel deepCopy() {
     Board newBoard = new Board(this.boardSize);
     for (int i = 0; i < boardSize; i++) {
       for (int j = 0; j < boardSize; j++) {
@@ -409,7 +439,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   /**
    * Gets a valid list of moves that a player can play.
    */
-  public List<Move> getValidMovesWithCaptures(Player player) {
+  public List<Move> getValidMovesWithCaptures(IPlayer player) {
     List<Move> validMoves = new ArrayList<>();
 
     for (int currentRow = 0; currentRow < getBoardSize(); currentRow++) {
@@ -466,6 +496,10 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
             (x == 0 && y == boardSize - 1) ||
             (x == boardSize - 1 && y == 0) ||
             (x == boardSize - 1 && y == boardSize - 1);
+  }
+
+  public HexShape[][] getCellsThatMakeTheBoard() {
+    return this.cellsThatMakeTheBoard;
   }
 
 

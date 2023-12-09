@@ -241,6 +241,9 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     return false;
   }
 
+  /**
+   * This is added for the homework 8 allowing TA's to see.
+   */
   @Override
   public void initializeBoard() {
     this.getCurrentHex(this.boardSize / 2,
@@ -258,6 +261,9 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
 
   }
 
+  /**
+   * This is added for the homework 8 allowing TA's to see.
+   */
   @Override
   public void ensureValidRadius(int size) {
     if (size < 5 || (size % 2 == 0)) {
@@ -456,33 +462,29 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
         if (currentRow <= getMidPoint()) {
           currentHex = this.getCurrentHex(currentRow, h + spacesBefore);
 
-          if (isValidMove(Integer.parseInt(currentHex.getColumn()),
-                  Integer.parseInt(currentHex.getRow()), player.getType())) {
-
-            int piecesThatAreFlipped = calculateCaptures((Integer.parseInt(currentHex.getColumn())),
-                    Integer.parseInt(currentHex.getRow()), player.getType(), this);
-
-            validMoves.add(new Move((Integer.parseInt(currentHex.getColumn())),
-                    Integer.parseInt(currentHex.getRow()), piecesThatAreFlipped));
-          }
+          dupeFixer(player, validMoves, currentHex);
 
         } else {
           currentHex = this.getCurrentHex(currentRow, h);
 
-          if (isValidMove(Integer.parseInt(currentHex.getColumn()),
-                  Integer.parseInt(currentHex.getRow()), player.getType())) {
-
-            int piecesThatAreFlipped = calculateCaptures((Integer.parseInt(currentHex.getColumn())),
-                    Integer.parseInt(currentHex.getRow()), player.getType(), this);
-
-            validMoves.add(new Move((Integer.parseInt(currentHex.getColumn())),
-                    Integer.parseInt(currentHex.getRow()), piecesThatAreFlipped));
-          }
+          dupeFixer(player, validMoves, currentHex);
         }
       }
 
     }
     return validMoves;
+  }
+
+  private void dupeFixer(IPlayer player, List<Move> validMoves, HexShape currentHex) {
+    if (isValidMove(Integer.parseInt(currentHex.getColumn()),
+            Integer.parseInt(currentHex.getRow()), player.getType())) {
+
+      int piecesThatAreFlipped = calculateCaptures((Integer.parseInt(currentHex.getColumn())),
+              Integer.parseInt(currentHex.getRow()), player.getType(), this);
+
+      validMoves.add(new Move((Integer.parseInt(currentHex.getColumn())),
+              Integer.parseInt(currentHex.getRow()), piecesThatAreFlipped));
+    }
   }
 
   /**

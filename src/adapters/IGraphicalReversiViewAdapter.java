@@ -68,14 +68,14 @@ public class IGraphicalReversiViewAdapter implements IGraphicalReversiView {
    */
   @Override
   public void displayErrorMessage(String message) {
-    checkingGameOverNess();
     if (jFrameView != null) {
+      checkingGameOverNess();
       jFrameView.displayErrorMessage("It is an invalid move or it isn't your turn!");
     }
   }
 
   private void checkingGameOverNess() {
-    if (board.isGameOver()) {
+    if (board != null && board.isGameOver()) {
       int black = board.getScoreBlack();
       int white = board.getScoreWhite();
       if (black > white) {

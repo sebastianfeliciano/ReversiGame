@@ -16,6 +16,8 @@ import model.strategies.TryTwo;
 /**
  * A list of tests for the testing of two strategies.
  */
+
+
 public class ExampleTryTwoStrats {
   @Test
   public void testingCaptureStrategyFirst() {
@@ -23,7 +25,7 @@ public class ExampleTryTwoStrats {
     Board mockBoard = new Board(7);
     Player player1 = new Player("Player 2", PlayerType.WHITE, mockBoard);
     AIPlayer player2 = new AIPlayer("Player 1", PlayerType.BLACK, mockBoard, easy);
-    player1.makeMove(-1, -1);
+    player1.makeMove();
     ReadOnlyBoardModel copy = mockBoard.getReadOnlyBoard();
     Optional<Move> selectedMove = easy.selectMove(copy, player2);
     Optional<Move> expectedMove = Optional.of(new Move(1, -2, 2));
@@ -36,7 +38,7 @@ public class ExampleTryTwoStrats {
     Board mockBoard = new Board(7);
     Player player1 = new Player("Player 2", PlayerType.WHITE, mockBoard);
     AIPlayer player2 = new AIPlayer("Player 1", PlayerType.BLACK, mockBoard, easy);
-    player1.makeMove(-1, -1);
+    player1.makeMove();
     ReadOnlyBoardModel copy = mockBoard.getReadOnlyBoard();
     Optional<Move> selectedMove = easy.selectMove(copy, player2);
     Optional<Move> expectedMove = Optional.of(new Move(2, -1, 2));
@@ -49,11 +51,12 @@ public class ExampleTryTwoStrats {
     Board mockBoard = new Board(7);
     Player player1 = new Player("Player 2", PlayerType.WHITE, mockBoard);
     AIPlayer player2 = new AIPlayer("Player 1", PlayerType.BLACK, mockBoard, easy);
-    player1.makeMove(-1, -1);
+    player1.makeMove();
     ReadOnlyBoardModel copy = mockBoard.getReadOnlyBoard();
     Optional<Move> selectedMove = easy.selectMove(copy, player2);
     Optional<Move> expectedMove = Optional.of(new Move(1, -2, 2));
     Assert.assertEquals(selectedMove.get().getX(), expectedMove.get().getX());
   }
+
 
 }

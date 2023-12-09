@@ -24,7 +24,7 @@ public class ExampleGoForCornerStrategies {
     Board board1 = new Board(7);
     Player player1 = new Player("Player1", PlayerType.WHITE, board1);
     Player player2 = new Player("Player2", PlayerType.BLACK, board1);
-    player1.makeMove(-1, -1);
+    player1.makeMove();
     List<Move> valid = new ArrayList<>();
     GoForCornersStrategy gfc = new GoForCornersStrategy();
     StringBuilder sb = new StringBuilder();
@@ -149,6 +149,8 @@ public class ExampleGoForCornerStrategies {
     mock.isCornerMove(move, 11);
     Assert.assertTrue(mock.getLog().toString().contains("is a corner move"));
   }
+
+
 }
 
 

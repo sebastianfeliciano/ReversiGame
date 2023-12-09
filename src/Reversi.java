@@ -2,12 +2,22 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import controller.Command;
-import controller.players.Player;
+import controller.players.IPlayer;
 import controller.ReversiController;
-import model.Board;
+import model.BoardModel;
+import adapters.IModelFeaturesAdapter;
+import adapters.IViewFeaturesAdapter;
+import adapters.IBoardAdapter;
+import adapters.IROModelAdapter;
+import adapters.IPlayerAdapter;
+import adapters.IGraphicalReversiViewAdapter;
+import adapters.IViewAdapter;
+import adapters.JFrameViewAdapter;
+import adapters.ReversiViewAdapter;
 import view.DrawUtils;
 import view.FrameSetup;
 import view.Game;
+import view.ReversiView;
 
 /**
  * Represents the GUI view.
@@ -23,35 +33,51 @@ public class Reversi {
   public static void main(String[] args) {
 
     Command commandLine = new Command(args);
+    BoardModel board = commandLine.getBoard();
+    IBoardAdapter boardAdapter = new IBoardAdapter(board);
 
-    Board board = commandLine.getBoard();
-
-    DrawUtils view1 = new DrawUtils(board);
-    DrawUtils view2 = new DrawUtils(board);
-
-    Player player1 = commandLine.getPlayer1();
-    Player player2 = commandLine.getPlayer2();
-
-
+    ReversiView view2 = new DrawUtils(board);
     String score = "Black: " + board.getScoreBlack() + " White: " + board.getScoreWhite();
-
-    JFrame frame1 = new JFrame("Reversi - Player 1");
-    ReversiController controller1 = new ReversiController(player1, board, view1);
-    player1.setMoveHandler(controller1);
-    JLabel frame1Setup = FrameSetup.setupFrame(frame1, view1,
-            "You are Player " + player1.getColor(), score);
-    view1.setEventListener(controller1);
-    view1.setScoreLabel(frame1Setup);
-
-    JFrame frame2 = new JFrame("Reversi - Player 2");
+    JLabel label = new JLabel(score);
+    view2.setScoreLabel(label);
+    IViewAdapter viewAdapter = new IViewAdapter(view2);
+    IPlayer player2 = commandLine.getPlayer2();
+    IPlayerAdapter playerAdapter1 = new IPlayerAdapter(player2);
+    JFrameViewAdapter viewAdapter1 = new JFrameViewAdapter(board, view2);
+    IGraphicalReversiViewAdapter graphicalReversiView
+            = new IGraphicalReversiViewAdapter(viewAdapter, label, viewAdapter1);
+    IViewFeaturesAdapter featuresAdapter
+            = new IViewFeaturesAdapter(playerAdapter1, board, graphicalReversiView);
+    playerAdapter1.addFeatures(featuresAdapter);
+    graphicalReversiView.addFeatures(featuresAdapter);
+    featuresAdapter.setPlayer(playerAdapter1);
+    IROModelAdapter readonlyBoardAdapted = new IROModelAdapter(board);
+    ReversiViewAdapter viewAdapter2 = new ReversiViewAdapter(view2, board);
+    viewAdapter1.addFeatures(featuresAdapter);
+    IModelFeaturesAdapter controllerAdapter = new IModelFeaturesAdapter(player2, board, view2);
+    readonlyBoardAdapted.addFeatures(controllerAdapter);
+    viewAdapter1.add(label);
+    viewAdapter2.addFeatures(featuresAdapter);
+    viewAdapter1.setVisible(true);
     ReversiController controller2 = new ReversiController(player2, board, view2);
     player2.setMoveHandler(controller2);
-    JLabel frame2Setup = FrameSetup.setupFrame(frame2, view2,
-            "You are Player " + player2.getColor(), score);
     view2.setEventListener(controller2);
-    view2.setScoreLabel(frame2Setup);
+    viewAdapter1.setResizable(true);
 
-    Game model = new Game(controller1, controller2, board);
+
+    ReversiView view1 = new DrawUtils(board);
+    IPlayer player1 = commandLine.getPlayer1();
+    ReversiController controller1 = new ReversiController(player1, board, view1);
+    player1.setMoveHandler(controller1);
+    JFrame frame2 = new JFrame("Reversi - Player 1");
+    JLabel frame2Setup = FrameSetup.setupFrame(frame2, view1,
+            "You are Player " + player1.getColor(), score);
+    view1.setEventListener(controller1);
+    view1.setScoreLabel(frame2Setup);
+
+
+    Game model = new Game(controller1, controllerAdapter, board);
     model.start();
   }
+
 }

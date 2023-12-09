@@ -1,6 +1,6 @@
 package model;
 
-import controller.players.Player;
+import controller.players.IPlayer;
 import controller.players.PlayerType;
 
 import java.util.List;
@@ -142,7 +142,7 @@ public class Mock extends Board
    * Returns a list of valid moves for the capture strategy.
    */
   @Override
-  public List<Move> getValidMovesWithCaptures(Player player) {
+  public List<Move> getValidMovesWithCaptures(IPlayer player) {
     log.append("Checking valid :")
             .append(player)
             .append(board.getValidMovesWithCaptures(player));

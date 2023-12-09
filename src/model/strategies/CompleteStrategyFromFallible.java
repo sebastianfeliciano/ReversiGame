@@ -2,7 +2,7 @@ package model.strategies;
 
 import java.util.Optional;
 
-import controller.players.Player;
+import controller.players.IPlayer;
 import model.Move;
 import model.ReadOnlyBoardModel;
 
@@ -17,7 +17,7 @@ public class CompleteStrategyFromFallible
   /**
    * Selects a certain move for the AIPlayer to make.
    */
-  public Optional<Move> selectMove(ReadOnlyBoardModel boardModel, Player player)
+  public Optional<Move> selectMove(ReadOnlyBoardModel boardModel, IPlayer player)
           throws IllegalStateException {
     Optional<Move> firstMove = this.strategyToTry
             .selectMove(boardModel, player);

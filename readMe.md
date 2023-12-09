@@ -1,4 +1,4 @@
-## Welcome to Reversi : Evelyn Y.
+## Welcome to Reversi : Sebastian F
 
 **Board Setup & Coordinates :**
 
@@ -64,7 +64,7 @@ This enhancement allows for a consistent and rule-abiding gameplay experience, e
 - New Interfaces and Classes: The addition of FallibleHexGameStrategy, InfallibleHexGameStrategy, IStrategy, ReadOnlyBoardModel, Reversi View, CaptureStrategy, CompleteStrategyFromFallible, GoForCornersStrategy, TryTwo, DrawUtils, and PlayerButton suggests a modular and flexible design, allowing for easy maintenance and scalability.
 
 ### OOD Principles Incorporation
-Incorporating OOD principles shows a professional approach to software development, focusing on modularity, reusability, and maintainability. This aspect is crucial for long-term project sustainability and future enhancements.
+Incorporating OOD principles shows a professional approach to software development, focusing on modularity, usability, and maintainability. This aspect is crucial for long-term project sustainability and future enhancements.
 
 
 ### Adding an AI Player
@@ -295,3 +295,152 @@ The **DrawUtils** class is responsible for drawing the hexagonal board. It uses 
   - java -jar Reversi.jar 7 capture capture
   - ###### Conditions
     - If a user decides to do a chained strategy with two of the same strategies, it will just call the one strategy as its strategy
+
+
+# Reversi PT4 Changes
+
+
+## Overview
+
+This document provides a detailed account of the recent updates made in the PT4 version of the Reversi game project. The core objective of these updates has been to enhance the modularity and flexibility of the code, making it more adaptable and user-friendly for our customers. The changes focus on the introduction of interfaces in place of concrete class dependencies.
+
+## Key Changes
+
+### Introduction of New Interfaces
+
+In this update, we have introduced three significant interfaces: `Features`, `IGameControlled`, and `ReversiView`. These interfaces replace the earlier practice of directly utilizing concrete classes, which resulted in tight coupling. The new interfaces offer a more flexible and scalable approach.
+
+#### 1. `Features` Interface
+
+- **Purpose**: Serves as a blueprint for the main functionalities offered by the game.
+- **Impact**: Enables customers to implement essential features in a manner that aligns with their specific requirements and preferences.
+
+#### 2. `IGameControlled` Interface
+
+- **Purpose**: Specifies the methods necessary for managing the game's control mechanisms.
+- **Impact**: Provides a structured framework for controlling game logic, allowing customers to adapt it more readily to various use cases.
+
+#### 3. `ReversiView` Interface
+
+- **Purpose**: Details the methods for visual representation and updates of the game.
+- **Impact**: Facilitates the development of customized game views, thereby enhancing user experience and interface diversity.
+
+### Rationale Behind the Changes
+
+The shift to an interface-based architecture was driven by the need to reduce tight coupling in our software. The previous reliance on concrete classes limited our customers' ability to customize and extend the game's functionalities. The introduction of interfaces now offers:
+
+- Enhanced flexibility - Easier integration into diverse software environments.
+- Improved maintainability and scalability of the game.
+
+
+## Adapter Classes Implementing the Adapter Pattern
+In the PT4 update, we've also introduced a series of adapter classes, utilizing the adapter pattern to enhance the integration and flexibility of our software components. These adapter classes serve as bridges between the interfaces and their concrete implementations, ensuring compatibility and extending functionality.
+
+### List of Adapter Classes
+#### BoardPanelAdapter
+
+Bridges the gap between the board model and its graphical representation.
+Allows for a seamless connection between the game's data model and its visual output.
+FallibleReversiStratAdapters
+
+Adapts strategies for Reversi gameplay, accounting for potential errors or fallible conditions.
+Enhances the robustness of game strategy implementations.
+#### HexAdapter
+
+Converts hex-shaped components of the game into a format that can be easily manipulated and displayed.
+Facilitates more efficient handling of hexagonal game elements.
+#### IBoardAdapter
+
+Provides an adaptable interface for interacting with various board implementations.
+Ensures flexibility in how game boards are managed and utilized.
+##### IGraphicalReversiViewAdapter
+
+Connects the ReversiView interface with graphical components, enabling a dynamic visual representation of the game.
+Offers an adaptable solution for rendering the game's interface.
+#### IModelFeaturesAdapter
+
+Adapts model features for different implementation requirements.
+Provides a flexible approach to modifying and extending game model features.
+#### IMutableModelAdapter
+
+Allows for the adaptation of game models that can be altered or modified during gameplay.
+Supports dynamic changes in the game's state and structure.
+#### IPlayerAdapter
+
+Enables the integration of different player types and strategies into the game.
+Facilitates diverse gameplay experiences through adaptable player interfaces.
+#### IReversiPanelAdapter
+
+Provides a bridge between Reversi game panels and their various implementations.
+Enhances the modularity and customizability of game panels.
+#### IROModelAdapter
+
+Adapts read-only models for use in situations where data modification is not required or allowed.
+Ensures data integrity and consistency in read-only scenarios.
+
+#### IViewAdapter
+
+Facilitates the adaptation of various view interfaces, ensuring flexibility in the presentation layer of the application.
+Allows for the seamless integration of different view types and styles.
+#### IViewFeaturesAdapter
+
+Provides an adaptable interface for implementing view-related features.
+Enhances the ability to customize and extend view functionalities.
+#### JFrameViewAdapter
+
+Adapts the JFrame view to integrate with our Reversi game logic.
+Offers a bridge between the standard JFrame component and the specific requirements of the Reversi game view.
+#### PlayerDiscAdapter
+
+Converts player disc data into a format that can be easily used and displayed within the game.
+Enhances the handling and representation of player discs in the game environment.
+#### ReversiViewAdapter
+
+Connects the ReversiView interface with specific implementations, enabling a tailored visual representation of the game.
+Offers flexibility in rendering the game's interface according to specific user interface requirements.
+
+### Impact of Adapter Classes
+These adapter classes significantly contribute to the overall adaptability and modularity of the Reversi game software. By implementing the adapter pattern, we ensure that our components are not only interchangeable but also extendable, catering to a wide range of customer needs and scenarios. This design approach aligns with our commitment to providing flexible and robust software solutions.
+
+### Conclusion
+
+The PT4 update of the Reversi game project marks a crucial evolution in our approach to software design. By adopting these interface-based designs, we are confident that our customers will experience a significant improvement in the adaptability and user-friendliness of our software. We are committed to continually enhancing our software to meet and exceed the evolving needs of our customers.
+
+
+### TO RUN WITH PROVIDER'S STRATEGY
+
+java -jar Reversi.jar 7 human providerstrategy1
+
+### To run with my strategy
+java -jar Reversi.jar 7 human capture
+
+### To run with human vs human
+java -jar Reversi.jar 7 human human
+
+The player2 is not restricted to any strategy, but player1 is my view
+and cannot use the provider's strategy.
+
+
+### If there is an error with PNG DISPLAYS
+- From provider:
+  - We do have a fallback method for our view rendering, so you do not have to do this if you don’t want to. But, if you want to see a cute Kirby and Metaknight Reversi game, here’s what you’d do:
+
+Drag the “resources” package out so that it is now directly under the main project (the same level as the src and out folders)
+
+Right click on the directory/package and then go down to “Mark Directory as” (similarly to marking your test directory as “test sources root”)
+
+Choose “Resources Root”
+
+Small Caveat: when building the jar file, make sure that the resources root directory is included in the build (it should automatically be added though!)
+
+
+### VERY SMALL BUG
+
+The pop up "It is now your turn" may show up twice on certain 
+moves. 
+
+In addition, when the game is over, it will display the game over. To display on
+the provider's view, a hex must be clicked and hit enter to see the gameOver reflect at the 
+JFrame title.
+
+Or you can tap on 's' for it to show up.

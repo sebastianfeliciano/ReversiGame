@@ -1,6 +1,10 @@
 package view;
 
+import java.awt.Graphics;
+
 import javax.swing.JLabel;
+
+import model.Board;
 
 /**
  * Interface that helps test the mocked view.
@@ -47,5 +51,16 @@ public interface DrawInterfaceMocker {
    * Setter for the score label.
    */
   void setScoreLabel(JLabel scoreLabel);
+
+  /**
+   * Updates the state of the game.
+   */
+  void update();
+
+  /**
+   * Draws the board out.
+   */
+  void drawBoard(Graphics g, Board board);
+
 
 }

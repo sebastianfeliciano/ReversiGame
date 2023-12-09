@@ -1,7 +1,7 @@
 package model;
 
 
-import controller.players.Player;
+import controller.players.IPlayer;
 import controller.players.PlayerType;
 
 import java.util.List;
@@ -21,6 +21,8 @@ public interface ReadOnlyBoardModel {
 
   boolean isBoardFull();
 
+  BoardModel deepCopy();
+
   int countPieces(PlayerType type);
 
   boolean hasPlayerPassed(PlayerType type);
@@ -31,7 +33,7 @@ public interface ReadOnlyBoardModel {
 
   boolean isValidCoordinate(int q, int r);
 
-  List<Move> getValidMovesWithCaptures(Player player);
+  List<Move> getValidMovesWithCaptures(IPlayer player);
 
   boolean isCornerMove(Move move, int boardSize);
 
@@ -40,4 +42,6 @@ public interface ReadOnlyBoardModel {
   Board getRegularBoard();
 
   PlayerType getCurrentTurn();
+
+  boolean isPlayerTurn(IPlayer player);
 }

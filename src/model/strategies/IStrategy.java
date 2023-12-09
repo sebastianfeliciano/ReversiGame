@@ -2,7 +2,7 @@ package model.strategies;
 
 import java.util.Optional;
 
-import controller.players.Player;
+import controller.players.IPlayer;
 import model.Move;
 import model.ReadOnlyBoardModel;
 
@@ -14,5 +14,5 @@ public interface IStrategy {
   /**
    * Represents a certain move that an AIPlayer makes.
    */
-  Optional<Move> selectMove(ReadOnlyBoardModel board, Player player);
+  Optional<Move> selectMove(ReadOnlyBoardModel board, IPlayer player);
 }

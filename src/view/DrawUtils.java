@@ -1,8 +1,10 @@
 package view;
 
+import controller.ReversiController;
 import controller.players.Player;
 import controller.players.PlayerType;
 import model.Board;
+import model.BoardModel;
 import model.HexShape;
 import model.ReadOnlyBoardModel;
 
@@ -46,7 +48,7 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
   /**
    * Sets the player action for the view. Allowing the view to recognize the
    */
-  public void setEventListener(PlayerActionListener playerAction) {
+  public void setEventListener(ReversiController playerAction) {
     this.playerAction = playerAction;
   }
 
@@ -62,7 +64,7 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
   /**
    * Updates the board of the ReadOnlyBoardModel to reflect the changes on the normal board.
    */
-  public void updateBoard(ReadOnlyBoardModel newBoardModel) {
+  public void updateBoard(BoardModel newBoardModel) {
     if (newBoardModel instanceof Board) {
       board = newBoardModel;
     }
@@ -139,10 +141,6 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
     add(bottomPanel, BorderLayout.SOUTH);
   }
 
-  private void triggerAi(int i, int i1) {
-    // playerAction.onPlayerMove(i, i1);
-  }
-
   /**
    * Finds a certain hexagon based on the mouse position.
    */
@@ -217,11 +215,16 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
     return Math.min(this.getWidth(), 650);
   }
 
+  @Override
+  public boolean requestFocusInWindow() {
+    return super.requestFocusInWindow();
+  }
+
   /**
    * Paints a board.
    */
   @Override
-  protected void paintComponent(Graphics g) {
+  public void paintComponent(Graphics g) {
     super.paintComponent(g);
     drawBoard(g, (Board) board);
 
@@ -348,25 +351,27 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
    */
   public void handleGameOver() {
     if (!isGameOverHandled) {
-      isGameOverHandled = true;
-      int blackScore = board.getScoreBlack();
-      int whiteScore = board.getScoreWhite();
-      String message;
-      if (blackScore > whiteScore) {
-        message = "Black won with a score of " + blackScore + " to " + whiteScore + "!";
-      } else if (whiteScore > blackScore) {
-        message = "White won with a score of " + whiteScore + " to " + blackScore + "!";
-      } else {
-        message = "It's a draw! Both players scored " + blackScore + ".";
-      }
-      JOptionPane.showMessageDialog(this, message, "Game Over", JOptionPane.INFORMATION_MESSAGE);
-      Window window = SwingUtilities.getWindowAncestor(this);
-      if (window != null) {
-        window.dispose();
+      if (board.isGameOver()) {
+        isGameOverHandled = true;
+        int blackScore = board.getScoreBlack();
+        int whiteScore = board.getScoreWhite();
+        String message;
+        if (blackScore > whiteScore) {
+          message = "Black won with a score of " + blackScore + " to " + whiteScore + "!";
+        } else if (whiteScore > blackScore) {
+          message = "White won with a score of " + whiteScore + " to " + blackScore + "!";
+        } else {
+          message = "It's a draw! Both players scored " + blackScore + ".";
+        }
+        JOptionPane.showMessageDialog(this, message, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+        Window window = SwingUtilities.getWindowAncestor(this);
+        if (window != null) {
+          window.dispose();
+        }
+
       }
 
     }
-
   }
 
   /**
@@ -390,6 +395,7 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
    * Signals to the user it is now their turn.
    */
   public void itIsNowYourTurnMessage() {
+    System.out.println("HIT MESSAGE");
     JOptionPane.showMessageDialog(this, "It's your turn.",
             "Your Turn", JOptionPane.INFORMATION_MESSAGE);
     this.requestFocusInWindow();
@@ -430,4 +436,5 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
   public void setScoreLabel(JLabel scoreLabel) {
     this.scoreLabel = scoreLabel;
   }
+
 }

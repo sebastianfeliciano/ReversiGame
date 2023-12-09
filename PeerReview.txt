@@ -1,0 +1,80 @@
+This is the Peer Review.
+
+Design Critique
+
+The project exhibits a robust design structure,
+leveraging interfaces like IBoard, IMutableModel,
+IView, IViewFeatures, and IModelFeatures for a modular and flexible approach.
+This design is advantageous for creating a scalable and adaptable application.
+However, there are areas of potential confusion, such as the differentiation between
+IROModel and IMutableModel, or the specific roles of
+IViewFeatures and IModelFeatures, which could be more clearly defined.
+The introduction of strategy-related classes like CaptureMaxStrat,
+GoForCornerStrat, and AvoidNextToCornerStrat indicates a thoughtful approach to game logic,
+but the connection and interaction between these strategies and the main model-view-controller
+(MVC) architecture require clarification. These included the design and why strategies were using
+the games previous moves, to make new moves. This caused a lot of confusion for me and made certain
+strategies become incompatible with mine.
+
+Implementation Critique
+
+The implementation details, particularly in classes like Hex, PlayerDisc, and Status, are concise and focused.
+I cannot critique on the axial coordinate system, but I did not understand the PlayerStatus enum completely.
+It contained of two different moves, but was unuseful, because just changing the state during moves or passing.
+GUI components like BoardPanel and JFrameView suggest a user-centric approach,
+but the responsiveness and integration of these components in real-time scenarios need review.
+The mouse clicking was very inaccurate on the hexes which was confusing, and certain problems, like having
+the board only recognizing that the game is over, if one does not have access to view the other player. For
+instance, if Player 1 makes the game end, player2 only knows that the game has ended if they tried to place a move.
+This mechanic was very weird, but understandable.
+
+Strategy classes like CaptureMaxStrat and FallibleReversiStrat
+demonstrate an advanced understanding of game mechanics, but the efficiency and scalability
+of these algorithms under various conditions would be an area to assess further. Getting a list of valid moves,
+then calculating each on in the strategy may seem off. Especially, if you can have a list of valid moves, with the
+pieces already calculated.
+
+
+Documentation and Code Readability
+
+My provider's code maintained high quality javaDoc which allowed me to positively rely on my changes
+'assuming' they had no errors. If I had any questions, I would refer to the javaDoc
+and was able to understand it better.
+Also, the names of every method was concise and allowed me to build connections.
+
+
+Some issues:
+
+In the beginning, I had some issues, regarding access to the mutual model with their methods. I was
+not able to convert and use my model as theirs. I was not initially provided with their IBoard interface,
+however I was able to get it and fix problems. Also, some coupling in their MiniMax strategy,
+which lead us to them changing the implementation a little bit. They also had some coupling in their
+BoardPanel class, but was later fixed from them. Finally, after receiving the underlying interface for their
+board class, I was unable to access .getHexagons(), they fixed it to .getCells(), and I was able to fully
+implement the provider strategy CaptureMex.
+
+Also, the addFeatures(Interface interfaceUsed), which was in multiple interfaces, made it very difficult to addFeatures to
+certain classes, things that are done in constructors. Looking at my main, it is very unorganized, since
+I have to continuously add features. There can be one way to addFeatures and can combine everything together.
+
+The Pass feature, which should be "P" on a keyboard, (as stated on the assignment) is not "P" for the
+provider. They labeled the pass as 'skip', and assigned S to the passing. This was a bit confusing since,
+on my view 'P' is pass and providers, 'S' is pass (or skip).
+
+
+Limitations and Suggestions for Improvement
+
+Optimization and Efficiency: Review the performance of strategy algorithms and GUI components, focusing on optimization for different scenarios.
+
+
+In conclusion, while the project demonstrates a strong foundation in object-oriented design and
+strategy implementation, areas such as performance optimization should be addressed. Implementing these
+suggestions will significantly enhance the project's maintainability and functionality.
+
+
+UI issues:
+
+A small issues I came across was the inability to resize the provider's JPanel. After speaking with
+numerous TA's it was assumed that the providers used a large monitor to make this. I was unable to resize to my liking,
+however, if you are on Mac and hit F3 you will be able to see the entire view, providing the score is there,
+and the "selected (x, y)" exists.

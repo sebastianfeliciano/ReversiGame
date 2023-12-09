@@ -1,22 +1,26 @@
 package controller;
 
 import controller.players.AIPlayer;
+import controller.players.IPlayer;
 import controller.players.Player;
 import controller.players.PlayerType;
 import model.Board;
+import model.BoardModel;
 import model.ReadOnlyBoardModel;
 import model.strategies.CaptureStrategy;
 import model.strategies.GoForCornersStrategy;
 import model.strategies.IStrategy;
 import model.strategies.TryTwo;
+import provider.player.CaptureMaxStrat;
+import adapters.FallibleReversiStratAdapters;
 
 /**
  * A command class for the command line to work.
  */
 
 public class Command {
-  private Player player1;
-  private Player player2;
+  private IPlayer player1;
+  private IPlayer player2;
   private int boardSize;
   private ReadOnlyBoardModel board;
 
@@ -47,36 +51,27 @@ public class Command {
   /**
    * Determines, the player made.
    */
-  private Player findThePlayer(String[] args, int playerNumber) {
+  private IPlayer findThePlayer(String[] args, int playerNumber) {
     String playerType = "human";
     String strategy = null;
     int index = -1;
 
     if (playerNumber == 1) {
       index = 1;
-      if (args.length > 3 && isStrategy(args[3])) {
-        strategy = args[3];
-      }
     } else if (playerNumber == 2 && args.length > 2) {
       index = 2;
     }
 
-    if (index != -1) {
+    if (index != -1 && args.length > index) {
       if (isStrategy(args[index])) {
         playerType = "ai";
-        if (strategy == null) {
-          strategy = args[index];
-        }
+        strategy = args[index];
       } else {
         playerType = args[index];
       }
     }
 
-    PlayerType pType = PlayerType.BLACK;
-    if (playerNumber == 2) {
-      pType = PlayerType.WHITE;
-    }
-
+    PlayerType pType = (playerNumber == 1) ? PlayerType.BLACK : PlayerType.WHITE;
     return createPlayer(pType, playerType, strategy);
   }
 
@@ -92,6 +87,8 @@ public class Command {
       case "corner capture":
       case "capture capture":
       case "corner corner":
+      case "providerstrategy1":
+      case "providerstrategy2":
         return true;
       default:
         return false;
@@ -101,14 +98,20 @@ public class Command {
   /**
    * Creates a player.
    */
-  private Player createPlayer(PlayerType playerType, String playerTypeStr, String strategyStr) {
+  private IPlayer createPlayer(PlayerType playerType, String playerTypeStr, String strategyStr) {
     if (playerTypeStr.equalsIgnoreCase("ai")) {
+      if ((strategyStr.equalsIgnoreCase("providerstrategy1")
+              || strategyStr.equalsIgnoreCase("providerstrategy2"))
+              && playerType == PlayerType.BLACK) {
+        throw new IllegalArgumentException("Player 1 cannot use providerstrategy1");
+      }
       IStrategy strategy = getStrategy(strategyStr);
       return new AIPlayer("AI Player", playerType, board, strategy);
     } else {
       return new Player("Human Player", playerType, board);
     }
   }
+
 
   /**
    * Makes the Strategy based on the string passed.
@@ -125,6 +128,9 @@ public class Command {
         return new TryTwo(new CaptureStrategy(), new GoForCornersStrategy());
       case "corner capture":
         return new TryTwo(new GoForCornersStrategy(), new CaptureStrategy());
+      case "providerstrategy1":
+        return new FallibleReversiStratAdapters(new CaptureMaxStrat()) {
+        };
       default:
         throw new IllegalArgumentException("Invalid strategy: " + strategyStr);
     }
@@ -140,21 +146,21 @@ public class Command {
   /**
    * Returns the first player.
    */
-  public Player getPlayer1() {
+  public IPlayer getPlayer1() {
     return player1;
   }
 
   /**
    * Returns the second player.
    */
-  public Player getPlayer2() {
+  public IPlayer getPlayer2() {
     return player2;
   }
 
   /**
    * Gets the regular board, from the readOnly Board that the players use.
    */
-  public Board getBoard() {
+  public BoardModel getBoard() {
     return board.getRegularBoard();
   }
 }

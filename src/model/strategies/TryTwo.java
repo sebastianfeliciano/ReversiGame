@@ -2,7 +2,7 @@ package model.strategies;
 
 import java.util.Optional;
 
-import controller.players.Player;
+import controller.players.IPlayer;
 import model.Move;
 import model.ReadOnlyBoardModel;
 
@@ -24,7 +24,7 @@ public class TryTwo implements FallibleHexGameStrategy {
   /**
    * Selects a certain move for an AIPlayer.
    */
-  public Optional<Move> selectMove(ReadOnlyBoardModel board, Player player) {
+  public Optional<Move> selectMove(ReadOnlyBoardModel board, IPlayer player) {
     Optional<Move> firstMove = this.first.selectMove(board, player);
     if (firstMove.isPresent()) {
       return firstMove; // the first strategy succeeded

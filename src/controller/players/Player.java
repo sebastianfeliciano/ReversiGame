@@ -1,7 +1,8 @@
 package controller.players;
 
-import controller.MoveHandler;
+import controller.ReversiController;
 import model.ReadOnlyBoardModel;
+import view.DrawInterfaceMocker;
 
 /**
  * Represents a single player in a reversi game.
@@ -11,7 +12,7 @@ public class Player implements IPlayer {
   private final PlayerType type;
   final ReadOnlyBoardModel board;
   public boolean hasPassed;
-  private MoveHandler moveHandler;
+  protected ReversiController controller1;
 
   /**
    * Constructor for player with a name, a player type,
@@ -31,6 +32,11 @@ public class Player implements IPlayer {
     return name;
   }
 
+
+  public void setMoveHandler(ReversiController controller1) {
+    this.controller1 = controller1;
+  }
+
   /**
    * Returns the PLayerType of a player.
    */
@@ -47,6 +53,11 @@ public class Player implements IPlayer {
   }
 
 
+  @Override
+  public void makeMove() {
+    //Makes a move for the player. Degates to the controller.
+  }
+
   /**
    * Sets the player to pass and checks if the game is over.
    */
@@ -55,21 +66,11 @@ public class Player implements IPlayer {
     board.getRegularBoard().checkGameOver();
   }
 
-  /**
-   * A Set Move Handler, that sets the move for the Player.
-   */
-  public void setMoveHandler(MoveHandler moveHandler) {
-    this.moveHandler = moveHandler;
+  @Override
+  public void addFeatures(DrawInterfaceMocker features) {
+    // Features added, do not need to reassign.
   }
 
-  /**
-   * This makes the move for the Player that tells the controller what to do.
-   */
-  public void makeMove(int row, int column) {
-    if (moveHandler != null) {
-      moveHandler.handleMove(this, row, column);
-    }
-  }
 
   /**
    * Returns "White" or "Black" for score purposes and acknowledgment.

@@ -64,7 +64,7 @@ public class ExamplePlayerTests {
     Board firstBoard = new Board(7);
     Player one = new Player("Sebastian", PlayerType.WHITE, firstBoard);
     Player two = new Player("Christian", PlayerType.BLACK, firstBoard);
-    one.makeMove(-1, -1);
+    one.makeMove();
     Assert.assertEquals(firstBoard.getCurrentHex(2, 2).getPlayerType(),
             PlayerType.EMPTY);
   }

@@ -1,27 +1,16 @@
-import java.awt.*;
-import java.awt.event.ComponentListener;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import controller.Command;
-import controller.SquareController;
 import controller.players.IPlayer;
 import controller.ReversiController;
-import controller.players.Player;
-import controller.players.PlayerType;
-import model.Board;
 import model.BoardModel;
-import model.SquareBoard;
-import view.DrawInterfaceMocker;
 import view.DrawSquareUtils;
-import view.DrawUtils;
 import view.FrameSetup;
 import view.Game;
 import view.HintKeyToggle;
 import view.DrawUtilsWithHints;
 import view.HintSystem;
-import view.IGameControlled;
 import view.ReversiView;
 
 /**

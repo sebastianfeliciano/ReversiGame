@@ -22,7 +22,6 @@ public class HintKeyToggle extends KeyAdapter {
 
   public void keyPressed(KeyEvent e) {
      if (e.getKeyCode() == KeyEvent.VK_H) {
-      System.out.println("Pressed");
       if (this.playerType == PlayerType.BLACK) {
         hintSystem.toggleHintsForBlack();
       } else if (this.playerType == PlayerType.WHITE) {

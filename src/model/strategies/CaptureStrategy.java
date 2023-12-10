@@ -30,7 +30,6 @@ public class CaptureStrategy implements FallibleHexGameStrategy {
   /**
    * Selects a certain move the AIPlayer to make based on the board.
    */
-  @Override
   public Optional<Move> selectMove(ReadOnlyBoardModel board, IPlayer player) {
     logger.info("Selecting move for player: " + player.getName() + " " + player.getColor());
     List<Move> validMoves = board.getValidMovesWithCaptures(player);

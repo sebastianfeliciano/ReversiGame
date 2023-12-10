@@ -119,6 +119,48 @@ public class SquareBoard extends Board {
     return validMoves;
   }
 
+  @Override
+  public int calculateCaptures(int x, int y, PlayerType player, BoardModel board) {
+    int count = 0;
+    PlayerType opponent = player.nextPlayer();
+
+    for (DirectionsSquareEnum dir : DirectionsSquareEnum.values()) {
+      int nextX = x + dir.getXMove();
+      int nextY = y + dir.getYMove();
+
+      if (!isValidCoordinate(nextX, nextY)) {
+        continue;
+      }
+
+      Shape neighborSquare = getCurrentHex(nextY, nextX);
+      if (neighborSquare == null || neighborSquare.getPlayerType() != opponent) {
+        continue;
+      }
+
+      List<Shape> piecesToFlip = new ArrayList<>();
+
+      while (isValidCoordinate(nextX, nextY)) {
+        Shape currentSquare = getCurrentHex(nextY, nextX);
+
+        if (currentSquare == null) break;
+        if (currentSquare.getPlayerType() == opponent) {
+          piecesToFlip.add(currentSquare);
+        } else if (currentSquare.getPlayerType() == player) {
+          count += piecesToFlip.size();
+          break;
+        } else {
+          break;
+        }
+
+        nextX += dir.getXMove();
+        nextY += dir.getYMove();
+      }
+    }
+
+    return count;
+  }
+
+
 
   @Override
   public void placePiece(int x, int y, PlayerType type) {

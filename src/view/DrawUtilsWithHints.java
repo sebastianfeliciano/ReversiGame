@@ -16,8 +16,6 @@ public class DrawUtilsWithHints extends DrawUtils implements ReversiView {
   ReadOnlyBoardModel boardModel;
   PlayerType currentPlayer;
 
-  private boolean eventListenersInitialized = false;
-
   public DrawUtilsWithHints(ReadOnlyBoardModel boardModel, HintSystem hintSystem, PlayerType currentPlayer) {
     super(boardModel);
     this.hintSystem = hintSystem;
@@ -29,35 +27,13 @@ public class DrawUtilsWithHints extends DrawUtils implements ReversiView {
       }
     });
     this.addKeyListener(new HintKeyToggle(hintSystem, currentPlayer, this));
-//    System.out.println("SettingUPKEYLISTNER");
     setFocusable(true);
     this.requestFocusInWindow();
-    this.addFocusListener(new FocusListener() {
-      @Override
-      public void focusGained(FocusEvent e) {
-        System.out.println("DrawUtilsWithHints gained focus");
-      }
-
-      @Override
-      public void focusLost(FocusEvent e) {
-        System.out.println("DrawUtilsWithHints lost focus");
-      }
-    });
-
   }
 
   @Override
   public void setEventListener(IGameControlled controller) {
     super.setEventListener(controller);
-    eventListenersInitialized = true;
-  }
-
-  public void setupKeyListener() {
-    if (isEventListenersInitialized()) {
-      HintKeyToggle hintKeyToggle = new HintKeyToggle(hintSystem, currentPlayer, this);
-      this.addKeyListener(hintKeyToggle);
-      System.out.println("Added toogle");
-    }
   }
 
   @Override
@@ -154,8 +130,4 @@ public class DrawUtilsWithHints extends DrawUtils implements ReversiView {
     return size;
   }
 
-
-  public boolean isEventListenersInitialized() {
-    return eventListenersInitialized;
-  }
 }

@@ -423,7 +423,6 @@ public class DrawUtils extends JPanel implements DrawInterfaceMocker, ReversiVie
    * Signals to the user it is now their turn.
    */
   public void itIsNowYourTurnMessage() {
-    System.out.println("HIT MESSAGE");
     JOptionPane.showMessageDialog(this, "It's your turn.",
             "Your Turn", JOptionPane.INFORMATION_MESSAGE);
     requestFocusInWindow();

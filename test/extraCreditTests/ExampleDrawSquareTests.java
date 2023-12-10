@@ -1,4 +1,4 @@
-package extraCreditTests;
+package ExtraCreditTests;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,9 +12,6 @@ import model.BoardModel;
 import model.SquareBoard;
 import view.DrawSquareUtils;
 
-/**
- * A list of tests for making sure the square board is drawn out completely.
- */
 public class ExampleDrawSquareTests {
 
 

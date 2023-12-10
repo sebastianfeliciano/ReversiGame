@@ -22,6 +22,9 @@ public class DrawUtilsWithHints extends DrawUtils implements ReversiView {
   ReadOnlyBoardModel boardModel;
   PlayerType currentPlayer;
 
+  /**
+   * Constructs the Model, with the hints ability.
+   */
   public DrawUtilsWithHints(ReadOnlyBoardModel boardModel,
                             HintSystem hintSystem, PlayerType currentPlayer) {
     super(boardModel);
@@ -111,7 +114,8 @@ public class DrawUtilsWithHints extends DrawUtils implements ReversiView {
 
     int offSet = (sizeOfEntireBoard - currentHexesMade)
             * horizontalDistanceBetweenAdjacentHexagonCenters / 2;
-    return startX + offSet + (column - spacesBefore) * horizontalDistanceBetweenAdjacentHexagonCenters;
+    return startX + offSet + (column - spacesBefore)
+            * horizontalDistanceBetweenAdjacentHexagonCenters;
   }
 
   private int calculateCenterY(Shape hex) {

@@ -15,7 +15,6 @@ public class SquareBoard extends Board {
 
   /**
    * Constructs a SquareBoard.
-   * @param sizeOfBoard
    */
   public SquareBoard(int sizeOfBoard) {
     super(sizeOfBoard);
@@ -40,10 +39,14 @@ public class SquareBoard extends Board {
       }
     }
 
-    this.getCurrentHex(this.boardSize / 2 - 1, this.boardSize / 2 - 1).setPlayerType(PlayerType.BLACK);
-    this.getCurrentHex(this.boardSize / 2 - 1, this.boardSize / 2).setPlayerType(PlayerType.WHITE);
-    this.getCurrentHex(this.boardSize / 2, this.boardSize / 2 - 1).setPlayerType(PlayerType.WHITE);
-    this.getCurrentHex(this.boardSize / 2, this.boardSize / 2).setPlayerType(PlayerType.BLACK);
+    this.getCurrentHex(this.boardSize / 2 - 1,
+            this.boardSize / 2 - 1).setPlayerType(PlayerType.BLACK);
+    this.getCurrentHex(this.boardSize / 2 - 1,
+            this.boardSize / 2).setPlayerType(PlayerType.WHITE);
+    this.getCurrentHex(this.boardSize / 2,
+            this.boardSize / 2 - 1).setPlayerType(PlayerType.WHITE);
+    this.getCurrentHex(this.boardSize / 2,
+            this.boardSize / 2).setPlayerType(PlayerType.BLACK);
   }
 
 
@@ -149,7 +152,9 @@ public class SquareBoard extends Board {
       while (isValidCoordinate(nextX, nextY)) {
         Shape currentSquare = getCurrentHex(nextY, nextX);
 
-        if (currentSquare == null) break;
+        if (currentSquare == null) {
+          break;
+        }
         if (currentSquare.getPlayerType() == opponent) {
           piecesToFlip.add(currentSquare);
         } else if (currentSquare.getPlayerType() == player) {
@@ -168,7 +173,6 @@ public class SquareBoard extends Board {
   }
 
 
-
   @Override
   public void placePiece(int x, int y, PlayerType type) {
     this.getCurrentHex(y, x).setPlayerType(type);
@@ -176,7 +180,6 @@ public class SquareBoard extends Board {
     setBlackBoolean(false);
     checkGameOver();
   }
-
 
 
 }

@@ -1,9 +1,9 @@
-package ExtraCreditTests;
+package extraCreditTests;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 
 import controller.MockController;
 import controller.players.Player;
@@ -13,6 +13,9 @@ import model.ReadOnlyBoardModel;
 import model.SquareBoard;
 import view.DrawUtils;
 
+/**
+ * A series of tests for the controller on a square board.
+ */
 public class ExampleMockControllerSquare {
     @Test
     public void testOnPass() {

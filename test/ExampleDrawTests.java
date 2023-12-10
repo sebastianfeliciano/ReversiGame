@@ -1,5 +1,5 @@
 import model.Board;
-import model.HexShape;
+
 
 import org.junit.Assert;
 import org.junit.Test;

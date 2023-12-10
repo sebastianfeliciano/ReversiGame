@@ -5,18 +5,25 @@ import model.ReadOnlyBoardModel;
 import controller.players.PlayerType;
 import model.Shape;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
+/**
+ * As an assist to players,
+ * this class enables a “hint” mode where the selected cell
+ * shows how many discs would be flipped if that player chose that move.
+ */
 public class DrawUtilsWithHints extends DrawUtils implements ReversiView {
   private final HintSystem hintSystem;
   ReadOnlyBoardModel boardModel;
   PlayerType currentPlayer;
 
-  public DrawUtilsWithHints(ReadOnlyBoardModel boardModel, HintSystem hintSystem, PlayerType currentPlayer) {
+  public DrawUtilsWithHints(ReadOnlyBoardModel boardModel,
+                            HintSystem hintSystem, PlayerType currentPlayer) {
     super(boardModel);
     this.hintSystem = hintSystem;
     this.boardModel = boardModel;
@@ -48,11 +55,11 @@ public class DrawUtilsWithHints extends DrawUtils implements ReversiView {
     boolean black = this.currentPlayer == PlayerType.BLACK;
 
     boolean showHints = false;
-    if (black){
-       showHints = hintSystem.areHintsEnabledForBlack();
+    if (black) {
+      showHints = hintSystem.areHintsEnabledForBlack();
     }
     if (!black) {
-       showHints = hintSystem.areHintsEnabledForWhite();
+      showHints = hintSystem.areHintsEnabledForWhite();
     }
 
     if (showHints) {
@@ -67,8 +74,9 @@ public class DrawUtilsWithHints extends DrawUtils implements ReversiView {
     }
 
     if (showHints && selectedHex.getPlayerType() == PlayerType.EMPTY) {
-      int flips = boardModel.getRegularBoard().calculateCaptures(Integer.parseInt(selectedHex.getColumn()),
-              Integer.parseInt(selectedHex.getRow()), this.currentPlayer, board);
+      BoardModel board1 = boardModel.getRegularBoard();
+      int flips = board1.calculateCaptures(Integer.parseInt(selectedHex.getColumn()),
+              Integer.parseInt(selectedHex.getRow()), this.currentPlayer, board1);
       int centerX = calculateCenterX(selectedHex);
       int centerY = calculateCenterY(selectedHex);
       drawHint(g, centerX + 215, centerY + 122, flips);
@@ -96,11 +104,13 @@ public class DrawUtilsWithHints extends DrawUtils implements ReversiView {
     int startX = getWidth() / 2 - (midPoint * hexSize * 3 / 2);
 
     int currentRow = Integer.parseInt(hex.getRow());
-    int currentHexesMade = currentRow <= midPoint ? midPoint + currentRow + 1 : sizeOfEntireBoard - (currentRow - midPoint);
+    int currentHexesMade = currentRow <= midPoint ? midPoint
+            + currentRow + 1 : sizeOfEntireBoard - (currentRow - midPoint);
     int spacesBefore = (sizeOfEntireBoard - currentHexesMade);
     int column = Integer.parseInt(hex.getColumn());
 
-    int offSet = (sizeOfEntireBoard - currentHexesMade) * horizontalDistanceBetweenAdjacentHexagonCenters / 2;
+    int offSet = (sizeOfEntireBoard - currentHexesMade)
+            * horizontalDistanceBetweenAdjacentHexagonCenters / 2;
     return startX + offSet + (column - spacesBefore) * horizontalDistanceBetweenAdjacentHexagonCenters;
   }
 

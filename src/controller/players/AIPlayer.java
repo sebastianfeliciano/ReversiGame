@@ -2,7 +2,6 @@ package controller.players;
 
 import java.util.Optional;
 
-import controller.ReversiController;
 import model.ReadOnlyBoardModel;
 import model.strategies.IStrategy;
 import model.Move;

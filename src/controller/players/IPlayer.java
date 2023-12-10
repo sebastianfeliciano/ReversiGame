@@ -1,6 +1,5 @@
 package controller.players;
 
-import controller.ReversiController;
 import view.DrawInterfaceMocker;
 import view.IGameControlled;
 

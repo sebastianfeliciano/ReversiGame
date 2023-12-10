@@ -44,8 +44,6 @@ public class DrawUtils extends JPanel implements DrawInterfaceMocker, ReversiVie
   HintKeyToggle hintKeyTogglePlayer1;
 
 
-
-
   private boolean isGameOverHandled = false;
 
 
@@ -57,6 +55,8 @@ public class DrawUtils extends JPanel implements DrawInterfaceMocker, ReversiVie
   }
 
   public void addKeyListener(HintKeyToggle hintKeyTogglePlayer1) {
+    //Do not need to implement, since it is for the other Component linked
+    //to this class.
   }
 
   @Override
@@ -159,8 +159,7 @@ public class DrawUtils extends JPanel implements DrawInterfaceMocker, ReversiVie
   }
 
 
-
-  public Color getbackground(){
+  public Color getbackground() {
     return new Color(this.getWindowWidth() / 11, 34, 83);
   }
 
@@ -312,6 +311,7 @@ public class DrawUtils extends JPanel implements DrawInterfaceMocker, ReversiVie
 
   /**
    * Getter for the hoveredHex field.
+   *
    * @return The Shape object that is currently being hovered over.
    */
   public Shape getHoveredHex() {
@@ -454,7 +454,7 @@ public class DrawUtils extends JPanel implements DrawInterfaceMocker, ReversiVie
    * Updates the score on the frame.
    */
   public void updateScore(int blackScore, int whiteScore) {
-    if (scoreLabel != null){
+    if (scoreLabel != null) {
       scoreLabel.setText("Black: " + blackScore + " White: " + whiteScore);
     }
   }

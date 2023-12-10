@@ -5,8 +5,7 @@ import controller.players.PlayerType;
 
 import model.BoardModel;
 
-import model.Shape;
-import view.DrawInterfaceMocker;
+
 import view.IGameControlled;
 import view.ReversiView;
 

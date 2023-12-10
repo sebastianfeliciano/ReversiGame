@@ -14,10 +14,13 @@ import view.HintSystem;
 import view.ReversiView;
 
 /**
- * Represents the GUI view.
+ * Represents the Game.
  */
 public class Reversi {
 
+  /**
+   * Entry point for Reversi.
+   */
   public static void main(String[] args) {
 
     Command commandLine = new Command(args);
@@ -47,8 +50,10 @@ public class Reversi {
     JFrame frame2 = new JFrame("Reversi - Player 2");
 
 
-    JLabel frame1Setup = FrameSetup.setupFrame(frame1, view1, "You are Player " + player1.getColor());
-    JLabel frame2Setup = FrameSetup.setupFrame(frame2, view2, "You are Player " + player2.getColor());
+    JLabel frame1Setup = FrameSetup.setupFrame(frame1, view1,
+            "You are Player " + player1.getColor());
+    JLabel frame2Setup = FrameSetup.setupFrame(frame2, view2,
+            "You are Player " + player2.getColor());
 
     view1.setScoreLabel(frame1Setup);
     view2.setScoreLabel(frame2Setup);
@@ -76,27 +81,6 @@ public class Reversi {
     model.start();
   }
 }
-
-
-//IBoardAdapter boardAdapter = new IBoardAdapter(board);
-//IViewAdapter viewAdapter = new IViewAdapter(view2);
-//IPlayerAdapter playerAdapter1 = new IPlayerAdapter(player2);
-//JFrameViewAdapter viewAdapter1 = new JFrameViewAdapter(board, view2);
-//IGraphicalReversiViewAdapter graphicalReversiView
-//        = new IGraphicalReversiViewAdapter(viewAdapter, label, viewAdapter1);
-//IViewFeaturesAdapter featuresAdapter
-//        = new IViewFeaturesAdapter(playerAdapter1, board, graphicalReversiView);
-//playerAdapter1.addFeatures(featuresAdapter);
-//graphicalReversiView.addFeatures(featuresAdapter);
-//featuresAdapter.setPlayer(playerAdapter1);
-//IROModelAdapter readonlyBoardAdapted = new IROModelAdapter(board);
-//ReversiViewAdapter viewAdapter2 = new ReversiViewAdapter(view2, board);
-//viewAdapter1.addFeatures(featuresAdapter);
-//IModelFeaturesAdapter controllerAdapter = new IModelFeaturesAdapter(player2, board, view2);
-//readonlyBoardAdapted.addFeatures(controllerAdapter);
-//viewAdapter1.add(label);
-//viewAdapter2.addFeatures(featuresAdapter);
-//viewAdapter1.setVisible(true);
 
 
 

@@ -1,11 +1,10 @@
 package view;
 
-import controller.ReversiController;
 import controller.players.Player;
 import controller.players.PlayerType;
 import model.Board;
 import model.BoardModel;
-import model.HexShape;
+import model.Shape;
 import model.ReadOnlyBoardModel;
 
 import java.awt.BorderLayout;
@@ -30,17 +29,22 @@ import javax.swing.SwingUtilities;
 /**
  * Draws out our board and hexagons.
  */
-public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocker {
+public class DrawUtils extends JPanel implements DrawInterfaceMocker, ReversiView {
   private Player currentPlayer;
 
   private ReadOnlyBoardModel board;
   boolean isClicked = false;
-  private HexShape firstClickedHex;
-  private HexShape hoveredHex;
+  private Shape firstClickedHex;
+  private Shape hoveredHex;
   PlayerActionListener playerAction;
   JLabel scoreLabel;
   private Player humanPlayer;
   private Player aiPlayer;
+
+  HintKeyToggle hintKeyTogglePlayer1;
+
+
+
 
   private boolean isGameOverHandled = false;
 
@@ -48,8 +52,11 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
   /**
    * Sets the player action for the view. Allowing the view to recognize the
    */
-  public void setEventListener(ReversiController playerAction) {
+  public void setEventListener(IGameControlled playerAction) {
     this.playerAction = playerAction;
+  }
+
+  public void addKeyListener(HintKeyToggle hintKeyTogglePlayer1) {
   }
 
   @Override
@@ -71,6 +78,12 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
     repaint();
   }
 
+  @Override
+  public ReadOnlyBoardModel getBoard() {
+    return this.board;
+  }
+
+
   /**
    * Constructs a board to be made in the game.
    */
@@ -84,7 +97,7 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
     addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
         try {
-          HexShape newClickedHex = findHex(e.getX(), e.getY());
+          Shape newClickedHex = findHex(e.getX(), e.getY());
           if (firstClickedHex != null && firstClickedHex.equals(newClickedHex)) {
             firstClickedHex = null;
             System.out.println("Deselected: " + newClickedHex.getColumn()
@@ -100,7 +113,7 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
     addMouseMotionListener(new MouseAdapter() {
       public void mouseMoved(MouseEvent e) {
         try {
-          HexShape currentHover = findHex(e.getX(), e.getY());
+          Shape currentHover = findHex(e.getX(), e.getY());
           if (hoveredHex != currentHover) {
             hoveredHex = currentHover;
             repaint();
@@ -141,11 +154,21 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
     add(bottomPanel, BorderLayout.SOUTH);
   }
 
+  public Shape getFirstClickedHex() {
+    return firstClickedHex;
+  }
+
+
+
+  public Color getbackground(){
+    return new Color(this.getWindowWidth() / 11, 34, 83);
+  }
+
   /**
    * Finds a certain hexagon based on the mouse position.
    */
   @Override
-  public HexShape findHex(int mouseX, int mouseY) {
+  public Shape findHex(int mouseX, int mouseY) {
     int hexSize = getHexSize();
     int sizeOfEntireBoard = board.getBoardSize();
     int midPoint = board.getMidPoint();
@@ -210,12 +233,11 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
   /**
    * Gets the window width.
    */
-  @Override
   public int getWindowWidth() {
     return Math.min(this.getWidth(), 650);
   }
 
-  @Override
+
   public boolean requestFocusInWindow() {
     return super.requestFocusInWindow();
   }
@@ -223,7 +245,6 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
   /**
    * Paints a board.
    */
-  @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     drawBoard(g, (Board) board);
@@ -236,8 +257,7 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
   /**
    * Draws a single hexagon.
    */
-  @Override
-  public void drawEachHexagon(Graphics g, HexShape hex, int centerX, int centerY,
+  public void drawEachHexagon(Graphics g, Shape hex, int centerX, int centerY,
                               int hexSize, PlayerType playerType) {
     int sides = 6;
     Polygon hexagon = new Polygon();
@@ -274,7 +294,6 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
   /**
    * Sets the player type for color purposes.
    */
-  @Override
   public Color getColor(PlayerType playerType) {
     Color color;
     switch (playerType) {
@@ -290,6 +309,15 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
     }
     return color;
   }
+
+  /**
+   * Getter for the hoveredHex field.
+   * @return The Shape object that is currently being hovered over.
+   */
+  public Shape getHoveredHex() {
+    return hoveredHex;
+  }
+
 
   /**
    * Builds the board out.
@@ -317,7 +345,7 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
       int spacesBefore = (sizeOfEntireBoard - currentHexesMade);
 
       for (int h = 0; h < currentHexesMade; h++) {
-        HexShape currentHex;
+        Shape currentHex;
         if (currentRow <= midPoint) {
           currentHex = board.getCurrentHex(currentRow, spacesBefore + h);
         } else {
@@ -388,7 +416,7 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
   public void showThatIPassedTurnMessage() {
     JOptionPane.showMessageDialog(this, "You have passed your turn.",
             "Turn Passed", JOptionPane.PLAIN_MESSAGE);
-    this.requestFocusInWindow();
+    requestFocusInWindow();
   }
 
   /**
@@ -398,7 +426,7 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
     System.out.println("HIT MESSAGE");
     JOptionPane.showMessageDialog(this, "It's your turn.",
             "Your Turn", JOptionPane.INFORMATION_MESSAGE);
-    this.requestFocusInWindow();
+    requestFocusInWindow();
   }
 
   /**
@@ -427,7 +455,9 @@ public class DrawUtils extends JPanel implements ReversiView, DrawInterfaceMocke
    * Updates the score on the frame.
    */
   public void updateScore(int blackScore, int whiteScore) {
-    scoreLabel.setText("Black: " + blackScore + " White: " + whiteScore);
+    if (scoreLabel != null){
+      scoreLabel.setText("Black: " + blackScore + " White: " + whiteScore);
+    }
   }
 
   /**

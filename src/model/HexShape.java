@@ -8,7 +8,7 @@ import view.PlayerButton;
 /**
  * Represents a certain hex cell in the board.
  */
-public class HexShape {
+public class HexShape implements Shape {
 
   //The most common approach is to
   // offset every other column or row.
@@ -92,6 +92,8 @@ public class HexShape {
 
   /**
    * Sets the current player type.
+   *
+   * @return
    */
   public PlayerType setPlayerType(PlayerType type) {
     return this.currentPlayerType = type;

@@ -38,7 +38,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
 
   private PlayerType currentTurn;
   public int boardSize;
-  public HexShape[][] cellsThatMakeTheBoard;
+  public Shape[][] cellsThatMakeTheBoard;
   private boolean whitePassed = false;
   private boolean blackPassed = false;
 
@@ -57,12 +57,10 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
    */
   public Board(int sizeOfBoard) {
     this.currentTurn = PlayerType.BLACK;
-    if (sizeOfBoard < 5 || (sizeOfBoard % 2 == 0)) {
-      throw new IllegalStateException("The game must be a minimum of size 5 and cannot be even!");
-    }
+    ensureValidRadius(sizeOfBoard);
 
     boardSize = sizeOfBoard;
-    cellsThatMakeTheBoard = new HexShape[boardSize][boardSize];
+    cellsThatMakeTheBoard = new Shape[boardSize][boardSize];
     int midPoint = boardSize / 2;
 
     for (int row = 0; row < boardSize; row++) {
@@ -83,25 +81,13 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
         cellsThatMakeTheBoard[row][column] = new HexShape(r, q, null);
       }
     }
-    this.getCurrentHex(this.boardSize / 2,
-            this.boardSize / 2 + 1).setPlayerType(PlayerType.BLACK);
-    this.getCurrentHex(this.boardSize / 2 + 1,
-            this.boardSize / 2).setPlayerType(PlayerType.WHITE);
-    this.getCurrentHex(this.boardSize / 2,
-            this.boardSize / 2 - 1).setPlayerType(PlayerType.WHITE);
-    this.getCurrentHex(this.boardSize / 2 + 1,
-            this.boardSize / 2 - 1).setPlayerType(PlayerType.BLACK);
-    this.getCurrentHex(this.boardSize / 2 - 1,
-            this.boardSize / 2).setPlayerType(PlayerType.BLACK);
-    this.getCurrentHex(this.boardSize / 2 - 1,
-            this.boardSize / 2 + 1).setPlayerType(PlayerType.WHITE);
-
+    initializeBoard();
   }
 
   /**
    * Returns the current hex shape based on row and column.
    */
-  public HexShape getCurrentHex(int row, int column) {
+  public Shape getCurrentHex(int row, int column) {
     return cellsThatMakeTheBoard[row][column];
   }
 
@@ -139,6 +125,8 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
    * or direction is invalid.
    */
   public void flipPieces(int x, int y, PlayerType currentPlayer) {
+    int q = x + this.getBoardSize() / 2;
+    int r = y + this.getBoardSize() / 2;
     if (currentPlayer == null) {
       System.out.println("Current player is null!");
       return;
@@ -151,14 +139,14 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     }
 
     for (DirectionsEnum dir : DirectionsEnum.values()) {
-      int nextQ = x + dir.getQMove();
-      int nextR = y + dir.getRMove();
+      int nextQ = q + dir.getQMove();
+      int nextR = r + dir.getRMove();
 
       // Skip if the next hex is not opponent's or out of bounds
       if (!isValidCoordinate(nextQ, nextR)) {
         continue;
       }
-      HexShape neighborHex = getCurrentHex(nextR, nextQ);
+      Shape neighborHex = getCurrentHex(nextR, nextQ);
       if (neighborHex == null) {
         continue;
       }
@@ -167,7 +155,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
         continue;
       }
 
-      List<HexShape> piecesToFlip = new ArrayList<>();
+      List<Shape> piecesToFlip = new ArrayList<>();
 
       while (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ) != null
               && getCurrentHex(nextR, nextQ).getPlayerType() == opponent) {
@@ -177,7 +165,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
 
         if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ) != null
                 && getCurrentHex(nextR, nextQ).getPlayerType() == currentPlayer) {
-          for (HexShape piece : piecesToFlip) {
+          for (Shape piece : piecesToFlip) {
             piece.setPlayerType(currentPlayer);
           }
           break;
@@ -211,7 +199,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
       if (!isValidCoordinate(nextQ, nextR)) {
         continue;
       }
-      HexShape neighborHex = getCurrentHex(nextR, nextQ);
+      Shape neighborHex = getCurrentHex(nextR, nextQ);
       if (neighborHex == null) {
         continue;
       }
@@ -285,11 +273,22 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
    * Places a certain piece in the board, based on
    * row and column, and playerType.
    */
-  public void placePiece(int q, int r, PlayerType type) {
+  public void placePiece(int x, int y, PlayerType type) {
+    int q = x + this.getBoardSize() / 2;
+    int r = y + this.getBoardSize() / 2;
+
     this.getCurrentHex(r, q).setPlayerType(type);
     whitePassed = false;
     blackPassed = false;
     checkGameOver();
+  }
+
+  public void setWhiteBoolean(boolean b) {
+    b = whitePassed;
+  }
+
+  public void setBlackBoolean(boolean b) {
+    b = blackPassed;
   }
 
   /**
@@ -350,7 +349,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   private boolean isPlayerTrapped(PlayerType player) {
     for (int i = 0; i < boardSize; i++) {
       for (int j = 0; j < boardSize; j++) {
-        HexShape hex = cellsThatMakeTheBoard[i][j];
+        Shape hex = cellsThatMakeTheBoard[i][j];
         if (hex != null && hex.getPlayerType() == player) {
           if (isValidMove(i - boardSize / 2, j - boardSize / 2, player)) {
             return true;
@@ -368,7 +367,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   public boolean isBoardFull() {
     for (int i = 0; i < boardSize; i++) {
       for (int j = 0; j < boardSize; j++) {
-        HexShape hex = getCurrentHex(i, j);
+        Shape hex = getCurrentHex(i, j);
         if (hex == null) {
           continue;
         }
@@ -457,7 +456,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
       }
       int spacesBefore = (getBoardSize() - currentHexesMade);
       for (int h = 0; h < currentHexesMade; h++) {
-        HexShape currentHex;
+        Shape currentHex;
 
         if (currentRow <= getMidPoint()) {
           currentHex = this.getCurrentHex(currentRow, h + spacesBefore);
@@ -475,7 +474,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
     return validMoves;
   }
 
-  private void dupeFixer(IPlayer player, List<Move> validMoves, HexShape currentHex) {
+  private void dupeFixer(IPlayer player, List<Move> validMoves, Shape currentHex) {
     if (isValidMove(Integer.parseInt(currentHex.getColumn()),
             Integer.parseInt(currentHex.getRow()), player.getType())) {
 
@@ -500,7 +499,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
             (x == boardSize - 1 && y == boardSize - 1);
   }
 
-  public HexShape[][] getCellsThatMakeTheBoard() {
+  public Shape[][] getCellsThatMakeTheBoard() {
     return this.cellsThatMakeTheBoard;
   }
 
@@ -508,7 +507,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
   /**
    * Calculates the amount of capture a move does.
    */
-  public int calculateCaptures(int q, int r, PlayerType player, Board board) {
+  public int calculateCaptures(int q, int r, PlayerType player, BoardModel board) {
     int x = q + board.getBoardSize() / 2;
     int y = r + board.getBoardSize() / 2;
     int count = 0;
@@ -524,7 +523,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
       if (!isValidCoordinate(nextQ, nextR)) {
         continue;
       }
-      HexShape neighborHex = getCurrentHex(nextR, nextQ);
+      Shape neighborHex = getCurrentHex(nextR, nextQ);
       if (neighborHex == null) {
         continue;
       }
@@ -532,7 +531,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
       if (neighborHex.getPlayerType() != opponent) {
         continue;
       }
-      List<HexShape> piecesToFlip = new ArrayList<>();
+      List<Shape> piecesToFlip = new ArrayList<>();
 
       while (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ) != null
               && getCurrentHex(nextR, nextQ).getPlayerType() == opponent) {
@@ -541,7 +540,7 @@ public class Board implements ReadOnlyBoardModel, BoardModel {
         nextR += dir.getRMove();
 
         if (isValidCoordinate(nextQ, nextR) && getCurrentHex(nextR, nextQ) != null) {
-          HexShape currentHex = getCurrentHex(nextR, nextQ);
+          Shape currentHex = getCurrentHex(nextR, nextQ);
           if (currentHex.getPlayerType() == player) {
             count += piecesToFlip.size();
             break;

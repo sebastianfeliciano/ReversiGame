@@ -8,7 +8,7 @@ import controller.players.PlayerType;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-import model.HexShape;
+import model.Shape;
 
 /**
  * Represents a player's button (PlayerType).
@@ -18,7 +18,7 @@ public class PlayerButton extends JButton {
   /**
    * Constructors a player button on a hex.
    */
-  public PlayerButton(HexShape hex) {
+  public PlayerButton(Shape hex) {
     PlayerType type = PlayerType.EMPTY;
     hex.setButton(this);
     setBorderPainted(false);

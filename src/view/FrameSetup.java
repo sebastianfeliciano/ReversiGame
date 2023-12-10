@@ -20,13 +20,11 @@ public class FrameSetup {
    * access the score for score updating purposes.
    */
   public static JLabel setupFrame(JFrame frame, ReversiView view,
-                                  String playerTypeLabel, String score) {
+                                  String playerTypeLabel) {
     JLabel playerType = new JLabel(playerTypeLabel);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setLayout(new BorderLayout());
     frame.add((Component) view, BorderLayout.CENTER);
-    JLabel scoreLabel = new JLabel(score);
-    frame.add(scoreLabel, BorderLayout.NORTH);
     JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
     bottomPanel.add(playerType);
     frame.add(bottomPanel, BorderLayout.SOUTH);
@@ -34,7 +32,7 @@ public class FrameSetup {
     frame.setLocationRelativeTo(null);
     frame.setVisible(true);
 
-    return scoreLabel;
+    return new JLabel("D");
   }
 
 }

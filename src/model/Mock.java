@@ -108,7 +108,7 @@ public class Mock extends Board
    * Returns the current hex in a board.
    */
   @Override
-  public HexShape getCurrentHex(int row, int column) {
+  public Shape getCurrentHex(int row, int column) {
     return cellsThatMakeTheBoard[row][column];
   }
 

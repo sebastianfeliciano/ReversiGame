@@ -2,6 +2,7 @@ package controller.players;
 
 import controller.ReversiController;
 import view.DrawInterfaceMocker;
+import view.IGameControlled;
 
 /**
  * A Player interface for all text-based views, to be used in the Reversi game.
@@ -23,7 +24,7 @@ public interface IPlayer {
 
   String getName();
 
-  void setMoveHandler(ReversiController controller1);
+  void setMoveHandler(IGameControlled controller1);
 
   String getColor();
 }

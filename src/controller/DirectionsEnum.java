@@ -4,7 +4,7 @@ package controller;
  * Sets up an enum for directions.
  */
 public enum DirectionsEnum {
-  NORTH_EAST(1, -1),
+  NORTH_EAST( 1, -1),
   EAST(1, 0),
   SOUTH_EAST(0, 1),
   SOUTH_WEST(-1, 1),

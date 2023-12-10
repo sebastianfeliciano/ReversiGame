@@ -10,6 +10,7 @@ import controller.players.Player;
 import controller.players.PlayerType;
 import model.HexShape;
 import model.ReadOnlyBoardModel;
+import model.Shape;
 import provider.controller.IModelFeatures;
 import provider.model.Hex;
 import provider.model.IBoard;
@@ -203,7 +204,7 @@ public class IROModelAdapter implements IROModel {
       return false;
     }
 
-    HexShape hex = model.getCurrentHex(arrayIndexR, arrayIndexQ);
+    Shape hex = model.getCurrentHex(arrayIndexR, arrayIndexQ);
     if (hex == null || hex.getPlayerType() != PlayerType.EMPTY) {
       return false;
     }
@@ -235,7 +236,7 @@ public class IROModelAdapter implements IROModel {
       return false;
     }
 
-    HexShape nextHex = model.getCurrentHex(nextR, nextQ);
+    Shape nextHex = model.getCurrentHex(nextR, nextQ);
     if (nextHex == null || nextHex.getPlayerType() != opponent) {
       return false;
     }
@@ -308,7 +309,7 @@ public class IROModelAdapter implements IROModel {
       }
 
       if (model.isValidCoordinate(newQ, newR)) {
-        HexShape neighborHexShape = model.getCurrentHex(newQ + model.getBoardSize() / 2,
+        Shape neighborHexShape = model.getCurrentHex(newQ + model.getBoardSize() / 2,
                 newR + model.getBoardSize() / 2);
         if (neighborHexShape != null) {
           neighbors.add(new Hex(newQ, newR));
@@ -341,7 +342,7 @@ public class IROModelAdapter implements IROModel {
       int arrayIndexR = nextR + model.getBoardSize() / 2;
 
       while (model.isValidCoordinate(arrayIndexQ, arrayIndexR)) {
-        HexShape nextHexShape = model.getCurrentHex(arrayIndexR, arrayIndexQ);
+        Shape nextHexShape = model.getCurrentHex(arrayIndexR, arrayIndexQ);
         if (nextHexShape == null || nextHexShape.getPlayerType() != opponent) {
           break;
         }

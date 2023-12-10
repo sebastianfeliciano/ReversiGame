@@ -4,6 +4,7 @@ import model.HexShape;
 import org.junit.Assert;
 import org.junit.Test;
 
+import model.Shape;
 import view.DrawUtils;
 
 import javax.swing.JFrame;
@@ -50,7 +51,7 @@ public class ExampleDrawTests {
     DrawUtils draw = new DrawUtils(new Board(11));
     int x = draw.getWidth() / 2;
     int y = draw.getHeight() / 2;
-    HexShape hex = draw.findHex(x, y);
+    Shape hex = draw.findHex(x, y);
     Assert.assertNotNull(hex);
   }
 

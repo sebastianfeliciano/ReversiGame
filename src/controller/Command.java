@@ -7,6 +7,8 @@ import controller.players.PlayerType;
 import model.Board;
 import model.BoardModel;
 import model.ReadOnlyBoardModel;
+import model.Shape;
+import model.SquareBoard;
 import model.strategies.CaptureStrategy;
 import model.strategies.GoForCornersStrategy;
 import model.strategies.IStrategy;
@@ -23,6 +25,7 @@ public class Command {
   private IPlayer player2;
   private int boardSize;
   private ReadOnlyBoardModel board;
+  private String boardType;
 
   /**
    * Initializes the command line arguments.
@@ -35,14 +38,22 @@ public class Command {
    * Parses the arguments for the game to start.
    */
   private void parseArguments(String[] args) {
-    if (args.length < 2) {
+    if (args.length < 3) {
       throw new IllegalArgumentException(
               "Insufficient arguments. Expected at least" +
                       " board size and player 1 type or strategy.");
     }
 
-    this.boardSize = Integer.parseInt(args[0]);
-    this.board = new Board(boardSize);
+    this.boardSize = Integer.parseInt(args[1]);
+
+    this.boardType = args[0].toLowerCase();
+
+    if (args[0].equalsIgnoreCase("hex")){
+      this.board = new Board(boardSize);
+    }else if (args[0].equalsIgnoreCase("square")){
+      this.board = new SquareBoard(boardSize);
+    }
+
 
     player1 = findThePlayer(args, 1);
     player2 = findThePlayer(args, 2);
@@ -57,23 +68,22 @@ public class Command {
     int index = -1;
 
     if (playerNumber == 1) {
-      index = 1;
-    } else if (playerNumber == 2 && args.length > 2) {
       index = 2;
+    } else if (playerNumber == 2 && args.length > 3) {
+      index = 3;
     }
 
     if (index != -1 && args.length > index) {
       if (isStrategy(args[index])) {
         playerType = "ai";
         strategy = args[index];
-      } else {
-        playerType = args[index];
       }
     }
 
     PlayerType pType = (playerNumber == 1) ? PlayerType.BLACK : PlayerType.WHITE;
     return createPlayer(pType, playerType, strategy);
   }
+
 
 
   /**
@@ -88,7 +98,6 @@ public class Command {
       case "capture capture":
       case "corner corner":
       case "providerstrategy1":
-      case "providerstrategy2":
         return true;
       default:
         return false;
@@ -100,8 +109,7 @@ public class Command {
    */
   private IPlayer createPlayer(PlayerType playerType, String playerTypeStr, String strategyStr) {
     if (playerTypeStr.equalsIgnoreCase("ai")) {
-      if ((strategyStr.equalsIgnoreCase("providerstrategy1")
-              || strategyStr.equalsIgnoreCase("providerstrategy2"))
+      if ((strategyStr.equalsIgnoreCase("providerstrategy1"))
               && playerType == PlayerType.BLACK) {
         throw new IllegalArgumentException("Player 1 cannot use providerstrategy1");
       }
@@ -161,6 +169,11 @@ public class Command {
    * Gets the regular board, from the readOnly Board that the players use.
    */
   public BoardModel getBoard() {
-    return board.getRegularBoard();
+    return this.board.getRegularBoard();
   }
+
+  public String getBoardType(){
+    return this.boardType;
+  }
+
 }

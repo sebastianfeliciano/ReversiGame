@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import controller.TextualController;
+import model.Shape;
 
 /**
  * Tests the method for read only methods for Board.
@@ -42,28 +43,28 @@ public class ExampleReadOnlyTests {
   public void testingCoordinatesOfAHexagonBasedOn2DArray() {
     Board regularBoard = new Board(7);
 
-    HexShape topLeft = regularBoard.getCurrentHex(0, 3);
-    HexShape topLeftRepresentation = new HexShape(-3, 0, null);
+    Shape topLeft = regularBoard.getCurrentHex(0, 3);
+    Shape topLeftRepresentation = new HexShape(-3, 0, null);
     Assert.assertEquals(topLeft.getColumn(), topLeftRepresentation.getColumn());
 
-    HexShape middle = regularBoard.getCurrentHex(3, 3);
-    HexShape middleRepresentation = new HexShape(0, 0, null);
+    Shape middle = regularBoard.getCurrentHex(3, 3);
+    Shape middleRepresentation = new HexShape(0, 0, null);
     Assert.assertEquals(middle.getRow(), middleRepresentation.getRow());
     Assert.assertEquals(middle.getColumn(), middleRepresentation.getColumn());
 
 
-    HexShape bottomLeft = regularBoard.getCurrentHex(6, 0);
-    HexShape btmLeftRep = new HexShape(3, -3, null);
+    Shape bottomLeft = regularBoard.getCurrentHex(6, 0);
+    Shape btmLeftRep = new HexShape(3, -3, null);
     Assert.assertEquals(bottomLeft.getRow(), btmLeftRep.getRow());
     Assert.assertEquals(bottomLeft.getColumn(), btmLeftRep.getColumn());
 
-    HexShape topRightHex = regularBoard.getCurrentHex(0, 6);
-    HexShape topRightRepresentation = new HexShape(-3, 3, null);
+    Shape topRightHex = regularBoard.getCurrentHex(0, 6);
+    Shape topRightRepresentation = new HexShape(-3, 3, null);
     Assert.assertEquals(topRightHex.getRow(), topRightRepresentation.getRow());
     Assert.assertEquals(topRightHex.getColumn(), topRightRepresentation.getColumn());
 
-    HexShape rightMiddle = regularBoard.getCurrentHex(3, 4);
-    HexShape rightMiddleRep = new HexShape(0, 1, null);
+    Shape rightMiddle = regularBoard.getCurrentHex(3, 4);
+    Shape rightMiddleRep = new HexShape(0, 1, null);
     Assert.assertEquals(rightMiddle.getRow(), rightMiddleRep.getRow());
     Assert.assertEquals(rightMiddle.getColumn(), rightMiddleRep.getColumn());
   }
@@ -270,9 +271,9 @@ public class ExampleReadOnlyTests {
   @Test
   public void testIsBoardFullWhenBoardConsistsOfAllPlayerTypes() {
     Board board1 = new Board();
-    for (HexShape[] row : board1.cellsThatMakeTheBoard) {
+    for (Shape[] row : board1.cellsThatMakeTheBoard) {
 
-      for (HexShape hexShape : row) {
+      for (Shape hexShape : row) {
         if (hexShape == null) {
           continue;
         }
@@ -336,8 +337,8 @@ public class ExampleReadOnlyTests {
 
     for (int i = 0; i < original.getBoardSize(); i++) {
       for (int j = 0; j < original.getBoardSize(); j++) {
-        HexShape originalHex = original.getCurrentHex(i, j);
-        HexShape copiedHex = copied.getCurrentHex(i, j);
+        Shape originalHex = original.getCurrentHex(i, j);
+        Shape copiedHex = copied.getCurrentHex(i, j);
         if (originalHex != null) {
           Assert.assertNotNull("Copied HexShape should not be null", copiedHex);
           Assert.assertEquals("HexShape player types should be equal",

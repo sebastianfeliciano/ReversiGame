@@ -3,6 +3,7 @@ package controller.players;
 import controller.ReversiController;
 import model.ReadOnlyBoardModel;
 import view.DrawInterfaceMocker;
+import view.IGameControlled;
 
 /**
  * Represents a single player in a reversi game.
@@ -12,7 +13,7 @@ public class Player implements IPlayer {
   private final PlayerType type;
   final ReadOnlyBoardModel board;
   public boolean hasPassed;
-  protected ReversiController controller1;
+  protected IGameControlled controller1;
 
   /**
    * Constructor for player with a name, a player type,
@@ -33,7 +34,7 @@ public class Player implements IPlayer {
   }
 
 
-  public void setMoveHandler(ReversiController controller1) {
+  public void setMoveHandler(IGameControlled controller1) {
     this.controller1 = controller1;
   }
 

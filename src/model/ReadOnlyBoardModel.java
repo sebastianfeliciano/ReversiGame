@@ -27,7 +27,7 @@ public interface ReadOnlyBoardModel {
 
   boolean hasPlayerPassed(PlayerType type);
 
-  HexShape getCurrentHex(int row, int column);
+  Shape getCurrentHex(int row, int column);
 
   boolean isValidMove(int x, int y, PlayerType playerType);
 

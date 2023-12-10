@@ -5,6 +5,8 @@ import controller.players.PlayerType;
 
 import model.BoardModel;
 
+import model.Shape;
+import view.DrawInterfaceMocker;
 import view.IGameControlled;
 import view.ReversiView;
 
@@ -39,25 +41,14 @@ public class ReversiController implements IGameControlled {
    * Places the piece on the board.
    */
   private void placeKey(int x, int y) {
-    if (!board.isValidMove(x, y, player.getType())) {
-      view.showInvalidMoveMessage();
-      return;
-    }
-    if (x > board.getBoardSize() / 2 || x < -board.getBoardSize()
-            || y > board.getBoardSize() / 2 || y < -board.getBoardSize()) {
-      view.showInvalidMoveMessage();
-      return;
-    }
-    int q = x + board.getBoardSize() / 2;
-    int r = y + board.getBoardSize() / 2;
-    board.placePiece(q, r, player.getType());
-    board.flipPieces(q, r, player.getType());
+    board.placePiece(x, y, player.getType());
+    board.flipPieces(x, y, player.getType());
   }
 
   /**
    * Controller, moves for the player onto the board.
    */
-  @Override
+
   public void onPlayerMove(int row, int column) {
     if (handleTurn() || board.isGameOver()) {
       return;
@@ -87,7 +78,7 @@ public class ReversiController implements IGameControlled {
   /**
    * The Controller signals that the player has passed and sends messages.
    */
-  @Override
+
   public void onPass() {
     if (handleTurn()) {
       return;
@@ -103,7 +94,7 @@ public class ReversiController implements IGameControlled {
   /**
    * Updates the controller.
    */
-  @Override
+
   public void update() {
     if (isUpdating) {
       return;
@@ -160,7 +151,7 @@ public class ReversiController implements IGameControlled {
   /**
    * Tells the view to do something, when the game is over.
    */
-  @Override
+
   public void onGameOver() {
     view.handleGameOver();
     view.update();
@@ -194,7 +185,7 @@ public class ReversiController implements IGameControlled {
     turnMessageDisplayed = false;
   }
 
-  @Override
+
   public void handleMove(IPlayer player, int row, int column) {
     System.out.println(player.getName() + " is Placing");
     this.placeKey(row, column);

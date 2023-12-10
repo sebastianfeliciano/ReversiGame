@@ -6,13 +6,14 @@ import controller.ReversiController;
 import model.ReadOnlyBoardModel;
 import model.strategies.IStrategy;
 import model.Move;
+import view.IGameControlled;
 
 /**
  * Represents a computer player in the reversi game.
  */
 public class AIPlayer extends Player implements IPlayer, TurnAIPopUp {
   private final IStrategy strategy;
-  protected ReversiController controller1;
+  protected IGameControlled controller1;
 
   /**
    * Constructor for an AIPlayer.
@@ -23,7 +24,7 @@ public class AIPlayer extends Player implements IPlayer, TurnAIPopUp {
     this.hasPassed = false;
   }
 
-  public void setMoveHandler(ReversiController controller1) {
+  public void setMoveHandler(IGameControlled controller1) {
     this.controller1 = controller1;
   }
 

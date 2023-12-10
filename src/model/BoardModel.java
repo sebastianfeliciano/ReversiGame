@@ -9,6 +9,8 @@ import view.Observer;
 public interface BoardModel extends ReadOnlyBoardModel {
   void flipPieces(int x, int y, PlayerType currentPlayer);
 
+  int calculateCaptures(int q, int r, PlayerType player, BoardModel board);
+
   void playerPass(PlayerType playerType);
 
   void placePiece(int q, int r, PlayerType type);

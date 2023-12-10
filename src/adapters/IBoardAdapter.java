@@ -6,6 +6,7 @@ import java.util.Objects;
 import controller.players.PlayerType;
 import model.BoardModel;
 import model.HexShape;
+import model.Shape;
 import provider.model.Hex;
 import provider.model.IBoard;
 import provider.model.PlayerDisc;
@@ -43,11 +44,11 @@ public class IBoardAdapter implements IBoard {
    */
   @Override
   public HashMap<Hex, PlayerDisc> getCells() {
-    HexShape[][] hexShapes = board.getRegularBoard().getCellsThatMakeTheBoard();
+    Shape[][] hexShapes = board.getRegularBoard().getCellsThatMakeTheBoard();
     HashMap<Hex, PlayerDisc> map = new HashMap<>();
 
-    for (HexShape[] shape : hexShapes) {
-      for (HexShape hexShape : shape) {
+    for (Shape[] shape : hexShapes) {
+      for (Shape hexShape : shape) {
         if (hexShape == null) {
           continue;
         }

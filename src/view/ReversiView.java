@@ -4,10 +4,14 @@ import controller.ReversiController;
 import controller.players.PlayerType;
 import model.Board;
 import model.BoardModel;
-import model.HexShape;
+import model.Shape;
+import model.ReadOnlyBoardModel;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
+import java.awt.Component;
+import java.awt.event.KeyListener;
 
 /**
  * Represents the view of a Reversi Board in a hexagonal grid format. This interface
@@ -27,9 +31,9 @@ public interface ReversiView extends DrawInterfaceMocker {
    *
    * @param mouseX The x-coordinate of the mouse position.
    * @param mouseY The y-coordinate of the mouse position.
-   * @return The HexShape that the mouse is currently over.
+   * @return The Shape that the mouse is currently over.
    */
-  HexShape findHex(int mouseX, int mouseY);
+  Shape findHex(int mouseX, int mouseY);
 
   /**
    * Returns the size of a single hexagon in the grid.
@@ -57,18 +61,20 @@ public interface ReversiView extends DrawInterfaceMocker {
    */
   int getWindowWidth();
 
+  void addKeyListener(KeyListener l);
+
   /**
    * Draws each hexagon on the board.
    *
    * @param g          The Graphics object used for drawing.
-   * @param hex        The HexShape to be drawn.
+   * @param hex        The Shape to be drawn.
    * @param centerX    The x-coordinate of the center of the hexagon.
    * @param centerY    The y-coordinate of the center of the hexagon.
    * @param hexSize    The size of the hexagon.
    * @param playerType The type of the player for coloring.
    */
   void drawEachHexagon(Graphics g,
-                       HexShape hex, int centerX, int centerY, int hexSize, PlayerType playerType);
+                       Shape hex, int centerX, int centerY, int hexSize, PlayerType playerType);
 
   /**
    * Returns the color associated with a specific player type.
@@ -100,6 +106,8 @@ public interface ReversiView extends DrawInterfaceMocker {
    */
   void updateBoard(BoardModel board);
 
+  ReadOnlyBoardModel getBoard();
+
   /**
    * Requests focus in the window for handling user input.
    *
@@ -112,6 +120,7 @@ public interface ReversiView extends DrawInterfaceMocker {
    *
    * @param controller The controller that handles events.
    */
-  void setEventListener(ReversiController controller);
+  void setEventListener(IGameControlled controller);
 
+  void setFocusable(boolean b);
 }

@@ -1,11 +1,10 @@
-package ExtraCreditTests;
+package extraCreditTests;
 
 import controller.players.IPlayer;
 import controller.players.Player;
 import controller.players.PlayerType;
 import model.Move;
 import model.Shape;
-import model.Square;
 import model.SquareBoard;
 
 import org.junit.Assert;
@@ -14,10 +13,15 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class ExampleSquareBoardTests {
 
+  /**
+   * A list of tests that check the methods in the
+   * Square board class. This includes flipping, placing, etc.
+   */
   private SquareBoard squareBoard;
 
   @Before

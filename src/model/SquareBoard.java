@@ -3,13 +3,20 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.DirectionsEnum;
 import controller.DirectionsSquareEnum;
 import controller.players.IPlayer;
 import controller.players.PlayerType;
 
+/**
+ * Class that represents a SquareBoard, and should extend the normal
+ * hex board class.
+ */
 public class SquareBoard extends Board {
 
+  /**
+   * Constructs a SquareBoard.
+   * @param sizeOfBoard
+   */
   public SquareBoard(int sizeOfBoard) {
     super(sizeOfBoard);
     ensureValidRadius(sizeOfBoard);

@@ -1,6 +1,5 @@
 package view;
 
-import controller.ReversiController;
 import controller.players.PlayerType;
 import model.Board;
 import model.BoardModel;
@@ -10,7 +9,6 @@ import model.ReadOnlyBoardModel;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import java.awt.Component;
 import java.awt.event.KeyListener;
 
 /**

@@ -7,7 +7,6 @@ import controller.players.PlayerType;
 import model.Board;
 import model.BoardModel;
 import model.ReadOnlyBoardModel;
-import model.Shape;
 import model.SquareBoard;
 import model.strategies.CaptureStrategy;
 import model.strategies.GoForCornersStrategy;
@@ -48,9 +47,9 @@ public class Command {
 
     this.boardType = args[0].toLowerCase();
 
-    if (args[0].equalsIgnoreCase("hex")){
+    if (args[0].equalsIgnoreCase("hex")) {
       this.board = new Board(boardSize);
-    }else if (args[0].equalsIgnoreCase("square")){
+    } else if (args[0].equalsIgnoreCase("square")) {
       this.board = new SquareBoard(boardSize);
     }
 
@@ -83,7 +82,6 @@ public class Command {
     PlayerType pType = (playerNumber == 1) ? PlayerType.BLACK : PlayerType.WHITE;
     return createPlayer(pType, playerType, strategy);
   }
-
 
 
   /**
@@ -172,7 +170,7 @@ public class Command {
     return this.board.getRegularBoard();
   }
 
-  public String getBoardType(){
+  public String getBoardType() {
     return this.boardType;
   }
 

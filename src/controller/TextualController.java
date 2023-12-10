@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import model.Board;
 import model.BoardModel;
-import model.HexShape;
 import model.Shape;
 import view.ReversiTextualView;
 

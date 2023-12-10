@@ -1,14 +1,17 @@
-package ExtraCreditTests;
+package extraCreditTests;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import view.HintSystem;
 
+/**
+ * A list of tests, for the Hint System Class.
+ */
 public class ExampleHintSystemTests {
 
   @Test
-  public void toggleHintsForBlackTester(){
+  public void toggleHintsForBlackTester() {
     HintSystem hintSystem = new HintSystem();
     boolean hintsAreNot = hintSystem.areHintsEnabledForBlack();
     Assert.assertFalse(hintsAreNot);
@@ -18,7 +21,7 @@ public class ExampleHintSystemTests {
   }
 
   @Test
-  public void toggleHintsForWhiteTester(){
+  public void toggleHintsForWhiteTester() {
     HintSystem hintSystem = new HintSystem();
     boolean hintsAreNot = hintSystem.areHintsEnabledForWhite();
     Assert.assertFalse(hintsAreNot);

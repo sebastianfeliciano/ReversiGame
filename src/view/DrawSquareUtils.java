@@ -1,15 +1,16 @@
 package view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 import model.Board;
-import model.HexShape;
 import model.Shape;
-import model.Square;
 import controller.players.PlayerType;
 import model.ReadOnlyBoardModel;
-import model.Square;
 
+/**
+ * The Class that draws the square game out.
+ */
 public class DrawSquareUtils extends DrawUtils implements ReversiView, DrawInterfaceMocker {
   ReadOnlyBoardModel board;
 
@@ -86,6 +87,7 @@ public class DrawSquareUtils extends DrawUtils implements ReversiView, DrawInter
 
 
   public int getSquareSize() {
-    return Math.min(getWindowWidth() / board.getBoardSize(), getWindowHeight() / board.getBoardSize()) - 10;
+    return Math.min(getWindowWidth() / board.getBoardSize(),
+            getWindowHeight() / board.getBoardSize()) - 10;
   }
 }

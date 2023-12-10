@@ -444,3 +444,56 @@ the provider's view, a hex must be clicked and hit enter to see the gameOver ref
 JFrame title.
 
 Or you can tap on 's' for it to show up.
+
+
+
+
+## Extra Credit
+**Features Implemented**
+
+**_Level 0 - Showing Scoring Hints:_**
+
+Implemented a “hint” mode for players, indicating potential move outcomes.
+Hints can be enabled or disabled at runtime for each player independently.
+Implemented as a separate decoration, ensuring no modification to the main rendering code.
+
+**_Level 1 - Square Reversi:_**
+
+Reimplemented the game model for a square grid Reversi.
+Capturing takes place in eight directions, adhering to the analogous rules of Hexagonal Reversi.
+Supports boards of any positive, even side-length.
+Included a textual rendering for the square model for quick result visualization.
+Both Hexagonal and Square models implement the same model interfaces and coexist without code commenting or recompilation.
+
+**_Level 2 - Visualizing Square Reversi:_**
+
+Developed a visual view for the square-grid Reversi.
+Both Hexagonal and Square views implement the same view interfaces and coexist in the code.
+
+**_Level 3 - Controlling Square Reversi:_**
+
+Enhanced the controller to support both Hexagonal and Square Reversi.
+Introduced parameterized view and controller interfaces for different coordinate representations.
+
+**_Level 4 - Strategic Square Reversi:_**
+
+Extended strategy implementations to work with both Hexagonal and Square Reversi.
+Strategies are parameterized by the coordinate system type.
+Required model design refactoring to support this feature.
+
+
+## New Command Line args
+
+Must be in the followng format:
+
+board size player1 player2
+
+Ex:
+**hex 7 human human**
+
+**square 8 human human**
+
+
+## Hint Feature
+To enable hints, this is only allowed for the hex reversi. 'H' to turn on and off.
+

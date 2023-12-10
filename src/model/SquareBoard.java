@@ -31,7 +31,9 @@ public class SquareBoard extends Board {
     }
   }
 
-
+  /**
+   * Makes the board in a 2D array format.
+   */
   public void makeBoard() {
     for (int row = 0; row < this.boardSize; row++) {
       for (int col = 0; col < this.boardSize; col++) {
@@ -61,19 +63,22 @@ public class SquareBoard extends Board {
       int nextX = x + dir.getXMove();
       int nextY = y + dir.getYMove();
 
-      if (!isValidCoordinate(nextY, nextX) || getCurrentHex(nextY, nextX).getPlayerType() != opponent) {
+      if (!isValidCoordinate(nextY, nextX)
+              || getCurrentHex(nextY, nextX).getPlayerType() != opponent) {
         continue;
       }
 
       nextX += dir.getXMove();
       nextY += dir.getYMove();
 
-      while (isValidCoordinate(nextY, nextX) && getCurrentHex(nextY, nextX).getPlayerType() == opponent) {
+      while (isValidCoordinate(nextY, nextX)
+              && getCurrentHex(nextY, nextX).getPlayerType() == opponent) {
         nextX += dir.getXMove();
         nextY += dir.getYMove();
       }
 
-      if (isValidCoordinate(nextY, nextX) && getCurrentHex(nextY, nextX).getPlayerType() == playerType) {
+      if (isValidCoordinate(nextY, nextX)
+              && getCurrentHex(nextY, nextX).getPlayerType() == playerType) {
         return true;
       }
     }
@@ -98,13 +103,15 @@ public class SquareBoard extends Board {
       int nextX = x + dir.getXMove();
       int nextY = y + dir.getYMove();
 
-      while (isValidCoordinate(nextY, nextX) && getCurrentHex(nextY, nextX).getPlayerType() == opponent) {
+      while (isValidCoordinate(nextY, nextX)
+              && getCurrentHex(nextY, nextX).getPlayerType() == opponent) {
         piecesToFlip.add(getCurrentHex(nextY, nextX));
         nextX += dir.getXMove();
         nextY += dir.getYMove();
       }
 
-      if (isValidCoordinate(nextY, nextX) && getCurrentHex(nextY, nextX).getPlayerType() == currentPlayer) {
+      if (isValidCoordinate(nextY, nextX)
+              && getCurrentHex(nextY, nextX).getPlayerType() == currentPlayer) {
         for (Shape piece : piecesToFlip) {
           piece.setPlayerType(currentPlayer);
         }

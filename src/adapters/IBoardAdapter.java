@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import controller.players.PlayerType;
 import model.BoardModel;
-import model.HexShape;
 import model.Shape;
 import provider.model.Hex;
 import provider.model.IBoard;
@@ -76,6 +75,7 @@ public class IBoardAdapter implements IBoard {
 
   /**
    * Obtains the PlayerDisc on a Hex, based on the provider.
+   *
    * @param hex which is the objects of the board.
    * @return playerDisc.
    */

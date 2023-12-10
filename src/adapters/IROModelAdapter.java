@@ -8,7 +8,6 @@ import java.util.Optional;
 import controller.DirectionsEnum;
 import controller.players.Player;
 import controller.players.PlayerType;
-import model.HexShape;
 import model.ReadOnlyBoardModel;
 import model.Shape;
 import provider.controller.IModelFeatures;

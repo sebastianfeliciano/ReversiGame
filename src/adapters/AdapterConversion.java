@@ -1,5 +1,8 @@
 package adapters;
 
+/**
+ * A Class for the Adaptive Homework.
+ */
 public class AdapterConversion {
 
 //IBoardAdapter boardAdapter = new IBoardAdapter(board);

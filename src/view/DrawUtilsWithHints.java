@@ -93,7 +93,6 @@ public class DrawUtilsWithHints extends DrawUtils implements ReversiView {
 
   private void drawX(Graphics g, int centerX, int centerY) {
     g.setColor(Color.RED);
-
     int textSize = calculateTextSize() * 2;
     Font font = new Font("Arial", Font.BOLD, textSize);
     g.setFont(font);

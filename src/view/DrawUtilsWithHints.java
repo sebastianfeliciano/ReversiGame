@@ -75,7 +75,7 @@ public class DrawUtilsWithHints extends DrawUtils implements ReversiView {
     if (selectedHex == null) {
       return;
     }
-    if (showHints && selectedHex.getPlayerType() != PlayerType.EMPTY){
+    if (showHints && selectedHex.getPlayerType() != PlayerType.EMPTY) {
       int centerX = calculateCenterX(selectedHex);
       int centerY = calculateCenterY(selectedHex);
       drawX(g, centerX, centerY);
@@ -94,7 +94,7 @@ public class DrawUtilsWithHints extends DrawUtils implements ReversiView {
   private void drawX(Graphics g, int centerX, int centerY) {
     g.setColor(Color.RED);
 
-    int textSize = calculateTextSize() *2;
+    int textSize = calculateTextSize() * 2;
     Font font = new Font("Arial", Font.BOLD, textSize);
     g.setFont(font);
 

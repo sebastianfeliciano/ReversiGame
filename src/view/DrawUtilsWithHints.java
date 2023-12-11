@@ -75,6 +75,11 @@ public class DrawUtilsWithHints extends DrawUtils implements ReversiView {
     if (selectedHex == null) {
       return;
     }
+    if (showHints && selectedHex.getPlayerType() != PlayerType.EMPTY){
+      int centerX = calculateCenterX(selectedHex);
+      int centerY = calculateCenterY(selectedHex);
+      drawX(g, centerX, centerY);
+    }
 
     if (showHints && selectedHex.getPlayerType() == PlayerType.EMPTY) {
       BoardModel board1 = boardModel.getRegularBoard();
@@ -86,10 +91,26 @@ public class DrawUtilsWithHints extends DrawUtils implements ReversiView {
     }
   }
 
+  private void drawX(Graphics g, int centerX, int centerY) {
+    g.setColor(Color.RED);
+
+    int textSize = calculateTextSize() *2;
+    Font font = new Font("Arial", Font.BOLD, textSize);
+    g.setFont(font);
+
+    FontMetrics metrics = g.getFontMetrics(font);
+
+    int textX = centerX - (metrics.stringWidth("X") / 2) + 215;
+    int textY = centerY + (metrics.getAscent() / 2) + 125;
+
+    g.drawString("X", textX, textY);
+  }
+
+
   private void drawHint(Graphics g, int centerX, int centerY, int flips) {
     g.setColor(Color.BLACK);
     String text = Integer.toString(flips);
-    int textSize = calculateTextSize();
+    int textSize = calculateTextSize() * 2;
     Font font = new Font("Impact", Font.PLAIN, textSize);
     g.setFont(font);
     FontMetrics metrics = g.getFontMetrics(g.getFont());
